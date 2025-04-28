@@ -22,4 +22,10 @@
         android:name="com.example.spendysenseapp.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_analytics"
+        android:name="com.example.spendysenseapp.ui.analytics.AnalyticsFragment"
+        android:label="Analytics"
+        tools:layout="@layout/fragment_analytics" />
 </navigation>
