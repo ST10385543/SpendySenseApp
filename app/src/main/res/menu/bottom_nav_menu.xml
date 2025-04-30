@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="ExtraText">
 
     <item
         android:id="@+id/navigation_home"
@@ -15,8 +17,28 @@
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_notifications" />
+
     <item android:id="@+id/navigation_analytics"
         android:title="Analytics"
         android:icon="@drawable/baseline_pie_chart_24"/>
+
+    <item
+        android:id="@+id/navigation_AddTransaction"
+        android:icon="@android:drawable/stat_notify_more"
+        android:title="AddTransaction" />
+
+    <item
+        android:id="@+id/navigation_ViewTransaction"
+        android:icon="@android:drawable/ic_dialog_email"
+        android:title="ViewTransaction" />
+
+    <item
+        android:id="@+id/navigation_UserProfile"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="UserProfile" />
+
+
+
+    />
 
 </menu>

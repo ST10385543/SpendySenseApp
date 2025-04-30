@@ -28,4 +28,26 @@
         android:name="com.example.spendysenseapp.ui.analytics.AnalyticsFragment"
         android:label="Analytics"
         tools:layout="@layout/fragment_analytics" />
+
+    <fragment
+        android:id="@+id/navigation_AddTransaction"
+        android:name="com.example.spendysenseapp.ui.AddTransaction.AddTransactionFragment"
+        android:label="Analytics"
+        tools:layout="@layout/fragment_add_transaction" />
+
+    <fragment
+        android:id="@+id/navigation_ViewTransaction"
+        android:name="com.example.spendysenseapp.ui.ViewTransaction.ViewTransactionFragment"
+        android:label="Analytics"
+        tools:layout="@layout/fragment_view_transaction" />
+
+
+    <fragment
+        android:id="@+id/navigation_UserProfiles"
+        android:name="com.example.spendysenseapp.ui.UserProfile.UserProfileFragment"
+        android:label="Analytics"
+        tools:layout="@layout/fragment_user_profile" />
+
+
+
 </navigation>
