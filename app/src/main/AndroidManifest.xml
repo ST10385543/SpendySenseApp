@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SpendySenseApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".CalculatorActivity"
+            android:exported="false" />
         <activity
             android:name=".SelectIconActivity"
             android:exported="false" />
@@ -21,20 +23,17 @@
             android:exported="false" />
         <activity
             android:name=".Login"
-            android:exported="false" />
-
-        <!-- WelcomePage should now be the launcher activity -->
+            android:exported="false" /> <!-- WelcomePage should now be the launcher activity -->
         <activity
             android:name=".WelcomePage"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- MainActivity without launcher intent -->
+        </activity> <!-- MainActivity without launcher intent -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

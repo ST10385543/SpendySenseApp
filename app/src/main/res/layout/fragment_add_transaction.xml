@@ -13,9 +13,9 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="74dp"
-            android:layout_height="78dp"
+            android:id="@+id/imgCreateLogo"
+            android:layout_width="54dp"
+            android:layout_height="64dp"
             android:src="@drawable/spendysense_logo_png" />
 
         <TextView
