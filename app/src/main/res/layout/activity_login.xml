@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0D4946"
+    android:background="#004643"
     android:foregroundTint="#F6F0F0"
     tools:context=".Login">
 
@@ -41,20 +41,18 @@
         app:layout_constraintVertical_bias="0.742" />
 
     <Button
-        android:id="@+id/btnForgotPassword"
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#0288D1"
-        android:backgroundTint="#AFB42B"
-        android:foregroundTint="#0288D1"
+        android:background="#004643"
+        android:backgroundTint="#004643"
         android:text="Forgot Password"
-        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.922"
-        app:strokeColor="#E64A19" />
+        app:layout_constraintVertical_bias="0.888" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
