@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/img_4" />
 
     <EditText
-        android:id="@+id/NameRegister"
+        android:id="@+id/registerEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#F4EFEF"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.707" />
 
     <EditText
-        android:id="@+id/PasswordRegister"
+        android:id="@+id/passwordEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="152dp"
@@ -53,7 +53,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/ConfirmPassword"
+        android:id="@+id/confirmPasswordEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#FAF9F9"
@@ -69,7 +69,7 @@
         app:layout_constraintVertical_bias="0.847" />
 
     <Button
-        android:id="@+id/SignUp"
+        android:id="@+id/signUpEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#111112"

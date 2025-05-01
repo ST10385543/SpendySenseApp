@@ -25,6 +25,10 @@ interface TransactionsDao {
     @Query("SELECT * FROM tblTransactions")
     suspend fun getAllTransactions(): List<Transaction>
 
+    //getting 5 transactions from latest first
+    @Query("SELECT * FROM tblTransactions ORDER BY DateCreated DESC LIMIT 5")
+    suspend fun getFiveTransactions(): List<Transaction>
+
     // selecting a specific transaction, by its id
     @Query("SELECT * FROM tblTransactions WHERE id = :transactionId")
     suspend fun getTransactionById(transactionId: Int): Transaction?
