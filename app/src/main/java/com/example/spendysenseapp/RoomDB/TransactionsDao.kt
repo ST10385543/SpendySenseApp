@@ -22,11 +22,11 @@ interface TransactionsDao {
     suspend fun deleteTransaction(transaction: Transaction)
 
     // getting all transactions
-    @Query("SELECT * FROM `Transaction`")
+    @Query("SELECT * FROM tblTransactions")
     suspend fun getAllTransactions(): List<Transaction>
 
     // selecting a specific transaction, by its id
-    @Query("SELECT * FROM `Transaction` WHERE id = :transactionId")
+    @Query("SELECT * FROM tblTransactions WHERE id = :transactionId")
     suspend fun getTransactionById(transactionId: Int): Transaction?
 
 //    // Optional: get all transactions by category

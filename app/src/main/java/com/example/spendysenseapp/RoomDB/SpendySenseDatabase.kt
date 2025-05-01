@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 @Database(
     entities = [
@@ -14,8 +15,9 @@ import androidx.room.RoomDatabase
         Feedback::class,
         User_Achievements::class
     ],
-    version = 1
+    version = 2
 )
+@TypeConverters(Converters::class)
 abstract class SpendySenseDatabase : RoomDatabase(){
 
     abstract fun userDao(): UserDao
@@ -33,7 +35,9 @@ abstract class SpendySenseDatabase : RoomDatabase(){
                     context.applicationContext,
                     SpendySenseDatabase::class.java,
                     "app_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 return instance
             }
