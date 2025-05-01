@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#004643"
-    android:foregroundTint="#7A4A4A"
+    android:foregroundTint="#F6F0F0"
     tools:context=".Login">
 
     <ImageView
@@ -45,6 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#004643"
+        android:backgroundTint="#004643"
         android:text="Forgot Password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

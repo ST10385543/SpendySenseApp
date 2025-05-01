@@ -32,20 +32,20 @@
     <fragment
         android:id="@+id/navigation_AddTransaction"
         android:name="com.example.spendysenseapp.ui.AddTransaction.AddTransactionFragment"
-        android:label="Analytics"
+        android:label="AddTransaction"
         tools:layout="@layout/fragment_add_transaction" />
 
     <fragment
         android:id="@+id/navigation_ViewTransaction"
         android:name="com.example.spendysenseapp.ui.ViewTransaction.ViewTransactionFragment"
-        android:label="Analytics"
+        android:label="ViewTransaction"
         tools:layout="@layout/fragment_view_transaction" />
 
 
     <fragment
-        android:id="@+id/navigation_UserProfiles"
+        android:id="@+id/navigation_UserProfile"
         android:name="com.example.spendysenseapp.ui.UserProfile.UserProfileFragment"
-        android:label="Analytics"
+        android:label="UserProfile"
         tools:layout="@layout/fragment_user_profile" />
 
 
