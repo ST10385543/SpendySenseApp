@@ -1,13 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.UserProfile.UserProfileFragment">
+    android:background="#004643"
+    tools:context=".ui.UserProfile.UserProfileFragment" >
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="Profile Page"
+        android:textColor="#F8F6F6"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/logo_only" />
+
+    <FrameLayout
+        android:layout_width="372dp"
+        android:layout_height="500dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+        android:background="#122120">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/Logoutbtn"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_profile_button"
+            android:text="Logout"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/DeleteAccountbtn"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/rounded_profile_button"
+            android:text="Delete Account" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/UserFeedbackbtn"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="220dp"
+            android:background="@drawable/rounded_profile_button"
+            android:text="User Feedback" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/Achievementsbtn"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="320dp"
+            android:background="@drawable/rounded_profile_button"
+            android:text="Achievements" />
+
+        <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/CreateCategorybtn"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="420dp"
+            android:background="@drawable/rounded_profile_button"
+            android:text="Create Category" />
+
+
+    </FrameLayout>
+
 
 </FrameLayout>

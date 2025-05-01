@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Create Transaction"
             android:textSize="24sp"
-            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
             android:gravity="center"
             android:layout_marginBottom="24dp"/>
 
@@ -41,7 +41,7 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="#FFFFFF"
             android:hint="Name"
-            android:hintTextColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
             android:minHeight="48dp"
             android:textColor="#FFFFFF" />
 
@@ -53,7 +53,7 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="#FFFFFF"
             android:hint="Amount"
-            android:hintTextColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
             android:minHeight="48dp"
             android:textColor="#FFFFFF" />
 
