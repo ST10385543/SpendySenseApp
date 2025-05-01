@@ -127,26 +127,26 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddCategory"
             android:layout_width="120dp"
-            android:layout_height="35dp"
-            android:text="Add category"
-            android:textColor="#00FF00"
-            android:textStyle="normal"
-            android:textSize="12sp"
+            android:layout_height="48dp"
+            android:layout_marginStart="40dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_income_button"
-            android:layout_marginStart="40dp"/>
+            android:text="Add category"
+            android:textColor="#00FF00"
+            android:textSize="12sp"
+            android:textStyle="normal" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddImage"
             android:layout_width="120dp"
-            android:layout_height="35dp"
-            android:text="Add image +"
-            android:textColor="#000000"
-            android:textStyle="normal"
-            android:textSize="12sp"
+            android:layout_height="48dp"
+            android:layout_marginStart="40dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_white_shape"
-            android:layout_marginStart="40dp"/>
+            android:text="Add image +"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="normal" />
         <TextView
             android:id="@+id/tvCreatePreview"
             android:layout_width="match_parent"

@@ -17,6 +17,4 @@ class CalculatorActivity : AppCompatActivity() {
             insets
         }
     }
-
-
 }
