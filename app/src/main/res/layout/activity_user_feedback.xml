@@ -9,7 +9,7 @@
     tools:context=".UserFeedback">
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/Logo"
         android:layout_width="84dp"
         android:layout_height="83dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/logo_only" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/UserFeedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User feedBack "
@@ -47,7 +47,7 @@
         app:layout_constraintVertical_bias="0.251">
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/Message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
@@ -64,7 +64,7 @@
     </FrameLayout>
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/Hands"
         android:layout_width="262dp"
         android:layout_height="98dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -87,11 +87,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8"
+        app:layout_constraintTop_toBottomOf="@+id/Hands"
         app:layout_constraintVertical_bias="0.0" >
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/EnterText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -100,7 +100,7 @@
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button4"
+        android:id="@+id/Submitbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="159dp"

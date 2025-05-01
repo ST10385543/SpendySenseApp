@@ -9,7 +9,7 @@
     tools:context=".WelcomePage">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/Loginbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#FAF4D3"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.814" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/Registerbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#FAF4D3"

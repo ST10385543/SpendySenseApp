@@ -21,8 +21,8 @@ class WelcomePage : AppCompatActivity() {
         }
 
         // Find buttons
-        val loginButton = findViewById<Button>(R.id.button)
-        val registerButton = findViewById<Button>(R.id.button2)
+        val loginButton = findViewById<Button>(R.id.Loginbtn)
+        val registerButton = findViewById<Button>(R.id.Registerbtn)
 
         // Set click listeners
         loginButton.setOnClickListener {
