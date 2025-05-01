@@ -36,6 +36,8 @@ abstract class SpendySenseDatabase : RoomDatabase(){
                     SpendySenseDatabase::class.java,
                     "app_database"
                 )
+                    //change this if it breaks
+                    //.createFromAsset("database/transactions.db")
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

@@ -24,7 +24,7 @@
         app:srcCompat="@drawable/img_3" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/usernameEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#F4EEEE"
@@ -41,7 +41,7 @@
         app:layout_constraintVertical_bias="0.742" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/forgotPasswordBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#004643"
@@ -49,13 +49,12 @@
         android:text="Forgot Password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.956" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/passwordEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#FAF6F6"
@@ -72,5 +71,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.818" />
+
+    <!--Remove-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="160dp"
+        android:id="@+id/loginBtn"
+        android:text="Login"
+        app:layout_constraintBottom_toTopOf="@id/forgotPasswordBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEt"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
