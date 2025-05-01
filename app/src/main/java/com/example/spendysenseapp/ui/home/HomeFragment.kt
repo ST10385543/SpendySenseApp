@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.TransactionAdapter
+import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.TransactionsDao
 import com.example.spendysenseapp.databinding.FragmentHomeBinding
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var transactionAdapter: TransactionAdapter
-    private lateinit var transactionDao: TransactionsDao
+    private val transactionsDao: TransactionsDao by lazy {
+        SpendySenseDatabase.getDatabase(requireContext()).transactionDao()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +74,7 @@ class HomeFragment : Fragment() {
     private fun loadTransactionData(){
         lifecycleScope.launch {
             val transactions = withContext(Dispatchers.IO){
-                transactionDao.getFiveTransactions()
+                transactionsDao.getFiveTransactions()
             }
             transactionAdapter.updateData(transactions)
         }
