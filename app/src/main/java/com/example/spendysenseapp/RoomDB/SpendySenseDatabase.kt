@@ -42,7 +42,7 @@ abstract class SpendySenseDatabase : RoomDatabase(){
                     "app_database"
                 )
                     //change this if it breaks
-                    //.createFromAsset("database/transactions.db")
+                    .createFromAsset("database/transactions.db")
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

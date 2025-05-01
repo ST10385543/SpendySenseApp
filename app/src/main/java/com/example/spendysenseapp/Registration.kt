@@ -38,7 +38,7 @@ class Registration : AppCompatActivity() {
         userDao = db.userDao()
 
         binding.signUpbtn.setOnClickListener {
-            var username = binding.edtName.text.toString()
+            var username = binding.edtUsername.text.toString()
             Toast.makeText(this,
             username,
             Toast.LENGTH_SHORT)
