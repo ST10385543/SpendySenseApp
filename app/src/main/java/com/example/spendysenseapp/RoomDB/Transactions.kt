@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
     foreignKeys = [ForeignKey(
         entity = Categories::class,
         parentColumns = ["id"],
-        childColumns = ["categoryId"],
+        childColumns = ["id"],
         onDelete = ForeignKey.CASCADE // deletes transactions if category is deleted
     )]
 )

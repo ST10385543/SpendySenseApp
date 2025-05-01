@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     foreignKeys = [ForeignKey(
         entity = Users::class,
         parentColumns = ["id"],
-        childColumns = ["userId"],
+        childColumns = ["id"],
         onDelete = ForeignKey.CASCADE // deletes transactions if category is deleted
     )])
 data class Feedback(
