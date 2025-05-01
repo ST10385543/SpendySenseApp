@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,122 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Logo Image -->
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="66dp"
-            android:layout_height="77dp"
-            android:src="@drawable/logo_only"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Title -->
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create Transaction"
-            android:textSize="24sp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Name Input -->
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:backgroundTint="#FFFFFF"
-            android:textColor="#FFFFFF"
-            android:hintTextColor="#FFFFFF"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Amount Input -->
-        <EditText
-            android:id="@+id/amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Amount"
-            android:backgroundTint="#FFFFFF"
-            android:textColor="#FFFFFF"
-            android:hintTextColor="#FFFFFF"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Income & Expense Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <Button
-                android:id="@+id/income"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="+ Income"
-                android:backgroundTint="#4CAF50"
-                android:textColor="#FFFFFF"/>
-
-            <Button
-                android:id="@+id/expense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="- Expense"
-                android:backgroundTint="#F44336"
-                android:textColor="#FFFFFF"/>
-        </LinearLayout>
-
-        <!-- Category Dropdown -->
-        <Spinner
-            android:id="@+id/category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#FFFFFF"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Add Category Button -->
-        <Button
-            android:id="@+id/add_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add category"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Image Button -->
-        <Button
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Image"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Image Preview -->
-        <ImageView
-            android:id="@+id/preview"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="#004d40"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Create Button -->
-        <Button
-            android:id="@+id/create"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"/>
+        android:orientation="vertical">
     </LinearLayout>
 
 </FrameLayout>
