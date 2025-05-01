@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:gravity="center_horizontal">
+    <TextView
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/transactionNameTv"
+        android:layout_gravity=""
+        android:textSize="16sp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:padding="10dp"/>
+
+    <TextView
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/transactionDateTv"
+        android:textSize="16sp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:padding="10dp"/>
+
+    <TextView
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/transactionAmountTv"
+        android:textSize="16sp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:padding="10dp"/>
+</LinearLayout>
