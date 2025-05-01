@@ -8,6 +8,9 @@ android {
     namespace = "com.example.spendysenseapp"
     compileSdk = 35
 
+    viewBinding.enable = true
+
+    
     defaultConfig {
         applicationId = "com.example.spendysenseapp"
         minSdk = 24

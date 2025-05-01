@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/img_4" />
 
     <EditText
-        android:id="@+id/registerEt"
+        android:id="@+id/edtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#F4EFEF"
@@ -69,7 +69,7 @@
         app:layout_constraintVertical_bias="0.847" />
 
     <Button
-        android:id="@+id/signUpEt"
+        android:id="@+id/signUpbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#111112"

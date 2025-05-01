@@ -19,7 +19,7 @@ interface UserDao {
     @Delete
     suspend fun delete(user: Users)
 
-    // 3. Find user by email (login)
+    // find user by email (login)
     @Query("SELECT * FROM tblUsers WHERE userEmail = :email LIMIT 1")
     suspend fun findByEmail(email: String): Users?
 }

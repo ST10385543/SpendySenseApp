@@ -1,10 +1,12 @@
 package com.example.spendysenseapp.RoomDB
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 
+@Dao
 interface User_AchievementsDao {
     @Insert
     suspend fun insertUserAchievement(userAchievement: User_Achievements)

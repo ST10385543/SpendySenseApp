@@ -15,12 +15,17 @@ import androidx.room.TypeConverters
         Feedback::class,
         User_Achievements::class
     ],
-    version = 2
+    version = 2 // added a migration due to editing transaction table
 )
 @TypeConverters(Converters::class)
 abstract class SpendySenseDatabase : RoomDatabase(){
 
     abstract fun userDao(): UserDao
+    abstract fun achievementDao(): AchievementsDao
+    abstract fun categoryDao(): CategoriesDao
+    abstract fun transactionDao(): TransactionsDao
+    abstract fun feedbackDao(): FeedbackDao
+    abstract fun user_achievementsDao(): User_AchievementsDao
 
     companion object {
         @Volatile
