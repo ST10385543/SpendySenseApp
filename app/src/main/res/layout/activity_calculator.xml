@@ -52,7 +52,8 @@
             android:background="@drawable/round_num_calc_buttons"
             android:text="AC"
             android:textSize="40sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginLeft="4dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDel"

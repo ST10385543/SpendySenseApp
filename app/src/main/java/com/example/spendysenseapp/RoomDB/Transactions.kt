@@ -23,5 +23,8 @@ data class Transaction(
     val type: String,// income / expense
 
     //New entity
-    val DateCreated: Date
+    val DateCreated: Date,
+
+    //Newer Entity
+    val UserID: Int
 )

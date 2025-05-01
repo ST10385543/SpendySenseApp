@@ -15,7 +15,7 @@ import androidx.room.TypeConverters
         Feedback::class,
         User_Achievements::class
     ],
-    version = 2 // added a migration due to editing transaction table
+    version = 3 // added a migration due to editing transaction table
 )
 @TypeConverters(Converters::class)
 abstract class SpendySenseDatabase : RoomDatabase(){
@@ -42,7 +42,7 @@ abstract class SpendySenseDatabase : RoomDatabase(){
                     "app_database"
                 )
                     //change this if it breaks
-                    .createFromAsset("database/transactions.db")
+                   // .createFromAsset("database/transactions.db")
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
