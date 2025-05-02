@@ -11,7 +11,7 @@ import java.util.Date
     foreignKeys = [ForeignKey(
         entity = Categories::class,
         parentColumns = ["id"],
-        childColumns = ["id"],
+        childColumns = ["categoryId"],
         onDelete = ForeignKey.CASCADE // deletes transactions if category is deleted
     )]
 )

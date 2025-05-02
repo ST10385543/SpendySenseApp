@@ -51,4 +51,7 @@ interface TransactionsDao {
     @Query("DELETE FROM tblTransactions WHERE UserID = :userId")
     suspend fun deleteTransactionsByUserId(userId: Int)
 
+    @Query("SELECT * FROM tblTransactions WHERE UserID = :userId AND categoryId = :categoryId")
+    suspend fun getTransactionsByCategory(userId: Int, categoryId: Int): List<Transaction>
+
 }

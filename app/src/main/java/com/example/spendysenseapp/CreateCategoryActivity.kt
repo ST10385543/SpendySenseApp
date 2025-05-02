@@ -70,7 +70,6 @@ class CreateCategoryActivity : AppCompatActivity() {
             val iconPath = selectedIconResId.toString()
 
             val newCategory = Categories(
-                id = 0, // Room will auto-generate
                 CategoryName = categoryName,
                 iconImgPath = iconPath
             )

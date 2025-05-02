@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -160,6 +161,20 @@ class AddTransactionFragment : Fragment() {
             Toast.makeText(requireContext(), "Invalid amount", Toast.LENGTH_SHORT).show()
             return
         }
+
+        //check if category exist
+        lifecycleScope.launch {
+            val catexist = withContext(Dispatchers.IO) {
+                db.categoryDao().getCategoryById(selectedCategoryId!!) != null
+            }
+            if (!catexist) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Invalid category selected", Toast.LENGTH_SHORT).show()
+                }
+                return@launch
+            }
+        }
+
 
         val transaction = Transaction(
             name = name,

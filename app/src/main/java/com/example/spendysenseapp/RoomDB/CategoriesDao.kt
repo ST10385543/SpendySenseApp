@@ -22,4 +22,7 @@ interface CategoriesDao {
 
     @Query("SELECT * FROM tblCategories WHERE id = :categoryId")
     suspend fun getCategoryById(categoryId: Int): Categories?
+
+    @Query("SELECT * FROM tblCategories WHERE id IN (:categoryIds)")
+    suspend fun getCategoriesByIds(categoryIds: List<Int>): List<Categories>
 }

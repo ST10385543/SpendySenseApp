@@ -16,6 +16,9 @@
             android:name=".Achievements"
             android:exported="false" />
         <activity
+            android:name=".FilterByCategoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".TransactionDetailsActivity"
             android:exported="false" />
         <activity
