@@ -24,7 +24,10 @@ class SessionManager(context: Context) {
     suspend fun saveUserSession(user: Users){
         withContext(Dispatchers.IO){
             sharedPref.edit().putInt("user_id", user.id).apply()
-            //userDao.insert(user)
+            val existingUser = userDao.getUser(user.id)
+            if (existingUser == null) {
+                userDao.insert(user)
+            }
         }
     }
 

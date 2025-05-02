@@ -15,7 +15,7 @@ import androidx.room.TypeConverters
         Feedback::class,
         User_Achievements::class
     ],
-    version = 4 // added a migration due to adding min and max goals
+    version = 6 // added a migration due to adding min and max goals
 )
 @TypeConverters(Converters::class)
 abstract class SpendySenseDatabase : RoomDatabase(){

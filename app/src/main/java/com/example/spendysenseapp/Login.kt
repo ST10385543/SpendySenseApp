@@ -56,7 +56,7 @@ class Login : AppCompatActivity() {
 
                 if (user != null && user.Password == password) {
                     Toast.makeText(this@Login, "Login successful!", Toast.LENGTH_SHORT).show()
-                    if(sessionManager.getCurrentUserId() == null)
+                    if(sessionManager.getCurrentUser() == null)
                     {
                         sessionManager.saveUserSession(user)
                     }

@@ -63,19 +63,28 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        //gets user information through the SessionManager class
         sessionManager = SessionManager.getInstance(requireContext())
+
+        setupRecyclerView()
+        setCurrentMonth()
+        changeLinearLayout()
+
+        // Safe initialization of currentUser and only call other logic after it's ready
         lifecycleScope.launch {
-            currentUser = sessionManager.getCurrentUser()
-            Toast.makeText(requireContext(), currentUser.id.toString(), Toast.LENGTH_SHORT).show()
+            val user = sessionManager.getCurrentUser()
+            if (user == null) {
+                Toast.makeText(requireContext(), "Session expired. Please log in again.", Toast.LENGTH_LONG).show()
+                // Optionally redirect to login screen here
+                return@launch
+            }
+
+            currentUser = user
+
             fillValues()
             loadTransactionData()
             setMonthlyGoal()
             setTextViewForGoals()
         }
-        setCurrentMonth()
-        setupRecyclerView()
-        changeLinearLayout()
     }
 
     private fun changeLinearLayout(){
