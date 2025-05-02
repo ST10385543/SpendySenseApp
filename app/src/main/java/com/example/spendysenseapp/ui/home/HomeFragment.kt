@@ -62,7 +62,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         sessionManager = SessionManager.getInstance(requireContext())
 
         setupRecyclerView()
@@ -130,9 +129,6 @@ class HomeFragment : Fragment() {
 
     private fun setCurrentMonth(){
         val calendar = Calendar.getInstance()
-        val currentMonth = "%02d".format(
-            calendar.get(Calendar.MONTH) + 1
-        )
         val monthString = SimpleDateFormat("MMMM", Locale.getDefault()).format(calendar.time)
         binding.currentMonthTv.text = "${monthString}"
     }

@@ -6,17 +6,18 @@
     android:padding="10dp"
     android:gravity="center_horizontal">
     <TextView
-        android:layout_width="125dp"
+        android:layout_width="0dp"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
         android:id="@+id/transactionNameTv"
-        android:layout_gravity=""
         android:textSize="16sp"
         android:text=""
         android:textColor="#FFFFFF"
         android:padding="10dp"/>
 
     <TextView
-        android:layout_width="125dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:id="@+id/transactionDateTv"
         android:textSize="16sp"
@@ -25,7 +26,8 @@
         android:padding="10dp"/>
 
     <TextView
-        android:layout_width="125dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:id="@+id/transactionAmountTv"
         android:textSize="16sp"
@@ -36,6 +38,7 @@
         android:id="@+id/viewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="64dp"
         android:text="View"
         android:background="@drawable/round_num_button"
     android:textColor="#FFFFFF"/>
