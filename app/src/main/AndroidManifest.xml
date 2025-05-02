@@ -19,6 +19,9 @@
             android:name=".EditTransaction"
             android:exported="false" />
         <activity
+            android:name=".CreateCategoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserFeedback"
             android:exported="false" />
         <activity
