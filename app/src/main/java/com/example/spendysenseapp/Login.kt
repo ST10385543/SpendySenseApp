@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.UserDao
+import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.ActivityLoginBinding
 import com.example.spendysenseapp.databinding.ActivityRegistrationBinding
 import com.example.spendysenseapp.ui.home.HomeFragment
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class Login : AppCompatActivity() {
     private lateinit var db: SpendySenseDatabase
     private lateinit var userDao: UserDao
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class Login : AppCompatActivity() {
             insets
         }
 
+        sessionManager = SessionManager.getInstance(this)
         //enable view binding for interaction with UI components
         val binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -53,6 +56,10 @@ class Login : AppCompatActivity() {
 
                 if (user != null && user.Password == password) {
                     Toast.makeText(this@Login, "Login successful!", Toast.LENGTH_SHORT).show()
+                    if(sessionManager.getCurrentUserId() == null)
+                    {
+                        sessionManager.saveUserSession(user)
+                    }
                     startActivity(Intent(this@Login, MainActivity::class.java))
                     finish()
                 } else {

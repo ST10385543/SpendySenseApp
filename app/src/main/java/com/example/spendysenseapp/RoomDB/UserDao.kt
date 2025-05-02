@@ -22,4 +22,7 @@ interface UserDao {
     // find user by email (login)
     @Query("SELECT * FROM tblUsers WHERE userEmail = :email LIMIT 1")
     suspend fun findByEmail(email: String): Users?
+
+    @Query("SELECT * FROM tblUsers WHERE id = :userId")
+    suspend fun getUser(userId: Int): Users
 }
