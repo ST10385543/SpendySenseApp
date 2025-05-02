@@ -146,23 +146,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:orientation="">
+        android:orientation="horizontal">
         <ImageView
             android:id="@+id/imgRecGift"
             android:layout_width="105dp"
             android:layout_height="76dp"
+            android:background="@drawable/circle_bg_income_icon"
             app:srcCompat="@drawable/give_a_gift" />
 
         <ImageView
             android:id="@+id/imgSalary"
             android:layout_width="105dp"
             android:layout_height="76dp"
+            android:background="@drawable/circle_bg_income_icon"
             app:srcCompat="@drawable/salary" />
 
         <ImageView
             android:id="@+id/imgHome"
             android:layout_width="105dp"
             android:layout_height="76dp"
+            android:background="@drawable/circle_bg_income_icon"
             app:srcCompat="@drawable/home" />
     </LinearLayout>
 
@@ -175,18 +178,21 @@
             android:id="@+id/imgcar"
             android:layout_width="105dp"
             android:layout_height="76dp"
+            android:background="@drawable/circle_bg_income_icon"
             app:srcCompat="@drawable/sedan" />
 
         <ImageView
             android:id="@+id/imgHealth"
             android:layout_width="105dp"
             android:layout_height="76dp"
+            android:background="@drawable/circle_bg_income_icon"
             app:srcCompat="@drawable/healthcare" />
 
         <ImageView
             android:id="@+id/imgEdu"
             android:layout_width="105dp"
             android:layout_height="76dp"
+            android:background="@drawable/circle_bg_income_icon"
             app:srcCompat="@drawable/graduation_cap" />
 
 

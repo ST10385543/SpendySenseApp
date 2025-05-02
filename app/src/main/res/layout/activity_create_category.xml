@@ -63,12 +63,20 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/imgIconView"
             android:layout_width="98dp"
             android:layout_height="83dp"
             app:srcCompat="@drawable/ic_add" />
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSelectIcon"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_create_button"
+        android:text="Select Icon" />
 
     <TextView
         android:id="@+id/tvCreatePreview2"
