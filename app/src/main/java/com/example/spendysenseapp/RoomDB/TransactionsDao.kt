@@ -33,7 +33,7 @@ interface TransactionsDao {
     @Query("SELECT * FROM tblTransactions WHERE id = :transactionId")
     suspend fun getTransactionById(transactionId: Int): Transaction?
 
-//    // Optional: get all transactions by category
+//    // get all transactions by category
 //    @Query("SELECT * FROM `Transaction` WHERE categoryId = :categoryId")
 //    suspend fun getTransactionsByCategory(categoryId: Int): List<Transaction>
     @Query("SELECT * FROM tblTransactions WHERE UserID = :userId")

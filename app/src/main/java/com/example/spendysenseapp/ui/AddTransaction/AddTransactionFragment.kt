@@ -22,6 +22,8 @@ import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.CategoriesDao
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.Transaction
+import com.example.spendysenseapp.RoomDB.Users
+import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.FragmentAddTransactionBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,9 +34,11 @@ class AddTransactionFragment : Fragment() {
 
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
+    private lateinit var currentUser : Users
 
     private lateinit var db: SpendySenseDatabase
     private lateinit var categoryDao: CategoriesDao
+    private lateinit var sessionManager : SessionManager
 
     private var selectedCategoryId: Int? = null
     private var selectedImageBytes: ByteArray? = null
@@ -79,6 +83,12 @@ class AddTransactionFragment : Fragment() {
 
         db = SpendySenseDatabase.getDatabase(requireContext())
         categoryDao = db.categoryDao()
+
+        sessionManager = SessionManager.getInstance(requireContext())
+
+        lifecycleScope.launch {
+            currentUser = sessionManager.getCurrentUser()
+        }
 
         loadCategoriesIntoSpinner()
 
@@ -157,7 +167,7 @@ class AddTransactionFragment : Fragment() {
             amount = amount,
             type = transactionType!!,
             DateCreated = Date(),
-            UserID = 1,
+            UserID = currentUser.id,
             receiptImage = selectedImageBytes
         )
 
@@ -200,7 +210,7 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun selectExpenseType() {
-        // Highlight Expense button, reset Income button
+        // color Expense button, reset Income button
         binding.btnExpense.setBackgroundResource(R.drawable.button_type_select) // Apply blue background
         binding.btnExpense.setElevation(10f)
         binding.btnIncome.setBackgroundResource(R.drawable.button_income_background)
@@ -210,7 +220,6 @@ class AddTransactionFragment : Fragment() {
         transactionType = "expense"
     }
 
-    // Reload the categories when the fragment resumes
     override fun onResume() {
         super.onResume()
         loadCategoriesIntoSpinner()

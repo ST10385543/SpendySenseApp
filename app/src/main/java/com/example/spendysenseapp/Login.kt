@@ -60,6 +60,8 @@ class Login : AppCompatActivity() {
                     {
                         sessionManager.saveUserSession(user)
                     }
+                    Toast.makeText(this@Login, user.id.toString(), Toast.LENGTH_SHORT).show()
+
                     startActivity(Intent(this@Login, MainActivity::class.java))
                     finish()
                 } else {

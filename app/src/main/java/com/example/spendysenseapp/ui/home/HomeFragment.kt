@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.TransactionAdapter
+import com.example.spendysenseapp.Login
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.RoomDB.TransactionsDao
@@ -60,10 +61,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         //gets user information through the SessionManager class
         sessionManager = SessionManager.getInstance(requireContext())
         lifecycleScope.launch {
             currentUser = sessionManager.getCurrentUser()
+            Toast.makeText(requireContext(), currentUser.id.toString(), Toast.LENGTH_SHORT).show()
             fillValues()
             loadTransactionData()
             setMonthlyGoal()
