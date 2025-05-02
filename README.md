@@ -50,3 +50,12 @@ kotlin("kapt")
 
 ----------------------------------------------------------------------------------------------------
 
+References:
+https://www.youtube.com/watch?v=oeRF5mSaM4Q&t=152s --> RoomDb
+https://www.youtube.com/watch?v=-VsatCUSxek --> Calculator
+https://www.youtube.com/watch?v=3FujlwQoKuk --> APK Generate
+
+----------------------------------------------------------------------------------------------------
+Video Demonstration Link:
+https://youtu.be/VgTksZUXxlA
+ 
