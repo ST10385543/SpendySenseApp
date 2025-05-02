@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
     android:orientation="vertical"
+    android:paddingBottom="56dp"
+    android:paddingTop="?attr/actionBarSize"
     android:background="#004643">
 
     <LinearLayout
@@ -78,8 +80,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:id="@+id/minimumMonthlyGoalTv"
                     android:layout_marginTop="5dp"
-                    android:text="Min: R"
+                    android:text=""
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
@@ -87,7 +90,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Max: R"
+                    android:id="@+id/maximumMonthlyGoalTv"
+                    android:text=""
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -292,6 +296,7 @@
                     android:textSize="20sp"
                     android:layout_margin="10dp"
                     android:id="@+id/minimumMonthlyGoalEt"
+                    android:inputType="numberDecimal"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_white_shape"/>
 
@@ -330,6 +335,7 @@
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:layout_margin="10dp"
+                    android:inputType="numberDecimal"
                     android:id="@+id/maximumMonthlyGoalEt"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_white_shape"/>

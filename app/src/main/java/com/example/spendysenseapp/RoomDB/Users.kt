@@ -7,5 +7,9 @@ import androidx.room.PrimaryKey
 data class Users(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     var userEmail: String,
-    var Password: String
+    var Password: String,
+
+    //column for minimum and maximum goal
+    var minimumGoal: Double,
+    var maximumGoal: Double
 )

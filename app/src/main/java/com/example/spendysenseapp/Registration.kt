@@ -57,7 +57,7 @@ class Registration : AppCompatActivity() {
 
 
             if (username.isNotEmpty() && userpassword == confirmPassword) {
-                val newUser = Users(userEmail = username, Password = userpassword)
+                val newUser = Users(userEmail = username, Password = userpassword, minimumGoal = 0.0, maximumGoal = 0.0)
 
                 lifecycleScope.launch {
                     userDao.insert(newUser)

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface UserDao {
@@ -25,4 +26,7 @@ interface UserDao {
 
     @Query("SELECT * FROM tblUsers WHERE id = :userId")
     suspend fun getUser(userId: Int): Users
+
+    @Update
+    suspend fun updateUser(user: Users)
 }
