@@ -1,12 +1,15 @@
 package com.example.spendysenseapp.Adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Transaction
+import com.example.spendysenseapp.TransactionDetailsActivity
 import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -20,6 +23,7 @@ class TransactionAdapter(private var transactionList: MutableList<Transaction>) 
             val transactionName: TextView = view.findViewById(R.id.transactionNameTv)
             val transactionDate: TextView = view.findViewById(R.id.transactionDateTv)
             val transactionAmount: TextView = view.findViewById(R.id.transactionAmountTv)
+            val viewButton: Button = view.findViewById(R.id.viewButton)
         }
 
     private val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
@@ -34,7 +38,15 @@ class TransactionAdapter(private var transactionList: MutableList<Transaction>) 
         val transaction = transactionList[position]
         holder.transactionName.text = transaction.name
         holder.transactionDate.text = formatDate(transaction.DateCreated)
-        holder.transactionAmount.text = "%.2f".format(transaction.amount) // Better number formatting
+        holder.transactionAmount.text = "%.2f".format(transaction.amount)
+
+        holder.viewButton.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, TransactionDetailsActivity::class.java).apply {
+                putExtra("TRANSACTION_ID", transaction.id)
+            }
+            context.startActivity(intent)
+        }
     }
 
     private fun formatDate(date: Date): String {

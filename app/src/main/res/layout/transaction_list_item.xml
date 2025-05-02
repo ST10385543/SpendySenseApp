@@ -32,4 +32,11 @@
         android:text=""
         android:textColor="#FFFFFF"
         android:padding="10dp"/>
+    <Button
+        android:id="@+id/viewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View"
+        android:background="@drawable/round_num_button"
+    android:textColor="#FFFFFF"/>
 </LinearLayout>

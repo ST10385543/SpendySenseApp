@@ -101,7 +101,7 @@ budgeting efforts by 100%
         app:layout_constraintVertical_bias="0.759" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/Deletebtn"
+        android:id="@+id/deleteAccountBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -116,7 +116,7 @@ budgeting efforts by 100%
         app:layout_constraintVertical_bias="0.951" />
 
     <EditText
-        android:id="@+id/SamplePassword"
+        android:id="@+id/passwordEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#E6E1E1"

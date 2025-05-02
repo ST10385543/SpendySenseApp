@@ -82,7 +82,7 @@
                     android:layout_gravity="center"
                     android:id="@+id/minimumMonthlyGoalTv"
                     android:layout_marginTop="5dp"
-                    android:text=""
+                    android:text="Enter minimum goal"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:id="@+id/maximumMonthlyGoalTv"
-                    android:text=""
+                    android:text="Enter maximum goal"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
             </LinearLayout>
