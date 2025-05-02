@@ -69,13 +69,13 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.784" />
+        app:layout_constraintVertical_bias="0.707" />
 
     <EditText
         android:id="@+id/passwordEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="204dp"
+        android:layout_marginBottom="144dp"
         android:background="#F8F4F4"
         android:ems="10"
         android:hint="Password"
