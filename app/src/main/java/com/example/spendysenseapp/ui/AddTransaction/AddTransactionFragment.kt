@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.spendysenseapp.CalculatorActivity
+import com.example.spendysenseapp.CreateCategoryActivity
 import com.example.spendysenseapp.databinding.FragmentAddTransactionBinding
 
 class AddTransactionFragment : Fragment() {
@@ -43,6 +44,11 @@ class AddTransactionFragment : Fragment() {
 
         binding.imgCalc.setOnClickListener {
             val intent = Intent(requireContext(), CalculatorActivity::class.java)
+            calculatorLauncher.launch(intent)
+        }
+
+        binding.btnAddCategory.setOnClickListener {
+            val intent = Intent(requireContext(), CreateCategoryActivity::class.java)
             calculatorLauncher.launch(intent)
         }
     }

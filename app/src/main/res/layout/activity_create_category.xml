@@ -63,10 +63,13 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imgIconView"
-            android:layout_width="98dp"
-            android:layout_height="83dp"
-            app:srcCompat="@drawable/ic_add" />
+            android:id="@+id/imgIcon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_launcher_foreground"
+            android:background="@drawable/circle_bg_income_icon" />
 
     </LinearLayout>
 
@@ -77,30 +80,5 @@
         android:layout_gravity="center"
         android:background="@drawable/rounded_create_button"
         android:text="Select Icon" />
-
-    <TextView
-        android:id="@+id/tvCreatePreview2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:text="Preview"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="match_parent"
-        android:layout_height="132dp"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCreateCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_create_button"
-        android:text="Create"
-        android:textColor="#FFFFFFFF" />
 
 </LinearLayout>
