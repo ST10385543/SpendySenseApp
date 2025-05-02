@@ -8,16 +8,52 @@
     android:background="#004643"
     tools:context=".Registration">
 
+
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="503dp"
-        android:layout_height="464dp"
+        android:id="@+id/Logo"
+        android:layout_width="292dp"
+        android:layout_height="132dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/img_4" />
+        app:layout_constraintVertical_bias="0.014"
+        app:srcCompat="@drawable/logo_only" />
+
+    <TextView
+        android:id="@+id/Spendy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="Spendy Sense"
+        android:textColor="#F2E3D4"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="Stay ahead, save with sense"
+        android:textColor="#F2E3D4"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.280"  />
 
     <EditText
         android:id="@+id/edtUsername"
@@ -25,22 +61,21 @@
         android:layout_height="wrap_content"
         android:background="#F4EFEF"
         android:ems="10"
+        android:hint="username"
         android:inputType="text"
         android:minHeight="48dp"
-        android:hint="username"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
-        app:layout_constraintVertical_bias="0.707" />
+        app:layout_constraintVertical_bias="0.784" />
 
     <EditText
         android:id="@+id/passwordEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="152dp"
+        android:layout_marginBottom="204dp"
         android:background="#F8F4F4"
         android:ems="10"
         android:hint="Password"
@@ -49,15 +84,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintTop_toBottomOf="@id/edtUsername"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="1.01" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/confirmPasswordEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
         android:background="#FAF9F9"
         android:ems="10"
         android:hint="Confirm Password"
@@ -66,10 +99,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordEt"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.859" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/signUpbtn"
@@ -84,4 +114,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintTop_toBottomOf="@id/confirmPasswordEt"
         app:layout_constraintVertical_bias="0.951" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="324dp"
+        android:layout_height="234dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.472"
+        app:srcCompat="@drawable/img_5" />
 </androidx.constraintlayout.widget.ConstraintLayout>
