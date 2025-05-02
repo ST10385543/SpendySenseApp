@@ -91,7 +91,8 @@
                 android:textColor="#00FF00"
                 android:textStyle="normal"
                 android:background="@drawable/rounded_income_button"
-                android:layout_marginRight="80dp"/>
+                android:layout_marginRight="80dp"
+                android:elevation="0dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnExpense"
@@ -100,7 +101,8 @@
                 android:text="- Expense"
                 android:textColor="#D32F2F"
                 android:textStyle="normal"
-                android:background="@drawable/rounded_expense_button"/>
+                android:background="@drawable/rounded_expense_button"
+                android:elevation="0dp"/>
         </LinearLayout>
 
         <TextView
@@ -168,7 +170,7 @@
             android:textSize="18sp" />
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/imgPreview"
             android:layout_width="match_parent"
             android:layout_height="116dp"
             android:layout_marginBottom="10dp"
