@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SpendySenseApp"
         tools:targetApi="31">
         <activity
+            android:name=".Achievements"
+            android:exported="false" />
+        <activity
             android:name=".TransactionDetailsActivity"
             android:exported="false" />
         <activity
