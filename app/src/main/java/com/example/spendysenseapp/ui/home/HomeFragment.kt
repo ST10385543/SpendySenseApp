@@ -147,10 +147,12 @@ class HomeFragment : Fragment() {
                 "expense" -> totalExpense += transaction.amount
             }
         }
+        val balance = totalIncome - totalExpense
 
         withContext(Dispatchers.Main) {
-            binding.incomeValue.text = "%.2f".format(totalIncome)
-            binding.expenseValue.text = "%.2f".format(totalExpense)
+            binding.balanceValueTv.text = "%.2f".format(balance)
+            binding.incomeValueTv.text = "%.2f".format(totalIncome)
+            binding.expenseValueTv.text = "%.2f".format(totalExpense)
         }
     }
 
