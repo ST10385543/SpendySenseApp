@@ -47,4 +47,8 @@ interface TransactionsDao {
         ORDER BY DateCreated DESC
     """)
     suspend fun getUserTransactionSortedByMonth(userId: Int, yearMonth: String): List<Transaction>
+
+    @Query("DELETE FROM tblTransactions WHERE UserID = :userId")
+    suspend fun deleteTransactionsByUserId(userId: Int)
+
 }
