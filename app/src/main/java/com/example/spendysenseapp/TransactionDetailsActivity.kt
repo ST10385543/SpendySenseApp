@@ -65,6 +65,9 @@ class TransactionDetailsActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
     }
     private fun formatDate(date: Date): String {
         return dateFormatter.format(date)

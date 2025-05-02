@@ -93,23 +93,26 @@ class FilterByCategoryActivity : AppCompatActivity() {
     private fun setupCategoryFilter(categories: List<Categories>) {
         binding.categoryChipGroup.removeAllViews()
 
-        // Add "All Categories" chip
         binding.categoryChipGroup.addView(createChip("All Categories", true))
 
         // Add category chips
-        categories.forEach { category ->
-            binding.categoryChipGroup.addView(createChip(category.CategoryName, false))
+        val allChip = createChip("All Categories", true).apply {
+            setOnClickListener {
+                filterTransactions(-1)
+            }
+        }
+        binding.categoryChipGroup.addView(allChip)
+
+        categories.forEachIndexed { index, category ->
+            val chip = createChip(category.CategoryName, false).apply {
+                setOnClickListener {
+                    filterTransactions(category.id)
+                }
+            }
+            binding.categoryChipGroup.addView(chip)
         }
 
-        // Handle selection
-        binding.categoryChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
-            val selectedCategory = when {
-                checkedIds.isEmpty() -> null
-                group.getChildAt(0).id == checkedIds.first() -> null // "All" selected
-                else -> categories[group.indexOfChild(findViewById(checkedIds.first())) - 1]
-            }
-            filterTransactions(selectedCategory?.id)
-        }
+        binding.categoryChipGroup.setOnCheckedStateChangeListener(null)
     }
 
     private fun createChip(text: String, checked: Boolean): Chip {
@@ -125,20 +128,18 @@ class FilterByCategoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun filterTransactions(categoryId: Int?) {
+    private fun filterTransactions(categoryId: Int) {
         lifecycleScope.launch {
-            val transactions = withContext(Dispatchers.IO) {
-                if (categoryId == null) {
-                    transactionDao.getUsersTransactions(currentUser?.id ?: 0)
-                } else {
-                    transactionDao.getTransactionsByCategory(currentUser?.id ?: 0, categoryId)
+                val transactions = withContext(Dispatchers.IO) {
+                    transactionDao.getTransactionsByCategory(
+                        currentUser?.id ?: 0,
+                        categoryId
+                    )
                 }
-            }
-
-            withContext(Dispatchers.Main) {
-                updateTransactionList(transactions)
-                updateCategoryTotal(transactions)
-            }
+                withContext(Dispatchers.Main) {
+                    updateTransactionList(transactions)
+                    updateCategoryTotal(transactions)
+                }
         }
     }
 
