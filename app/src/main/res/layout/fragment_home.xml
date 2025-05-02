@@ -129,7 +129,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/expenseValue"
+                    android:id="@+id/expenseValueTv"
                     android:text="0"
                     android:textSize="20sp"
                     android:layout_gravity="center"
@@ -156,7 +156,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/balanceValue"
+                    android:id="@+id/balanceValueTv"
                     android:text="0"
                     android:textSize="20sp"
                     android:layout_gravity="center"
@@ -182,7 +182,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/incomeValue"
+                    android:id="@+id/incomeValueTv"
                     android:text="0"
                     android:textSize="20sp"
                     android:layout_gravity="center"
