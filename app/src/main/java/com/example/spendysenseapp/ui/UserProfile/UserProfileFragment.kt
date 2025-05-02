@@ -11,12 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.spendysenseapp.DeleteAccount
 import com.example.spendysenseapp.R
+import com.example.spendysenseapp.RoomDB.Feedback
 import com.example.spendysenseapp.RoomDB.Users
 import com.example.spendysenseapp.Services.SessionManager
+import com.example.spendysenseapp.UserFeedback
 import com.example.spendysenseapp.WelcomePage
 import kotlinx.coroutines.launch
 
 class UserProfileFragment : Fragment() {
+
     private lateinit var sessionManager: SessionManager
     private var currentUser: Users? = null
 
@@ -24,9 +27,8 @@ class UserProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout
-        val view = inflater.inflate(R.layout.fragment_user_profile, container, false)
-        return view
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_user_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,41 +37,52 @@ class UserProfileFragment : Fragment() {
         sessionManager = SessionManager.getInstance(requireContext())
 
         lifecycleScope.launch {
-            // Fetch user from session manager
             currentUser = sessionManager.getCurrentUser()
 
             if (currentUser == null) {
-                // Handle the case where there's no user in the session
                 Toast.makeText(requireContext(), "No user logged in. Redirecting to WelcomePage.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(requireActivity(), WelcomePage::class.java)
                 startActivity(intent)
                 requireActivity().finish()
                 return@launch
             }
-
-            // Proceed with logout functionality only if user is available
-            logout(view)
         }
 
-        // Handle delete account button click
-        val deleteAccountBtn = view.findViewById<Button>(R.id.deleteAccountBtn)
-        deleteAccountBtn?.setOnClickListener {
-            val intent = Intent(requireActivity(), DeleteAccount::class.java)
-            startActivity(intent)
-        }
-    }
-
-    private fun logout(view: View) {
-        // Make sure this view is not null when trying to set the click listener
+        // Logout button
         val logoutBtn = view.findViewById<Button>(R.id.Logoutbtn)
-        logoutBtn?.setOnClickListener {
+        logoutBtn.setOnClickListener {
             sessionManager.clearSession()
             val intent = Intent(requireActivity(), WelcomePage::class.java)
             startActivity(intent)
             requireActivity().finish()
-        } ?: run {
-            // If logout button is not found, log a message
-            Toast.makeText(requireContext(), "Logout button not found", Toast.LENGTH_SHORT).show()
+        }
+
+        // Delete Account button
+        val deleteAccountBtn = view.findViewById<Button>(R.id.DeleteAccountbtn)
+        deleteAccountBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), DeleteAccount::class.java)
+            startActivity(intent)
+        }
+
+        // User Feedback button
+        val feedbackBtn = view.findViewById<Button>(R.id.UserFeedbackbtn)
+        feedbackBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), UserFeedback::class.java) // ✅ CORRECT
+            startActivity(intent)
+        }
+
+
+        // Optional: Create Category & Achievements buttons if needed
+        val createCategoryBtn = view.findViewById<Button>(R.id.CreateCategorybtn)
+        createCategoryBtn.setOnClickListener {
+            Toast.makeText(requireContext(), "Create Category clicked", Toast.LENGTH_SHORT).show()
+            // Add navigation logic here if implemented
+        }
+
+        val achievementsBtn = view.findViewById<Button>(R.id.Achievementsbtn)
+        achievementsBtn.setOnClickListener {
+            Toast.makeText(requireContext(), "Achievements clicked", Toast.LENGTH_SHORT).show()
+            // Add navigation logic here if implemented
         }
     }
 }

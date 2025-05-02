@@ -39,7 +39,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:background="@drawable/rounded_profile_button"
-            android:text="Logout"/>
+            android:text="Logout"
+            android:onClick="onLogoutClick"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/DeleteAccountbtn"
@@ -48,7 +49,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="120dp"
             android:background="@drawable/rounded_profile_button"
-            android:text="Delete Account" />
+            android:text="Delete Account"
+            android:onClick="onDeleteAccountClick"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/UserFeedbackbtn"
@@ -57,7 +59,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="220dp"
             android:background="@drawable/rounded_profile_button"
-            android:text="User Feedback" />
+            android:text="User Feedback"
+            android:onClick="onUserFeedbackClick" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/Achievementsbtn"
@@ -69,16 +72,13 @@
             android:text="Achievements" />
 
         <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/CreateCategorybtn"
+            android:id="@+id/CreateCategorybtn"
             android:layout_width="329dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="420dp"
             android:background="@drawable/rounded_profile_button"
             android:text="Create Category" />
-
-
     </FrameLayout>
-
 
 </FrameLayout>
