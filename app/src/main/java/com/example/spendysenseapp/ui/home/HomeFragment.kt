@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
         setCurrentMonth()
         changeLinearLayout()
 
-        // Safe initialization of currentUser and only call other logic after it's ready
+
         lifecycleScope.launch {
             val user = sessionManager.getCurrentUser()
             if (user == null) {

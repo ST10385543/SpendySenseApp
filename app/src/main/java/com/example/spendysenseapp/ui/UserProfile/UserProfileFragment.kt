@@ -72,17 +72,15 @@ class UserProfileFragment : Fragment() {
         }
 
 
-        // Optional: Create Category & Achievements buttons if needed
         val createCategoryBtn = view.findViewById<Button>(R.id.CreateCategorybtn)
         createCategoryBtn.setOnClickListener {
             Toast.makeText(requireContext(), "Create Category clicked", Toast.LENGTH_SHORT).show()
-            // Add navigation logic here if implemented
+
         }
 
         val achievementsBtn = view.findViewById<Button>(R.id.Achievementsbtn)
         achievementsBtn.setOnClickListener {
             Toast.makeText(requireContext(), "Achievements clicked", Toast.LENGTH_SHORT).show()
-            // Add navigation logic here if implemented
         }
     }
 }
