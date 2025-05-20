@@ -40,7 +40,7 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/categoryChipGroup"
                 android:layout_width="match_parent"
-                android:background="@color/chip_background_color"
+                android:background="#EEEEEE"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"/>
 
