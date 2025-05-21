@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -9,145 +10,140 @@
     android:foregroundTint="#F6F0F0"
     tools:context=".Login">
 
-    <EditText
-        android:id="@+id/usernameEt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#F4EEEE"
-        android:ems="10"
-        android:hint="username"
-        android:inputType="text"
-        android:minHeight="48dp"
-        android:textColor="#070707"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.717" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/forgotPasswordBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_profile_button"
-        android:backgroundTint="#004643"
-        android:text="Forgot Password"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.357"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
-
-    <EditText
-        android:id="@+id/passwordEt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FAF6F6"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:textColor="#0D0C0C"
-        android:textColorLink="#F6F3F3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.818" />
-
-    <!--Remove-->
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
-        android:background="@drawable/rounded_profile_button"
-        android:text="Login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="292dp"
-        android:layout_height="132dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.014"
-        app:srcCompat="@drawable/logo_only" />
-
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:text="Spendy Sense"
-        android:textColor="#F2E3D4"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.198" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="292dp"
+            android:layout_height="132dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/logo_only" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:text="Stay ahead, save with sense"
-        android:textColor="#F2E3D4"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.280"  />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="Spendy Sense"
+            android:textColor="#F2E3D4"
+            android:textSize="50sp"
+            android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="307dp"
-        android:layout_height="153dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/usernameEt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.073"
-        app:srcCompat="@drawable/img_2" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="Stay ahead, save with sense"
+            android:textColor="#F2E3D4"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:text="Log into  your Spendy Sense Account"
-        android:textColor="#F2E3D4"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.60" />
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="307dp"
+            android:layout_height="153dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginEnd="54dp"
+            android:layout_marginBottom="18dp"
+            app:srcCompat="@drawable/img_2" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="Log into  your Spendy Sense Account"
+            android:textColor="#F2E3D4"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
+
+        <EditText
+            android:id="@+id/emailEt"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:background="@drawable/rounded_white_shape"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/passwordEt"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_white_shape"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:layout_gravity="center"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/forgotPasswordBtn"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:text="Forgot Password"
+                android:layout_gravity="end"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/loginBtn"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_white_button"
+            android:text="Login"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"/>
+
+        <!--
+            code from Alex Kuchernko. 2012. Android Drawing seperator/Divider line in layout, 23 April 2012. [Online].
+            Available at: https://stackoverflow.com/questions/5049852/android-drawing-separator-divider-line-in-layout [Accessed 20 May 2025]
+        -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#F2E3D4"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:text="Dont have an account? Register here"
+            android:layout_marginBottom="20dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_gravity="center"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:id="@+id/launchRegisterActivityBtn"
+            android:textColor="@color/black"
+            android:background="@drawable/rounded_white_button"
+            android:text="Register"/>
+    </LinearLayout>
+</ScrollView>
+
+<!--
+    code attribution
+    xenoterracide - How should you put code attribution into your code? link -
+    https://opensource.stackexchange.com/questions/2312/how-should-you-put-attribution-into-your-project
+-->

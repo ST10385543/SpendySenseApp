@@ -1,6 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
     kotlin("kapt")
 }
 
@@ -64,5 +65,15 @@ dependencies {
     kapt("androidx.room:room-compiler:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")
     implementation ("com.google.android.material:material:1.10.0")
+
+    //Firebase dependencies
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+
+    implementation("com.google.firebase:firebase-auth")
+
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    //implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+
 
 }

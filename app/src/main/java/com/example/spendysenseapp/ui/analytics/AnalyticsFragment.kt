@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.spendysenseapp.FilterByCategoryActivity
+//import com.example.spendysenseapp.FilterByCategoryActivity
 import com.example.spendysenseapp.R
 
 class AnalyticsFragment : Fragment() {
@@ -39,8 +39,7 @@ class AnalyticsFragment : Fragment() {
     }
 
     private fun startFilterByCategoryActivities(){
-        val intent = Intent(requireActivity(), FilterByCategoryActivity::class.java)
-
-        startActivity(intent)
+        //val intent = Intent(requireActivity(), FilterByCategoryActivity::class.java)
+        //startActivity(intent)
     }
 }
