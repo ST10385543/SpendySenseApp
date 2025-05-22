@@ -13,10 +13,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.UserDao
-//import com.example.spendysenseapp.Services.SessionManager
+import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.ActivityLoginBinding
 import com.example.spendysenseapp.databinding.ActivityRegistrationBinding
-//import com.example.spendysenseapp.ui.home.HomeFragment
+import com.example.spendysenseapp.ui.home.HomeFragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -81,8 +81,7 @@ class Login : AppCompatActivity() {
                         //show the use of logging
                         Log.d("User logging in", "signInWithEmail:success")
                         Toast.makeText(this,"Welcome to spendy sense",Toast.LENGTH_SHORT,).show()
-                        val user = auth.currentUser
-                        //startActivity(Intent(this, HomeFragment::class.java))
+                        startActivity(Intent(this, MainActivity::class.java))
                     } else {
                         Log.w("User logging in", "signInWithEmail:failure", task.exception)
                         Toast.makeText(this,"Authentication failed.",Toast.LENGTH_SHORT,).show()

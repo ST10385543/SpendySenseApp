@@ -15,7 +15,8 @@ import androidx.room.TypeConverters
         Feedback::class,
         User_Achievements::class
     ],
-    version = 7 // added a migration due to adding min and max goals
+    version = 8 // added a migration due to adding min and max goals
+    //added a migration for changing user id in add transaction to string to accompany firebase uid
 )
 @TypeConverters(Converters::class)
 abstract class SpendySenseDatabase : RoomDatabase(){

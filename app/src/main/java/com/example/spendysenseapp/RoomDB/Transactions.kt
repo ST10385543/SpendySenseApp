@@ -26,7 +26,7 @@ data class Transaction(
     val DateCreated: Date,
 
     //Newer Entity
-    val UserID: Int,
+    val UserID: String,
 
     //New Entity
     val receiptImage: ByteArray? = null // <- new field for image

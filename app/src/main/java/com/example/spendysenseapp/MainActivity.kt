@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //gotten from Blackbelt. 2015. How to hide app name from title bar in android, StackOverflow. 13 May 2015. [Online]. Available at: https://stackoverflow.com/questions/30216233/how-to-hide-app-name-from-title-bar-in-android [Accessed 22 May 2025].
+//        supportActionBar?.setDisplayShowTitleEnabled(false)
+//        supportActionBar?.title=""
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -32,7 +35,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 }

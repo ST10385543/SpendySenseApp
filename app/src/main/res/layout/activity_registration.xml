@@ -17,6 +17,7 @@
             android:id="@+id/Logo"
             android:layout_width="292dp"
             android:layout_height="132dp"
+            android:layout_marginTop="50dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/logo_only" />
 
@@ -131,6 +132,7 @@
             android:id="@+id/launchLoginActivityBtn"
             android:textColor="@color/black"
             android:background="@drawable/rounded_white_button"
-            android:text="Login"/>
+            android:text="Login"
+            android:layout_marginBottom="150dp"/>
     </LinearLayout>
 </ScrollView>

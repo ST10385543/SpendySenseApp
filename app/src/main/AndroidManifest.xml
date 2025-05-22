@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SpendySenseApp"
+        android:theme="@style/Theme.Material3.Light.NoActionBar"
         tools:targetApi="31">
         <activity
             android:name=".Achievements"
@@ -51,8 +51,7 @@
             android:exported="false" /> <!-- WelcomePage should now be the launcher activity -->
         <activity
             android:name=".WelcomePage"
-            android:exported="true"
-            android:label="@string/app_name">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,8 +60,7 @@
         </activity> <!-- MainActivity without launcher intent -->
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name" />
+            android:exported="true"/>
     </application>
 
 </manifest>
