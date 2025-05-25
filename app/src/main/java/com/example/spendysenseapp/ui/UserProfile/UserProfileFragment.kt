@@ -2,6 +2,7 @@ package com.example.spendysenseapp.ui.UserProfile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,16 @@ import com.example.spendysenseapp.RoomDB.Users
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.UserFeedback
 import com.example.spendysenseapp.WelcomePage
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 class UserProfileFragment : Fragment() {
 
-    private lateinit var sessionManager: SessionManager
-    private var currentUser: Users? = null
+    private lateinit var auth: FirebaseAuth
+    private var currentUser: FirebaseUser? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,24 +39,19 @@ class UserProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sessionManager = SessionManager.getInstance(requireContext())
+        auth = Firebase.auth
 
         lifecycleScope.launch {
-            currentUser = sessionManager.getCurrentUser()
-
-            if (currentUser == null) {
-                Toast.makeText(requireContext(), "No user logged in. Redirecting to WelcomePage.", Toast.LENGTH_SHORT).show()
-                val intent = Intent(requireActivity(), WelcomePage::class.java)
-                startActivity(intent)
-                requireActivity().finish()
-                return@launch
-            }
+            currentUser = auth.currentUser
         }
 
         // Logout button
         val logoutBtn = view.findViewById<Button>(R.id.Logoutbtn)
         logoutBtn.setOnClickListener {
-            sessionManager.clearSession()
+            Log.d("Account", "User ${currentUser?.email} submitted logout request")
+            auth.signOut()
+            Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
+            Log.d("Account", "User logged out successfully")
             val intent = Intent(requireActivity(), WelcomePage::class.java)
             startActivity(intent)
             requireActivity().finish()

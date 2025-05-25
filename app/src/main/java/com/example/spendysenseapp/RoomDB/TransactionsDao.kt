@@ -27,7 +27,7 @@ interface TransactionsDao {
 
     //getting 5 transactions from latest first
     @Query("SELECT * FROM tblTransactions WHERE UserID =:userId ORDER BY DateCreated DESC LIMIT 5")
-    suspend fun getFiveTransactions(userId: Int): List<Transaction>
+    suspend fun getFiveTransactions(userId: String): List<Transaction>
 
     // selecting a specific transaction, by its id
     @Query("SELECT * FROM tblTransactions WHERE id = :transactionId")
@@ -37,7 +37,7 @@ interface TransactionsDao {
 //    @Query("SELECT * FROM `Transaction` WHERE categoryId = :categoryId")
 //    suspend fun getTransactionsByCategory(categoryId: Int): List<Transaction>
     @Query("SELECT * FROM tblTransactions WHERE UserID = :userId")
-    suspend fun  getUsersTransactions(userId: Int): List<Transaction>
+    suspend fun  getUsersTransactions(userId: String): List<Transaction>
 
     //sort transactions for a specific user by month
     @Query("""
@@ -46,12 +46,12 @@ interface TransactionsDao {
         AND strftime('%Y-%m', DateCreated/1000, 'unixepoch') = :yearMonth
         ORDER BY DateCreated DESC
     """)
-    suspend fun getUserTransactionSortedByMonth(userId: Int, yearMonth: String): List<Transaction>
+    suspend fun getUserTransactionSortedByMonth(userId: String, yearMonth: String): List<Transaction>
 
     @Query("DELETE FROM tblTransactions WHERE UserID = :userId")
     suspend fun deleteTransactionsByUserId(userId: Int)
 
     @Query("SELECT * FROM tblTransactions WHERE UserID = :userId AND categoryId = :categoryId")
-    suspend fun getTransactionsByCategory(userId: Int, categoryId: Int): List<Transaction>
+    suspend fun getTransactionsByCategory(userId: String, categoryId: Int): List<Transaction>
 
 }

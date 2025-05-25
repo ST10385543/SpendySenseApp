@@ -11,11 +11,19 @@ import androidx.room.TypeConverters
         Users::class,
         Achievements::class,
         Categories::class,
-        Transaction::class,
+        //Transaction::class,
         Feedback::class,
         User_Achievements::class
     ],
-    version = 7 // added a migration due to adding min and max goals
+    version = 14
+    // added a migration due to adding min and max goals
+    //added a migration for changing user id in add transaction to string to accompany firebase uid
+    //added a migration to change transaction image to a byte array
+    //added a migration to change images to a List<string>
+    //reverted everything
+    //change reciept image to string
+    //changed transaction id to string
+    //changed dateCreated to long because realtime only supports this
 )
 @TypeConverters(Converters::class)
 abstract class SpendySenseDatabase : RoomDatabase(){
@@ -23,7 +31,7 @@ abstract class SpendySenseDatabase : RoomDatabase(){
     abstract fun userDao(): UserDao
     abstract fun achievementDao(): AchievementsDao
     abstract fun categoryDao(): CategoriesDao
-    abstract fun transactionDao(): TransactionsDao
+    //abstract fun transactionDao(): TransactionsDao
     abstract fun feedbackDao(): FeedbackDao
     abstract fun user_achievementsDao(): User_AchievementsDao
 

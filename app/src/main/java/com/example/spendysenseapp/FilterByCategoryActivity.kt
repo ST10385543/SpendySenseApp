@@ -1,5 +1,6 @@
 package com.example.spendysenseapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -15,10 +16,10 @@ import com.example.spendysenseapp.RoomDB.CategoriesDao
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.RoomDB.TransactionsDao
-import com.example.spendysenseapp.RoomDB.Users
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.ActivityFilterByCategoryBinding
 import com.google.android.material.chip.Chip
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,8 +29,8 @@ class FilterByCategoryActivity : AppCompatActivity() {
     private lateinit var transactionAdapter: TransactionAdapter
     private lateinit var transactionDao: TransactionsDao
     private lateinit var categoryDao: CategoriesDao
-    private lateinit var sessionManager: SessionManager
-    private var currentUser: Users? = null
+    //private lateinit var sessionManager: SessionManager
+    private var currentUser: FirebaseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +43,19 @@ class FilterByCategoryActivity : AppCompatActivity() {
             insets
         }
 
+        val sessionManager = SessionManager.getInstance(this)
+        if (!sessionManager.isLoggedIn()) {
+            // Redirect to login or show a message
+            finish()
+            startActivity(Intent(this, Login::class.java))
+            return
+        }
+        currentUser = sessionManager.getCurrentUser()
+
         // Initialize database and services
-        transactionDao = SpendySenseDatabase.getDatabase(this).transactionDao()
+        //transactionDao = SpendySenseDatabase.getDatabase(this).transactionDao()
         categoryDao = SpendySenseDatabase.getDatabase(this).categoryDao()
-        sessionManager = SessionManager.getInstance(this)
+        //sessionManager = SessionManager.getInstance(this)
 
         // Setup RecyclerView
         setupRecyclerView()
@@ -63,14 +73,11 @@ class FilterByCategoryActivity : AppCompatActivity() {
 
     private fun loadUserData() {
         lifecycleScope.launch {
-            currentUser = sessionManager.getCurrentUser()
-            currentUser?.let { user ->
-                loadTransactionsAndCategories(user.id)
-            }
+            currentUser?.let { loadTransactionsAndCategories(it.uid) }
         }
     }
 
-    private suspend fun loadTransactionsAndCategories(userId: Int) {
+    private suspend fun loadTransactionsAndCategories(userId: String) {
         val transactions = withContext(Dispatchers.IO) {
             transactionDao.getUsersTransactions(userId)
         }
@@ -132,7 +139,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
         lifecycleScope.launch {
                 val transactions = withContext(Dispatchers.IO) {
                     transactionDao.getTransactionsByCategory(
-                        currentUser?.id ?: 0,
+                        currentUser?.uid ?: "",
                         categoryId
                     )
                 }

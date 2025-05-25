@@ -5,21 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.TransactionAdapter
-import com.example.spendysenseapp.Login
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
-import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.RoomDB.TransactionsDao
-import com.example.spendysenseapp.RoomDB.UserDao
-import com.example.spendysenseapp.RoomDB.Users
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.FragmentHomeBinding
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,15 +26,17 @@ import java.util.Locale
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var currentUser : Users
-    private val transactionsDao: TransactionsDao by lazy {
-        SpendySenseDatabase.getDatabase(requireContext()).transactionDao()
-    }
+    //private lateinit var currentUser : Users
+//    private val transactionsDao: TransactionsDao by lazy {
+//        SpendySenseDatabase.getDatabase(requireContext()).transactionDao()
+//    }
 
-    private val usersDao: UserDao by lazy {
-        SpendySenseDatabase.getDatabase(requireContext()).userDao()
-    }
+//    private val usersDao: UserDao by lazy {
+//        SpendySenseDatabase.getDatabase(requireContext()).userDao()
+//    }
     private lateinit var sessionManager : SessionManager
+    //make global current user item
+    private lateinit var currentUser: FirebaseUser
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -54,6 +52,20 @@ class HomeFragment : Fragment() {
         val homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
+        //instantiate it and populate it
+        sessionManager = SessionManager.getInstance(requireContext())
+        lifecycleScope.launch {
+            currentUser = sessionManager.getCurrentUser()!!
+            if (currentUser == null) {
+                Toast.makeText(
+                    requireContext(),
+                    "Session expired. Please log in again.",
+                    Toast.LENGTH_LONG
+                ).show()
+                // Optionally redirect to login screen here
+                return@launch
+            }
+        }
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         return root
@@ -62,27 +74,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sessionManager = SessionManager.getInstance(requireContext())
-
-        setupRecyclerView()
-        setCurrentMonth()
-        changeLinearLayout()
-
-
         lifecycleScope.launch {
-            val user = sessionManager.getCurrentUser()
-            if (user == null) {
-                Toast.makeText(requireContext(), "Session expired. Please log in again.", Toast.LENGTH_LONG).show()
-                // Optionally redirect to login screen here
-                return@launch
-            }
-
-            currentUser = user
-
-            fillValues()
-            loadTransactionData()
-            setMonthlyGoal()
-            setTextViewForGoals()
+            setupRecyclerView()
+            setCurrentMonth()
+            changeLinearLayout()
+//            fillValues()
+//            loadTransactionData()
+//            setMonthlyGoal()
+//            setTextViewForGoals()
         }
     }
 
@@ -109,18 +108,22 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun loadTransactionData(){
-        lifecycleScope.launch {
-            val transactions = withContext(Dispatchers.IO){
-                transactionsDao.getFiveTransactions(currentUser.id).also {
-                    Log.d("TRANSACTIONS", "Fetched: ${it.size} items")
-                }
-            }
-            withContext(Dispatchers.Main) {
-                transactionAdapter.updateData(transactions)
-            }
-        }
-    }
+//    private fun loadTransactionData(){
+//        lifecycleScope.launch {
+//            val transactions = withContext(Dispatchers.IO){
+//                currentUser.let {
+//                    transactionsDao.getFiveTransactions(it.uid).also {
+//                        Log.d("TRANSACTIONS", "Fetched: ${it.size} items")
+//                    }
+//                }
+//            }
+//            withContext(Dispatchers.Main) {
+//                if (transactions != null) {
+//                    transactionAdapter.updateData(transactions)
+//                }
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -142,73 +145,72 @@ class HomeFragment : Fragment() {
         return currentYearMonth
     }
 
-    private suspend fun fillValues(){
-        val transactions = withContext(Dispatchers.IO) {
-            transactionsDao.getUserTransactionSortedByMonth(currentUser.id, getCurrentYearMonth())
-        }
+//    private suspend fun fillValues(){
+//        val transactions = withContext(Dispatchers.IO) {
+//            transactionsDao.getUserTransactionSortedByMonth(currentUser.uid, getCurrentYearMonth())
+//        }
+//
+//        var totalIncome = 0.0
+//        var totalExpense = 0.0
+//
+//        transactions.forEach { transaction ->
+//            when(transaction.type) {
+//                "income" -> totalIncome += transaction.amount
+//                "expense" -> totalExpense += transaction.amount
+//            }
+//        }
+//        val balance = totalIncome - totalExpense
+//
+//        withContext(Dispatchers.Main) {
+//            binding.balanceValueTv.text = "%.2f".format(balance)
+//            binding.incomeValueTv.text = "%.2f".format(totalIncome)
+//            binding.expenseValueTv.text = "%.2f".format(totalExpense)
+//        }
+//    }
 
-        var totalIncome = 0.0
-        var totalExpense = 0.0
+//    private fun setMonthlyGoal(){
+//        binding.setMinimumGoalBtn.setOnClickListener{
+//            if(binding.minimumMonthlyGoalEt.text.toString().equals("")){
+//                Toast.makeText(requireContext(), "No value entered", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//            val minGoal = binding.minimumMonthlyGoalEt.text.toString()
+//            lifecycleScope.launch {
+//                val user = usersDao.getUser(currentUser.id).apply{
+//                    minimumGoal = minGoal.toDouble()
+//                }
+//                usersDao.updateUser(user)
+//            }
+//            binding.minimumMonthlyGoalEt.text.clear()
+//            binding.minimumMonthlyGoalTv.text = "Min: R${minGoal}"
+//            Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
+//        }
+//        binding.setMaximumGoalBtn.setOnClickListener{
+//            if(binding.maximumMonthlyGoalEt.text.toString().equals("")){
+//                Toast.makeText(requireContext(), "No value entered", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//            val maxGoal = binding.maximumMonthlyGoalEt.text.toString()
+//            lifecycleScope.launch {
+//                val user = usersDao.getUser(currentUser.id).apply{
+//                    maximumGoal = maxGoal.toDouble()
+//                }
+//                usersDao.updateUser(user)
+//            }
+//            binding.maximumMonthlyGoalEt.text.clear()
+//            binding.maximumMonthlyGoalTv.text = "Max: R${maxGoal}"
+//            Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
-        transactions.forEach { transaction ->
-            when(transaction.type) {
-                "income" -> totalIncome += transaction.amount
-                "expense" -> totalExpense += transaction.amount
-            }
-        }
-        val balance = totalIncome - totalExpense
-
-        withContext(Dispatchers.Main) {
-            binding.balanceValueTv.text = "%.2f".format(balance)
-            binding.incomeValueTv.text = "%.2f".format(totalIncome)
-            binding.expenseValueTv.text = "%.2f".format(totalExpense)
-        }
-    }
-
-    private fun setMonthlyGoal(){
-        binding.setMinimumGoalBtn.setOnClickListener{
-            if(binding.minimumMonthlyGoalEt.text.toString().equals("")){
-                Toast.makeText(requireContext(), "No value entered", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            val minGoal = binding.minimumMonthlyGoalEt.text.toString()
-            lifecycleScope.launch {
-                val user = usersDao.getUser(currentUser.id).apply{
-                    minimumGoal = minGoal.toDouble()
-                }
-                usersDao.updateUser(user)
-            }
-            binding.minimumMonthlyGoalEt.text.clear()
-            binding.minimumMonthlyGoalTv.text = "Min: R${minGoal}"
-            Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
-        }
-        binding.setMaximumGoalBtn.setOnClickListener{
-            if(binding.maximumMonthlyGoalEt.text.toString().equals("")){
-                Toast.makeText(requireContext(), "No value entered", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            val maxGoal = binding.maximumMonthlyGoalEt.text.toString()
-            lifecycleScope.launch {
-                val user = usersDao.getUser(currentUser.id).apply{
-                    maximumGoal = maxGoal.toDouble()
-                }
-                usersDao.updateUser(user)
-            }
-            binding.maximumMonthlyGoalEt.text.clear()
-            binding.maximumMonthlyGoalTv.text = "Max: R${maxGoal}"
-            Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun setTextViewForGoals(){
-        lifecycleScope.launch {
-            val user = usersDao.getUser(currentUser.id)
-            if(user.minimumGoal != 0.0){
-                binding.minimumMonthlyGoalTv.text = "Min: R${user.minimumGoal}"
-            }
-            if(user.maximumGoal != 0.0){
-                binding.maximumMonthlyGoalTv.text = "Max: R${user.maximumGoal}"
-            }
-        }
-    }
+//    private fun setTextViewForGoals(){
+//        lifecycleScope.launch {
+//            if(currentUser.minimumGoal != 0.0){
+//                binding.minimumMonthlyGoalTv.text = "Min: R${currentUser.minimumGoal}"
+//            }
+//            if(currentUser.maximumGoal != 0.0){
+//                binding.maximumMonthlyGoalTv.text = "Max: R${currentUser.maximumGoal}"
+//            }
+//        }
+//    }
 }

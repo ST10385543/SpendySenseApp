@@ -1,6 +1,5 @@
 package com.example.spendysenseapp.Adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Transaction
-import com.example.spendysenseapp.TransactionDetailsActivity
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 class TransactionAdapter(private var transactionList: MutableList<Transaction>) :
@@ -41,14 +37,14 @@ class TransactionAdapter(private var transactionList: MutableList<Transaction>) 
         holder.transactionAmount.text = "%.2f".format(transaction.amount)
         holder.viewButton.setOnClickListener {
             val context = holder.itemView.context
-            val intent = Intent(context, TransactionDetailsActivity::class.java).apply {
-                putExtra("TRANSACTION_ID", transaction.id)
-            }
-            context.startActivity(intent)
+//            val intent = Intent(context, TransactionDetailsActivity::class.java).apply {
+//                putExtra("TRANSACTION_ID", transaction.id)
+//            }
+//            context.startActivity(intent)
         }
     }
 
-    private fun formatDate(date: Date): String {
+    private fun formatDate(date: Long): String {
         return dateFormatter.format(date)
     }
 

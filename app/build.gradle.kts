@@ -1,6 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
     kotlin("kapt")
 }
 
@@ -55,6 +56,10 @@ dependencies {
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.activity)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.database.ktx)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,5 +69,18 @@ dependencies {
     kapt("androidx.room:room-compiler:2.7.1")
     implementation("androidx.room:room-ktx:2.7.1")
     implementation ("com.google.android.material:material:1.10.0")
+
+    //Firebase dependencies
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+
+    implementation("com.google.firebase:firebase-auth")
+
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    //implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+
+    //gson
+    implementation("com.google.code.gson:gson:2.10.1")
+
 
 }

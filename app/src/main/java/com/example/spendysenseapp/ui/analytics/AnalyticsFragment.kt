@@ -40,7 +40,6 @@ class AnalyticsFragment : Fragment() {
 
     private fun startFilterByCategoryActivities(){
         val intent = Intent(requireActivity(), FilterByCategoryActivity::class.java)
-
         startActivity(intent)
     }
 }
