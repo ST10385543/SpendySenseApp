@@ -27,9 +27,9 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     //private lateinit var currentUser : Users
-    private val transactionsDao: TransactionsDao by lazy {
-        SpendySenseDatabase.getDatabase(requireContext()).transactionDao()
-    }
+//    private val transactionsDao: TransactionsDao by lazy {
+//        SpendySenseDatabase.getDatabase(requireContext()).transactionDao()
+//    }
 
 //    private val usersDao: UserDao by lazy {
 //        SpendySenseDatabase.getDatabase(requireContext()).userDao()
@@ -78,8 +78,8 @@ class HomeFragment : Fragment() {
             setupRecyclerView()
             setCurrentMonth()
             changeLinearLayout()
-            fillValues()
-            loadTransactionData()
+//            fillValues()
+//            loadTransactionData()
 //            setMonthlyGoal()
 //            setTextViewForGoals()
         }
@@ -108,22 +108,22 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun loadTransactionData(){
-        lifecycleScope.launch {
-            val transactions = withContext(Dispatchers.IO){
-                currentUser.let {
-                    transactionsDao.getFiveTransactions(it.uid).also {
-                        Log.d("TRANSACTIONS", "Fetched: ${it.size} items")
-                    }
-                }
-            }
-            withContext(Dispatchers.Main) {
-                if (transactions != null) {
-                    transactionAdapter.updateData(transactions)
-                }
-            }
-        }
-    }
+//    private fun loadTransactionData(){
+//        lifecycleScope.launch {
+//            val transactions = withContext(Dispatchers.IO){
+//                currentUser.let {
+//                    transactionsDao.getFiveTransactions(it.uid).also {
+//                        Log.d("TRANSACTIONS", "Fetched: ${it.size} items")
+//                    }
+//                }
+//            }
+//            withContext(Dispatchers.Main) {
+//                if (transactions != null) {
+//                    transactionAdapter.updateData(transactions)
+//                }
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -145,28 +145,28 @@ class HomeFragment : Fragment() {
         return currentYearMonth
     }
 
-    private suspend fun fillValues(){
-        val transactions = withContext(Dispatchers.IO) {
-            transactionsDao.getUserTransactionSortedByMonth(currentUser.uid, getCurrentYearMonth())
-        }
-
-        var totalIncome = 0.0
-        var totalExpense = 0.0
-
-        transactions.forEach { transaction ->
-            when(transaction.type) {
-                "income" -> totalIncome += transaction.amount
-                "expense" -> totalExpense += transaction.amount
-            }
-        }
-        val balance = totalIncome - totalExpense
-
-        withContext(Dispatchers.Main) {
-            binding.balanceValueTv.text = "%.2f".format(balance)
-            binding.incomeValueTv.text = "%.2f".format(totalIncome)
-            binding.expenseValueTv.text = "%.2f".format(totalExpense)
-        }
-    }
+//    private suspend fun fillValues(){
+//        val transactions = withContext(Dispatchers.IO) {
+//            transactionsDao.getUserTransactionSortedByMonth(currentUser.uid, getCurrentYearMonth())
+//        }
+//
+//        var totalIncome = 0.0
+//        var totalExpense = 0.0
+//
+//        transactions.forEach { transaction ->
+//            when(transaction.type) {
+//                "income" -> totalIncome += transaction.amount
+//                "expense" -> totalExpense += transaction.amount
+//            }
+//        }
+//        val balance = totalIncome - totalExpense
+//
+//        withContext(Dispatchers.Main) {
+//            binding.balanceValueTv.text = "%.2f".format(balance)
+//            binding.incomeValueTv.text = "%.2f".format(totalIncome)
+//            binding.expenseValueTv.text = "%.2f".format(totalExpense)
+//        }
+//    }
 
 //    private fun setMonthlyGoal(){
 //        binding.setMinimumGoalBtn.setOnClickListener{

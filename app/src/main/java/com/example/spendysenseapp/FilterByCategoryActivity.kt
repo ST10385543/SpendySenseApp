@@ -53,7 +53,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
         currentUser = sessionManager.getCurrentUser()
 
         // Initialize database and services
-        transactionDao = SpendySenseDatabase.getDatabase(this).transactionDao()
+        //transactionDao = SpendySenseDatabase.getDatabase(this).transactionDao()
         categoryDao = SpendySenseDatabase.getDatabase(this).categoryDao()
         //sessionManager = SessionManager.getInstance(this)
 

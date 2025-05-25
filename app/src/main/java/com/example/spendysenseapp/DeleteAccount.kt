@@ -35,7 +35,7 @@ class DeleteAccount : AppCompatActivity() {
 
             lifecycleScope.launch {
                 val userDao = SpendySenseDatabase.getDatabase(applicationContext).userDao()
-                val transactionDao = SpendySenseDatabase.getDatabase(applicationContext).transactionDao()
+                //val transactionDao = SpendySenseDatabase.getDatabase(applicationContext).transactionDao()
 
                 verifyPassword(enteredPassword) {isCorrect ->
 

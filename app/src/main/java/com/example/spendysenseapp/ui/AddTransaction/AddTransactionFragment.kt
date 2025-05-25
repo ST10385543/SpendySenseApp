@@ -2,10 +2,13 @@ package com.example.spendysenseapp.ui.AddTransaction
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +25,23 @@ import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.CategoriesDao
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.Transaction
+import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
+import com.example.spendysenseapp.Services.StorageService
 import com.example.spendysenseapp.databinding.FragmentAddTransactionBinding
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+//import com.google.firebase.database.database
+import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.zip.Deflater
 
 class AddTransactionFragment : Fragment() {
 
@@ -43,6 +56,9 @@ class AddTransactionFragment : Fragment() {
     private var selectedCategoryId: Int? = null
     private var selectedImageBytes: ByteArray? = null
     private var transactionType: String? = null
+
+    //firestore db
+//    private var firedb = Firebase.firestore
 
     private val calculatorLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -62,9 +78,12 @@ class AddTransactionFragment : Fragment() {
         if (result.resultCode == Activity.RESULT_OK) {
             val uri = result.data?.data
             uri?.let {
-                val bytes = uriToByteArray(it)
-                selectedImageBytes = bytes
-                val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                // Get compressed bytes directly
+                val compressedBytes = uriToCompressedByteArray(it, maxSizeKB = 300) // Target ~300KB
+                selectedImageBytes = compressedBytes
+
+                // Preview (optional: decode if needed)
+                val bitmap = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.size)
                 binding.imgPreview.setImageBitmap(bitmap)
             }
         }
@@ -147,6 +166,7 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun saveTransaction() {
+
         val name = binding.edtTransactionName.text.toString().trim()
         val amountStr = binding.edtAmount.text.toString().trim()
 
@@ -172,30 +192,54 @@ class AddTransactionFragment : Fragment() {
                 }
                 return@launch
             }
-        }
 
+            val transactionId = "Transaction${UUID.randomUUID().toString().substring(0, 8)}_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
+            var imageUrl = ""
 
-        val transaction = currentUser?.let {
-            Transaction(
+            // Upload image if selected
+            selectedImageBytes?.let { imageBytes ->
+                val storageService = StorageService()
+                val imagePath = "transactions/$transactionId.jpg"
+                imageUrl = storageService.uploadFile(imagePath, imageBytes)
+            }
+            // Prepare Transaction object
+            val transaction = Transaction(
+                id = transactionId,
                 name = name,
                 categoryId = selectedCategoryId!!,
                 amount = amount,
                 type = transactionType!!,
-                DateCreated = Date(),
-                UserID = it.uid,
-                receiptImage = selectedImageBytes
+                DateCreated = System.currentTimeMillis(),
+                UserID = currentUser?.uid ?: "",
+                receiptImage = imageUrl
             )
+
+            // Upload to Firestore
+            val firestoreService = FirestoreService("transactions", Transaction::class.java)
+            try {
+                firestoreService.add(transactionId, transaction)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Transaction saved", Toast.LENGTH_SHORT).show()
+                    resetForm()
+                }
+            } catch (e: Exception) {
+                Log.w("TransactionAddingFailed", "Error writing document", e)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Failed to save transaction", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            if (transaction != null) {
-                db.transactionDao().insertTransaction(transaction)
-            }
-            withContext(Dispatchers.Main) {
-                Toast.makeText(requireContext(), "Transaction saved", Toast.LENGTH_SHORT).show()
-                resetForm()
-            }
-        }
+//        firedb.collection("transactions").document("Transaction${UUID.randomUUID().toString().substring(0, 8)}_${date}")
+//            //use add if you dont wanna specify the name of the document
+//            .set(transaction)
+//            .addOnSuccessListener {
+//                //loggin to show testing
+//                Log.d("TransactionAddingSuccessful", "Transaction successfully created")
+//                Toast.makeText(requireContext(), "Transaction saved", Toast.LENGTH_SHORT).show()
+//                resetForm()
+//            }
+//            .addOnFailureListener { e -> Log.w("TransactionAddingFailed", "Error writing document", e) }
     }
 
     private fun resetForm() {
@@ -210,10 +254,58 @@ class AddTransactionFragment : Fragment() {
         binding.btnExpense.setElevation(0f)
     }
 
-    private fun uriToByteArray(uri: Uri): ByteArray {
-        return requireContext().contentResolver.openInputStream(uri)?.use {
-            it.readBytes()
+    private fun uriToCompressedByteArray(uri: Uri, maxSizeKB: Int = 500): ByteArray {
+        return requireContext().contentResolver.openInputStream(uri)?.use { inputStream ->
+            // 1. Read original bytes
+            val originalBytes = inputStream.readBytes()
+
+            // 2. Compress if too large (e.g., >500KB)
+            if (originalBytes.size > maxSizeKB * 1024) {
+                compressByteArray(originalBytes) // Apply compression (see next step)
+            } else {
+                originalBytes // Already small enough
+            }
         } ?: ByteArray(0)
+    }
+
+    // Helper: Compress ByteArray (lossy for JPEG/WEBP, lossless for PNG)
+    private fun compressByteArray(data: ByteArray, quality: Int = 80): ByteArray {
+        val outputStream = ByteArrayOutputStream()
+
+        // Detect image type (simplified; assumes JPEG/WEBP/PNG)
+        val isLikelyJpegOrWebP = data.size > 1024 && data[0] == 0xFF.toByte()
+
+        if (isLikelyJpegOrWebP) {
+            // Lossy recompression for JPEG/WEBP
+            val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
+            bitmap.compress(Bitmap.CompressFormat.WEBP, quality, outputStream)
+            bitmap.recycle()
+        } else {
+            // Lossless for PNG (or unknown formats)
+            val deflater = Deflater(Deflater.BEST_COMPRESSION)
+            deflater.setInput(data)
+            deflater.finish()
+            val buffer = ByteArray(1024)
+            while (!deflater.finished()) {
+                val count = deflater.deflate(buffer)
+                outputStream.write(buffer, 0, count)
+            }
+            deflater.end()
+        }
+        return outputStream.toByteArray()
+    }
+
+    //gotten from Deepseek AI. 2025. How to compress an image to store before inserting, 24 May 2025. [Online]. [Accessed 24 May 2025]
+    fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        val aspectRatio = bitmap.width.toFloat() / bitmap.height.toFloat()
+        val (newWidth, newHeight) = if (aspectRatio > 1) {
+            // Landscape
+            maxWidth to (maxWidth / aspectRatio).toInt()
+        } else {
+            // Portrait
+            (maxHeight * aspectRatio).toInt() to maxHeight
+        }
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
     }
 
     private fun selectIncomeType() {

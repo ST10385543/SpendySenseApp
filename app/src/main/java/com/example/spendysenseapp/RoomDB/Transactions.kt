@@ -2,8 +2,6 @@ package com.example.spendysenseapp.RoomDB
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
-import java.util.Date
 
 
 @Entity(
@@ -16,18 +14,18 @@ import java.util.Date
     )]
 )
 data class Transaction(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val id: String,
     val name: String,
     val categoryId: Int,
     val amount: Double,
     val type: String,// income / expense
 
     //New entity
-    val DateCreated: Date,
+    val DateCreated: Long,
 
     //Newer Entity
     val UserID: String,
 
     //New Entity
-    val receiptImage: ByteArray? = null // <- new field for image
+    val receiptImage: String// <- new field for image
 )
