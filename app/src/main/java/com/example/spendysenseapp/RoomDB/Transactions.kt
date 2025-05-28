@@ -16,7 +16,7 @@ import androidx.room.ForeignKey
 data class Transaction(
     val id: String,
     val name: String,
-    val categoryId: Int,
+    val categoryId: String,
     val amount: Double,
     val type: String,// income / expense
 

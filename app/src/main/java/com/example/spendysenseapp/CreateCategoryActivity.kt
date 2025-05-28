@@ -2,18 +2,28 @@ package com.example.spendysenseapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import com.example.spendysenseapp.RoomDB.Categories
 import com.example.spendysenseapp.RoomDB.CategoriesDao
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
+import com.example.spendysenseapp.RoomDB.Transaction
+import com.example.spendysenseapp.Services.FirestoreService
+import com.example.spendysenseapp.Services.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 class CreateCategoryActivity : AppCompatActivity() {
 
@@ -40,14 +50,14 @@ class CreateCategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_category)
 
+        val sessionManager = SessionManager.getInstance(this)
+        val currentUser = sessionManager.getCurrentUser()
+
         imgIcon = findViewById(R.id.imgIcon)
         edtCategoryName = findViewById(R.id.edtCategoryName)
 
         val btnSelectIcon = findViewById<Button>(R.id.btnSelectIcon)
         val btnSaveCategory = findViewById<Button>(R.id.btnCreateCategory)
-
-        db = SpendySenseDatabase.getDatabase(this)
-        categoryDao = db.categoryDao()
 
         btnSelectIcon.setOnClickListener {
             val intent = Intent(this, SelectIconActivity::class.java)
@@ -69,16 +79,28 @@ class CreateCategoryActivity : AppCompatActivity() {
 
             val iconPath = selectedIconResId.toString()
 
+            val categoryId = "Category${UUID.randomUUID().toString().substring(0, 8)}_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
+
             val newCategory = Categories(
+                id = categoryId,
                 CategoryName = categoryName,
-                iconImgPath = iconPath
+                iconImgPath = iconPath,
+                userId = currentUser?.uid ?: ""
             )
 
-            lifecycleScope.launch(Dispatchers.IO) {
-                categoryDao.insertCategory(newCategory)
-                runOnUiThread {
-                    Toast.makeText(this@CreateCategoryActivity, "Category saved", Toast.LENGTH_SHORT).show()
-                    finish() // Optionally close the activity
+            val firestoreService = FirestoreService("categories", Categories::class.java)
+            lifecycleScope.launch {
+                try {
+                    firestoreService.add(categoryId, newCategory)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(applicationContext, "Category saved", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                } catch (e: Exception) {
+                    Log.w("CategoryAddingFailed", "Error creating category", e)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(applicationContext, "Failed to create category", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
