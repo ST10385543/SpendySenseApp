@@ -192,7 +192,7 @@ class AddTransactionFragment : Fragment() {
                 return@launch
             }
 
-            val transactionId = "Transaction${UUID.randomUUID().toString().substring(0, 8)}_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
+            val transactionId = "Transaction_${UUID.randomUUID().toString().substring(0, 8)}_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
             var imageUrl = ""
 
             selectedImageBytes?.let { imageBytes ->
@@ -252,7 +252,7 @@ class AddTransactionFragment : Fragment() {
             val originalBytes = inputStream.readBytes()
 
             // 2. Compress if too large (e.g., >500KB)
-            if (originalBytes.size > maxSizeKB * 1024) {
+            if (originalBytes.size > maxSizeKB * 5120) {
                 compressByteArray(originalBytes) // Apply compression (see next step)
             } else {
                 originalBytes // Already small enough
@@ -265,7 +265,7 @@ class AddTransactionFragment : Fragment() {
         val outputStream = ByteArrayOutputStream()
 
         // Detect image type (simplified; assumes JPEG/WEBP/PNG)
-        val isLikelyJpegOrWebP = data.size > 1024 && data[0] == 0xFF.toByte()
+        val isLikelyJpegOrWebP = data.size > 5120 && data[0] == 0xFF.toByte()
 
         if (isLikelyJpegOrWebP) {
             // Lossy recompression for JPEG/WEBP

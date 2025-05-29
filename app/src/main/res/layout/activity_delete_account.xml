@@ -20,30 +20,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Account ?"
+        android:layout_marginLeft="10dp"
         android:textColor="#F6F4F4"
         android:textSize="40sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155" />
+        android:textStyle="bold" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="369dp"
         android:layout_height="291dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="162dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="56dp"
-        android:background="@drawable/monthlygoalshape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.213">
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:background="@drawable/monthlygoalshape">
 
         <TextView
             android:id="@+id/Clarity"
@@ -55,29 +43,21 @@
             android:textAlignment="center"
             android:textColor="#FAF8F8"
             android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:padding="10dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/Warning"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:gravity="center"
-            android:text="Warning: It may reduce your
-budgeting efforts by 100%
-(We checked)"
+            android:text="Warning: It may reduce your budgeting efforts by 100% (We checked)"
             android:textAlignment="center"
-            android:textColor="#C72424"
+            android:textColor="@color/design_default_color_error"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:padding="10dp"/>
     </FrameLayout>
 
     <TextView
@@ -86,43 +66,39 @@ budgeting efforts by 100%
         android:layout_height="wrap_content"
         android:text="Enter current password to confirm"
         android:textColor="#FAF8F8"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759" />
+        android:textSize="19sp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/passwordEt"
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_white_shape"
+        android:hint="Sample password"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/deleteAccountBtn"
-        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_profile_button"
         android:backgroundTint="#D54040"
-        android:text="Delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.951" />
+        android:textColor="@color/white"
+        android:text="Delete" />
 
-    <EditText
-        android:id="@+id/passwordEt"
+    <ProgressBar
+        android:layout_marginTop="10dp"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#E6E1E1"
-        android:ems="10"
-        android:hint="Sample password"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.845" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"/>
 </LinearLayout>

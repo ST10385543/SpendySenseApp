@@ -79,7 +79,7 @@ class CreateCategoryActivity : AppCompatActivity() {
 
             val iconPath = selectedIconResId.toString()
 
-            val categoryId = "Category${UUID.randomUUID().toString().substring(0, 8)}_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
+            val categoryId = "Category_${UUID.randomUUID().toString().substring(0, 8)}_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
 
             val newCategory = Categories(
                 id = categoryId,
