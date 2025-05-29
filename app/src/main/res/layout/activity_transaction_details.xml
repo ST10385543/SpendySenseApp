@@ -133,7 +133,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:text="Transaction image: "
+                android:layout_gravity="center"
+                android:text="Uploaded image: "
                 android:textSize="18sp"
                 android:layout_margin="10dp"/>
             <ImageView
@@ -144,6 +145,15 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/noImageUploadedTv"
+                android:text="No image uploaded"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:textColor="#FF0000"/>
         </LinearLayout>
         <Button
             android:layout_width="wrap_content"

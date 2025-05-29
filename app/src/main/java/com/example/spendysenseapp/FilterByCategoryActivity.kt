@@ -73,7 +73,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
         // Fetch transactions from your FirestoreService if you have one, else keep using Room for now
         // For categories, use FirestoreService
         val categories = firestoreCategoryService.getAll()
-        val transactions = firestoreTransactionService.getAll().filter { it.UserID == userId }
+        val transactions = firestoreTransactionService.getAll().filter { it.userID == userId }
 
         withContext(Dispatchers.Main) {
             setupCategoryFilter(categories)
@@ -122,7 +122,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
             val transactions = withContext(Dispatchers.IO) {
                 val allTransactions = firestoreTransactionService.getAll()
                 allTransactions.filter {
-                    it.UserID == (currentUser?.uid ?: "") &&
+                    it.userID == (currentUser?.uid ?: "") &&
                             (categoryId == null || it.categoryId == categoryId)
                 }
             }

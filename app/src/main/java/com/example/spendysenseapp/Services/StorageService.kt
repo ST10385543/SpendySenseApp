@@ -27,6 +27,11 @@ class StorageService {
         val ref = storage.reference.child(path)
         ref.delete().await()
     }
+
+    suspend fun getDownloadUrl(path: String): String? {
+        val ref = storage.reference.child(path)
+        return ref.downloadUrl.await().toString()
+    }
 }
 
 //usage

@@ -1,5 +1,6 @@
 package com.example.spendysenseapp.Adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Transaction
+import com.example.spendysenseapp.TransactionDetailsActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -33,14 +35,14 @@ class TransactionAdapter(private var transactionList: MutableList<Transaction>) 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val transaction = transactionList[position]
         holder.transactionName.text = transaction.name
-        holder.transactionDate.text = formatDate(transaction.DateCreated)
+        holder.transactionDate.text = formatDate(transaction.dateCreated)
         holder.transactionAmount.text = "%.2f".format(transaction.amount)
         holder.viewButton.setOnClickListener {
             val context = holder.itemView.context
-//            val intent = Intent(context, TransactionDetailsActivity::class.java).apply {
-//                putExtra("TRANSACTION_ID", transaction.id)
-//            }
-//            context.startActivity(intent)
+            val intent = Intent(context, TransactionDetailsActivity::class.java).apply {
+                putExtra("TRANSACTION_ID", transaction.id)
+            }
+            context.startActivity(intent)
         }
     }
 

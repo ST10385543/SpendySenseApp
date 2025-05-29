@@ -82,5 +82,16 @@ dependencies {
     //gson
     implementation("com.google.code.gson:gson:2.10.1")
 
+    //image loading assets
+    //gotten from Bumptech. 2025. Glide: An image loading and caching library for Android focused on smooth scrolling. [Online].
+    //Avaiable at: https://github.com/bumptech/glide [Accessed 29 May 2025]
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
+
+    //gotten from Fahlteich, P. 2025. SkeletonLayout: Skeleton view pattern for Android, Github. [Online].
+    //Avaiable at: https://github.com/Faltenreich/SkeletonLayout [Accessed 29 May 2025]
+    implementation("com.faltenreich:skeletonlayout:6.0.0")
+
+
 
 }

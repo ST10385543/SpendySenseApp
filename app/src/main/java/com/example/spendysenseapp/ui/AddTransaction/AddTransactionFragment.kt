@@ -203,8 +203,8 @@ class AddTransactionFragment : Fragment() {
                 categoryId = selectedCategoryId!!,
                 amount = amount,
                 type = transactionType!!,
-                DateCreated = System.currentTimeMillis(),
-                UserID = currentUser?.uid ?: "",
+                dateCreated = System.currentTimeMillis(),
+                userID = currentUser?.uid ?: "",
                 receiptImage = imageUrl
             )
 
