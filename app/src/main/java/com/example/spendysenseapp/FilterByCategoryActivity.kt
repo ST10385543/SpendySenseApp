@@ -12,10 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.TransactionAdapter
 import com.example.spendysenseapp.RoomDB.Categories
-import com.example.spendysenseapp.RoomDB.CategoriesDao
-import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.Transaction
-import com.example.spendysenseapp.RoomDB.TransactionsDao
+import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.ActivityFilterByCategoryBinding
 import com.google.android.material.chip.Chip
@@ -27,10 +25,12 @@ import kotlinx.coroutines.withContext
 class FilterByCategoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFilterByCategoryBinding
     private lateinit var transactionAdapter: TransactionAdapter
-    private lateinit var transactionDao: TransactionsDao
-    private lateinit var categoryDao: CategoriesDao
-    //private lateinit var sessionManager: SessionManager
+    //private lateinit var transactionDao: TransactionsDao
+    //private lateinit var categoryDao: CategoriesDao
     private var currentUser: FirebaseUser? = null
+    val firestoreTransactionService = FirestoreService("transactions", Transaction::class.java)
+    val firestoreCategoryService = FirestoreService("categories", Categories::class.java)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,19 +45,12 @@ class FilterByCategoryActivity : AppCompatActivity() {
 
         val sessionManager = SessionManager.getInstance(this)
         if (!sessionManager.isLoggedIn()) {
-            // Redirect to login or show a message
             finish()
             startActivity(Intent(this, Login::class.java))
             return
         }
         currentUser = sessionManager.getCurrentUser()
 
-        // Initialize database and services
-        //transactionDao = SpendySenseDatabase.getDatabase(this).transactionDao()
-        categoryDao = SpendySenseDatabase.getDatabase(this).categoryDao()
-        //sessionManager = SessionManager.getInstance(this)
-
-        // Setup RecyclerView
         setupRecyclerView()
     }
 
@@ -67,7 +60,6 @@ class FilterByCategoryActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@FilterByCategoryActivity)
             adapter = transactionAdapter
         }
-
         loadUserData()
     }
 
@@ -78,17 +70,10 @@ class FilterByCategoryActivity : AppCompatActivity() {
     }
 
     private suspend fun loadTransactionsAndCategories(userId: String) {
-        val transactions = withContext(Dispatchers.IO) {
-            transactionDao.getUsersTransactions(userId)
-        }
-
-        val categoryIds = transactions
-            .map { it.categoryId }
-            .distinct()
-
-        val categories = withContext(Dispatchers.IO) {
-            categoryDao.getCategoriesByIds(categoryIds)
-        }
+        // Fetch transactions from your FirestoreService if you have one, else keep using Room for now
+        // For categories, use FirestoreService
+        val categories = firestoreCategoryService.getAll()
+        val transactions = firestoreTransactionService.getAll().filter { it.userID == userId }
 
         withContext(Dispatchers.Main) {
             setupCategoryFilter(categories)
@@ -100,17 +85,14 @@ class FilterByCategoryActivity : AppCompatActivity() {
     private fun setupCategoryFilter(categories: List<Categories>) {
         binding.categoryChipGroup.removeAllViews()
 
-        binding.categoryChipGroup.addView(createChip("All Categories", true))
-
-        // Add category chips
         val allChip = createChip("All Categories", true).apply {
             setOnClickListener {
-                filterTransactions(-1)
+                filterTransactions(null)
             }
         }
         binding.categoryChipGroup.addView(allChip)
 
-        categories.forEachIndexed { index, category ->
+        categories.forEach { category ->
             val chip = createChip(category.CategoryName, false).apply {
                 setOnClickListener {
                     filterTransactions(category.id)
@@ -135,18 +117,19 @@ class FilterByCategoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun filterTransactions(categoryId: Int) {
+    private fun filterTransactions(categoryId: String?) {
         lifecycleScope.launch {
-                val transactions = withContext(Dispatchers.IO) {
-                    transactionDao.getTransactionsByCategory(
-                        currentUser?.uid ?: "",
-                        categoryId
-                    )
+            val transactions = withContext(Dispatchers.IO) {
+                val allTransactions = firestoreTransactionService.getAll()
+                allTransactions.filter {
+                    it.userID == (currentUser?.uid ?: "") &&
+                            (categoryId == null || it.categoryId == categoryId)
                 }
-                withContext(Dispatchers.Main) {
-                    updateTransactionList(transactions)
-                    updateCategoryTotal(transactions)
-                }
+            }
+            withContext(Dispatchers.Main) {
+                updateTransactionList(transactions)
+                updateCategoryTotal(transactions)
+            }
         }
     }
 

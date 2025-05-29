@@ -31,6 +31,12 @@ class FirestoreService<T : Any>(
     suspend fun delete(documentId: String) {
         collection.document(documentId).delete().await()
     }
+
+    //checks if a document exists
+    suspend fun exists(documentId: String): Boolean {
+        val snapshot = collection.document(documentId).get().await()
+        return snapshot.exists()
+    }
 }
 
 //val transactionService = FirestoreService("transactions", Transaction::class.java)

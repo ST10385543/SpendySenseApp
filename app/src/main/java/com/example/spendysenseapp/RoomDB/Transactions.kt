@@ -14,18 +14,18 @@ import androidx.room.ForeignKey
     )]
 )
 data class Transaction(
-    val id: String,
-    val name: String,
-    val categoryId: Int,
-    val amount: Double,
-    val type: String,// income / expense
+    val id: String = "",
+    val name: String = "",
+    val categoryId: String = "",
+    val amount: Double = 0.0,
+    val type: String = "",// income / expense
 
     //New entity
-    val DateCreated: Long,
+    val dateCreated: Long = 0L,
 
     //Newer Entity
-    val UserID: String,
+    val userID: String = "",
 
     //New Entity
-    val receiptImage: String// <- new field for image
+    val receiptImage: String = ""// <- new field for image
 )

@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.spendysenseapp.CalculatorActivity
 import com.example.spendysenseapp.CreateCategoryActivity
 import com.example.spendysenseapp.R
+import com.example.spendysenseapp.RoomDB.Categories
 import com.example.spendysenseapp.RoomDB.CategoriesDao
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.Transaction
@@ -29,12 +29,8 @@ import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.Services.StorageService
 import com.example.spendysenseapp.databinding.FragmentAddTransactionBinding
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 //import com.google.firebase.database.database
-import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -53,7 +49,7 @@ class AddTransactionFragment : Fragment() {
     private lateinit var categoryDao: CategoriesDao
     private lateinit var sessionManager : SessionManager
 
-    private var selectedCategoryId: Int? = null
+    private var selectedCategoryId: String? = null
     private var selectedImageBytes: ByteArray? = null
     private var transactionType: String? = null
 
@@ -88,7 +84,6 @@ class AddTransactionFragment : Fragment() {
             }
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -143,8 +138,9 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun loadCategoriesIntoSpinner() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val categories = categoryDao.getAllCategories()
+        lifecycleScope.launch {
+            val firestoreService = FirestoreService("categories", Categories::class.java)
+            val categories = firestoreService.getAll().filter { it.userId == (currentUser?.uid ?: "") }
             withContext(Dispatchers.Main) {
                 val categoryNames = categories.map { it.CategoryName }
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryNames)
@@ -155,9 +151,7 @@ class AddTransactionFragment : Fragment() {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         selectedCategoryId = categories.getOrNull(position)?.id
                     }
-
                     override fun onNothingSelected(parent: AdapterView<*>?) {
-                        // Handle the case where no item is selected
                         selectedCategoryId = null
                     }
                 }
@@ -183,9 +177,9 @@ class AddTransactionFragment : Fragment() {
 
         //check if category exist
         lifecycleScope.launch {
-            val catexist = withContext(Dispatchers.IO) {
-                db.categoryDao().getCategoryById(selectedCategoryId!!) != null
-            }
+            val categoryService = FirestoreService("categories", Categories::class.java)
+
+            val catexist = selectedCategoryId?.let { categoryService.exists(it) } ?: false
             if (!catexist) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, "Invalid category selected", Toast.LENGTH_SHORT).show()
@@ -209,8 +203,8 @@ class AddTransactionFragment : Fragment() {
                 categoryId = selectedCategoryId!!,
                 amount = amount,
                 type = transactionType!!,
-                DateCreated = System.currentTimeMillis(),
-                UserID = currentUser?.uid ?: "",
+                dateCreated = System.currentTimeMillis(),
+                userID = currentUser?.uid ?: "",
                 receiptImage = imageUrl
             )
 
@@ -229,17 +223,6 @@ class AddTransactionFragment : Fragment() {
                 }
             }
         }
-
-//        firedb.collection("transactions").document("Transaction${UUID.randomUUID().toString().substring(0, 8)}_${date}")
-//            //use add if you dont wanna specify the name of the document
-//            .set(transaction)
-//            .addOnSuccessListener {
-//                //loggin to show testing
-//                Log.d("TransactionAddingSuccessful", "Transaction successfully created")
-//                Toast.makeText(requireContext(), "Transaction saved", Toast.LENGTH_SHORT).show()
-//                resetForm()
-//            }
-//            .addOnFailureListener { e -> Log.w("TransactionAddingFailed", "Error writing document", e) }
     }
 
     private fun resetForm() {
@@ -254,7 +237,7 @@ class AddTransactionFragment : Fragment() {
         binding.btnExpense.setElevation(0f)
     }
 
-    private fun uriToCompressedByteArray(uri: Uri, maxSizeKB: Int = 500): ByteArray {
+    private fun uriToCompressedByteArray(uri: Uri, maxSizeKB: Int = 5120): ByteArray {
         return requireContext().contentResolver.openInputStream(uri)?.use { inputStream ->
             // 1. Read original bytes
             val originalBytes = inputStream.readBytes()
@@ -293,19 +276,6 @@ class AddTransactionFragment : Fragment() {
             deflater.end()
         }
         return outputStream.toByteArray()
-    }
-
-    //gotten from Deepseek AI. 2025. How to compress an image to store before inserting, 24 May 2025. [Online]. [Accessed 24 May 2025]
-    fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
-        val aspectRatio = bitmap.width.toFloat() / bitmap.height.toFloat()
-        val (newWidth, newHeight) = if (aspectRatio > 1) {
-            // Landscape
-            maxWidth to (maxWidth / aspectRatio).toInt()
-        } else {
-            // Portrait
-            (maxHeight * aspectRatio).toInt() to maxHeight
-        }
-        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
     }
 
     private fun selectIncomeType() {
