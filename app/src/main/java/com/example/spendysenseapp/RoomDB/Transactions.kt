@@ -29,3 +29,4 @@ data class Transaction(
     //New Entity
     val receiptImage: String = ""// <- new field for image
 )
+

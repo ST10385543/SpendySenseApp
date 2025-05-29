@@ -5,7 +5,7 @@ import kotlinx.coroutines.tasks.await
 
 class FirestoreService<T : Any>(
     private val collectionName: String,
-    private val clazz: Class<T>
+    private val clazz: Class<T> // didnt allow me to put class, so i put clazz...
 ) {
     private val db = FirebaseFirestore.getInstance()
     private val collection = db.collection(collectionName)

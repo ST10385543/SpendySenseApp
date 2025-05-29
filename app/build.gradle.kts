@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
     kotlin("kapt")
+
 }
 
 android {
@@ -92,6 +93,10 @@ dependencies {
     //Avaiable at: https://github.com/Faltenreich/SkeletonLayout [Accessed 29 May 2025]
     implementation("com.faltenreich:skeletonlayout:6.0.0")
 
+
+
+    // MPAndroidChart for pie chart
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 
 }
