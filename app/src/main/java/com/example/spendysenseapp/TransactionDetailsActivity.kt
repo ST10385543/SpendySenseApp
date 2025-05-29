@@ -59,6 +59,7 @@ class TransactionDetailsActivity : AppCompatActivity() {
                             .into(binding.transactionImageIv)
                     }
                 } else {
+                    //hello
                     binding.transactionImageIv.visibility = View.GONE
                     binding.noImageUploadedTv.visibility = View.VISIBLE
                 }
