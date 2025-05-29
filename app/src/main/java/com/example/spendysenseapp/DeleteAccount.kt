@@ -29,7 +29,6 @@ class DeleteAccount : AppCompatActivity() {
 
         //sessionManager = SessionManager.getInstance(applicationContext)
 
-
         binding.deleteAccountBtn.setOnClickListener {
             val enteredPassword = binding.passwordEt.text.toString()
 

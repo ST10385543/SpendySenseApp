@@ -184,5 +184,12 @@
             android:textColor="#FFFFFFFF"
             android:background="@drawable/rounded_create_button"
             android:text="Create" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
     </LinearLayout>
 </ScrollView>

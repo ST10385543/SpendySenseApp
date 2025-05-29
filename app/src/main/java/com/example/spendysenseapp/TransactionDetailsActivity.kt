@@ -11,10 +11,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.spendysenseapp.RoomDB.Categories
 import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.StorageService
 import com.example.spendysenseapp.databinding.ActivityTransactionDetailsBinding
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.applySkeleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,6 +29,10 @@ class TransactionDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTransactionDetailsBinding
     private val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
+    //gotten from Fahlteich, P. 2025. SkeletonLayout: Skeleton view pattern for Android, Github. [Online].
+    //Avaiable at: https://github.com/Faltenreich/SkeletonLayout [Accessed 29 May 2025]
+    private lateinit var skeleton: Skeleton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,6 +43,10 @@ class TransactionDetailsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        skeleton = binding.transactionDetailsSkeleteon
+
+        skeleton.showSkeleton()
+
         val transactionId = intent.getStringExtra("TRANSACTION_ID") ?: ""
 
         lifecycleScope.launch {
@@ -46,10 +57,17 @@ class TransactionDetailsActivity : AppCompatActivity() {
 
             transaction?.let { it ->
                 binding.transactionNameTv.text = it.name
-                binding.transactionCategoryIdTv.text = it.categoryId
                 binding.transactionAmountTv.text = String.format(Locale.getDefault(), "%.2f", it.amount)
                 binding.transactionTypeTv.text = it.type
                 binding.transactionDateTv.text = formatDate(it.dateCreated)
+
+                val categoryService = FirestoreService("categories", Categories::class.java)
+                val category = withContext(Dispatchers.IO) {
+                    categoryService.get(transaction.categoryId)
+                }
+                withContext(Dispatchers.Main) {
+                    binding.transactionCategoryNameTv.text = category?.CategoryName ?: "Unknown Category"
+                }
 
                 if (it.receiptImage.isNotEmpty()) {
                     withContext(Dispatchers.Main) {
@@ -58,12 +76,13 @@ class TransactionDetailsActivity : AppCompatActivity() {
                             .placeholder(R.drawable.ic_launcher_foreground)
                             .into(binding.transactionImageIv)
                     }
+                    binding.noImageUploadedTv.visibility = View.GONE
                 } else {
-                    //hello
                     binding.transactionImageIv.visibility = View.GONE
                     binding.noImageUploadedTv.visibility = View.VISIBLE
                 }
             }
+            skeleton.showOriginal()
         }
         binding.backBtn.setOnClickListener {
             finish()

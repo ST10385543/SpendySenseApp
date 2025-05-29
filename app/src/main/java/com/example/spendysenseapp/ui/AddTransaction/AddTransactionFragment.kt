@@ -160,7 +160,6 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun saveTransaction() {
-
         val name = binding.edtTransactionName.text.toString().trim()
         val amountStr = binding.edtAmount.text.toString().trim()
 
@@ -175,14 +174,20 @@ class AddTransactionFragment : Fragment() {
             return
         }
 
-        //check if category exist
+        // Show progress bar and disable button
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnCreate.isEnabled = false
+        binding.btnCreate.text = "Uploading..."
+
         lifecycleScope.launch {
             val categoryService = FirestoreService("categories", Categories::class.java)
-
             val catexist = selectedCategoryId?.let { categoryService.exists(it) } ?: false
             if (!catexist) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, "Invalid category selected", Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnCreate.isEnabled = true
+                    binding.btnCreate.text = "Create"
                 }
                 return@launch
             }
@@ -190,13 +195,12 @@ class AddTransactionFragment : Fragment() {
             val transactionId = "Transaction${UUID.randomUUID().toString().substring(0, 8)}_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
             var imageUrl = ""
 
-            // Upload image if selected
             selectedImageBytes?.let { imageBytes ->
                 val storageService = StorageService()
                 val imagePath = "transactions/$transactionId.jpg"
                 imageUrl = storageService.uploadFile(imagePath, imageBytes)
             }
-            // Prepare Transaction object
+
             val transaction = Transaction(
                 id = transactionId,
                 name = name,
@@ -208,7 +212,6 @@ class AddTransactionFragment : Fragment() {
                 receiptImage = imageUrl
             )
 
-            // Upload to Firestore
             val firestoreService = FirestoreService("transactions", Transaction::class.java)
             try {
                 firestoreService.add(transactionId, transaction)
@@ -220,6 +223,12 @@ class AddTransactionFragment : Fragment() {
                 Log.w("TransactionAddingFailed", "Error writing document", e)
                 withContext(Dispatchers.Main) {
                     Toast.makeText(requireContext(), "Failed to save transaction", Toast.LENGTH_SHORT).show()
+                }
+            } finally {
+                withContext(Dispatchers.Main) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnCreate.isEnabled = true
+                    binding.btnCreate.text = "Create"
                 }
             }
         }

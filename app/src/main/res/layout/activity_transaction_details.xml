@@ -11,157 +11,163 @@
     android:paddingBottom="56dp"
     android:paddingTop="100dp"
     android:background="#004643">
-    <LinearLayout
+    <com.faltenreich.skeletonlayout.SkeletonLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/spendysense_logo_png"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Transaction details"
-            android:textSize="40sp"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="20dp"
-            android:layout_marginBottom="30dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Transaction name: "
-                android:textSize="18sp"
-                android:layout_margin="10dp"/>
-            <TextView
-                android:id="@+id/transactionNameTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Category id: "
-                android:textSize="18sp"
-                android:layout_margin="10dp"/>
-            <TextView
-                android:id="@+id/transactionCategoryIdTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Transaction amount: "
-                android:textSize="18sp"
-                android:layout_margin="10dp"/>
-            <TextView
-                android:id="@+id/transactionAmountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Transaction type: "
-                android:textSize="18sp"
-                android:layout_margin="10dp"/>
-            <TextView
-                android:id="@+id/transactionTypeTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text="Transaction date: "
-                android:textSize="18sp"
-                android:layout_margin="10dp"/>
-            <TextView
-                android:id="@+id/transactionDateTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"/>
-        </LinearLayout>
+        android:id="@+id/transactionDetailsSkeleteon">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:layout_gravity="center"
-                android:text="Uploaded image: "
-                android:textSize="18sp"
-                android:layout_margin="10dp"/>
             <ImageView
-                android:id="@+id/transactionImageIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_gravity="center_horizontal"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"/>
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/spendysense_logo_png"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/noImageUploadedTv"
-                android:text="No image uploaded"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:textColor="#FF0000"/>
+                android:text="Transaction details"
+                android:textSize="40sp"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="20dp"
+                android:layout_marginBottom="30dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="Transaction name: "
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"/>
+                <TextView
+                    android:id="@+id/transactionNameTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="Category Name: "
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"/>
+                <TextView
+                    android:id="@+id/transactionCategoryNameTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="Transaction amount: "
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"/>
+                <TextView
+                    android:id="@+id/transactionAmountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="Transaction type: "
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"/>
+                <TextView
+                    android:id="@+id/transactionTypeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="Transaction date: "
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"/>
+                <TextView
+                    android:id="@+id/transactionDateTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center"
+                    android:text="Uploaded image: "
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"/>
+                <ImageView
+                    android:id="@+id/transactionImageIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/noImageUploadedTv"
+                    android:text="No image uploaded"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="#FF0000"/>
+            </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_num_button"
+                android:text="Back"
+                android:id="@+id/backBtn"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="#FFFFFF"/>
         </LinearLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_num_button"
-            android:text="Back"
-            android:id="@+id/backBtn"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="#FFFFFF"/>
-    </LinearLayout>
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 </ScrollView>
