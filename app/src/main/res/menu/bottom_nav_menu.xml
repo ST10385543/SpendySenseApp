@@ -14,17 +14,17 @@
 
     <item
         android:id="@+id/navigation_AddTransaction"
-        android:icon="@android:drawable/stat_notify_more"
+        android:icon="@drawable/baseline_add_circle_24"
         android:title="AddTransaction" />
 
     <item
         android:id="@+id/navigation_ViewTransaction"
-        android:icon="@android:drawable/ic_dialog_email"
+        android:icon="@drawable/baseline_ad_units_24"
         android:title="ViewTransaction" />
 
     <item
         android:id="@+id/navigation_UserProfile"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/baseline_person_outline_24"
         android:title="UserProfile" />
 
 
