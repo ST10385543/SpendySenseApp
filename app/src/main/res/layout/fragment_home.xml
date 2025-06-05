@@ -5,11 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"
-    android:orientation="vertical"
-    android:paddingBottom="56dp"
-    android:paddingTop="?attr/actionBarSize"
-    android:background="#004643">
+    android:padding="16dp"
+    android:background="#004643"
+    tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,339 +15,250 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/spendysense_logo_png"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="start"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/spendysense_logo_png" />
+
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:textAlignment="center"
+            android:layout_marginTop="16dp"
             android:text="Track your Budget Spending Report"
             android:textColor="#FFFFFF"
-            android:textSize="40sp" />
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center">
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:text="Monthly List"
                     android:background="@android:color/transparent"
-                    android:text="Monthly list" />
+                    android:textColor="#FFFFFF" />
+
                 <TextView
                     android:id="@+id/currentMonthTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="March"
                     android:textColor="#FFFFFF"
-                    android:textSize="40sp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="15dp"/>
+                    android:textSize="24sp"
+                    android:layout_marginTop="8dp" />
             </LinearLayout>
 
+            <!-- Goal Section -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_marginStart="40dp">
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="Monthly Goal"
                     android:textColor="#FFFFFF"
-                    android:textSize="30sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/minimumMonthlyGoalTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/minimumMonthlyGoalTv"
-                    android:layout_marginTop="5dp"
                     android:text="Enter minimum goal"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp" />
 
                 <TextView
+                    android:id="@+id/maximumMonthlyGoalTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/maximumMonthlyGoalTv"
                     android:text="Enter maximum goal"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:weightSum="3"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/rectangleshape"
+            android:padding="12dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
             android:gravity="center">
+
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/rectangleshape"
-                android:layout_margin="4dp">
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Expenses"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/expenseValueTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/expenseValueTv"
                     android:text="0"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
                     android:textColor="#FFFFFF"
-                    android:layout_marginTop="8dp"/>
+                    android:textSize="20sp"
+                    android:layout_marginTop="4dp" />
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/rectangleshape"
-                android:layout_margin="4dp">
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Balance"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/balanceValueTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/balanceValueTv"
                     android:text="0"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
                     android:textColor="#FFFFFF"
-                    android:layout_marginTop="8dp"/>
+                    android:textSize="20sp"
+                    android:layout_marginTop="4dp" />
             </LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/rectangleshape"
-                android:layout_margin="4dp">
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Income"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/incomeValueTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/incomeValueTv"
                     android:text="0"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"
                     android:textColor="#FFFFFF"
-                    android:layout_marginTop="8dp"/>
+                    android:textSize="20sp"
+                    android:layout_marginTop="4dp" />
             </LinearLayout>
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="end">
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Set monthly budget"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical" />
 
             <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/setMonthlyBudgetSw"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:id="@+id/setMonthlyBudgetSw"/>
+                android:layout_marginStart="8dp" />
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recentTransactionsLinLay"
+            android:layout_marginTop="24dp"
             android:background="@drawable/monthlygoalshape"
             android:orientation="vertical"
-            android:layout_margin="15dp">
+            android:padding="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Name"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="30sp"/>
+                    android:textSize="18sp"
+                    android:gravity="center" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Date"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="30sp"/>
+                    android:textSize="18sp"
+                    android:gravity="center" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Amount"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="30sp"/>
+                    android:textSize="18sp"
+                    android:gravity="center" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/transactionRv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/monthlyGoalLinLay"
-            android:visibility="gone"
-            android:background="@drawable/monthlygoalshape"
-            android:padding="10dp"
-            android:layout_margin="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monthly Goal"
-                android:textSize="40sp"
-                android:textColor="#FFFFFF"
-                android:layout_gravity="center_horizontal"/>
-
-            <TextView
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_gravity="center_horizontal"
-                android:text="Minimum
-                monthly goal"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"/>
-
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_white_shape">
-
-                <EditText
-                    android:layout_width="250dp"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:layout_margin="10dp"
-                    android:id="@+id/minimumMonthlyGoalEt"
-                    android:inputType="numberDecimal"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_white_shape"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/setMinimumGoalBtn"
-                    android:background="@drawable/set_button_color"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Set"
-                    android:layout_marginEnd="10dp"/>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="200dp"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_gravity="center_horizontal"
-                android:text="Maximum
-                monthly goal"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"/>
-
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/rounded_white_shape">
-
-                <EditText
-                    android:layout_width="250dp"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:layout_margin="10dp"
-                    android:inputType="numberDecimal"
-                    android:id="@+id/maximumMonthlyGoalEt"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_white_shape"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/setMaximumGoalBtn"
-                    android:background="@drawable/set_button_color"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Set"
-                    android:layout_marginEnd="10dp"/>
-            </LinearLayout>
+                android:layout_marginTop="12dp"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
