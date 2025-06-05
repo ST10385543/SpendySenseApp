@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/navigation_ViewTransaction"
-        android:icon="@drawable/baseline_ad_units_24"
+        android:icon="@drawable/baseline_assignment_24"
         android:title="ViewTransaction" />
 
     <item
