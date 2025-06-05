@@ -11,6 +11,7 @@ import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.FragmentAnalyticsBinding
+import com.faltenreich.skeletonlayout.Skeleton
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
@@ -32,6 +33,9 @@ class AnalyticsFragment : Fragment() {
 
     private lateinit var sessionManager: SessionManager
 
+    //gotten from Fahlteich, P. 2025. SkeletonLayout: Skeleton view pattern for Android, Github. [Online].
+    //Avaiable at: https://github.com/Faltenreich/SkeletonLayout [Accessed 29 May 2025]
+    private lateinit var skeleton: Skeleton
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +53,13 @@ class AnalyticsFragment : Fragment() {
         expensePieChart = binding.expensePieChart
         barChart = binding.summaryBarChart  // Ensure your layout has this BarChart with this ID
 
+        skeleton = binding.analyticsSkeleton
+        // Hide "No chart data available" for all charts
+        incomePieChart.setNoDataText("")
+        expensePieChart.setNoDataText("")
+        barChart.setNoDataText("")
+
+        skeleton.showSkeleton()
         fetchTransactionData()
     }
 
@@ -119,6 +130,7 @@ class AnalyticsFragment : Fragment() {
             displayIncomeChart(incomeMap)
             displayExpenseChart(expenseMap)
             displayBarChart(incomeByWeek, expenseByWeek)
+            skeleton.showOriginal()
         }
     }
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,69 +11,74 @@
     android:layout_marginBottom="70dp"
     tools:context=".ui.analytics.AnalyticsFragment">
 
-    <LinearLayout
+    <com.faltenreich.skeletonlayout.SkeletonLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:paddingBottom="64dp"
-        android:paddingTop="100dp">
+        android:id="@+id/analyticsSkeleton">
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="69dp"
-            android:layout_height="61dp"
-            android:layout_gravity="start"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/logo_only" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Analytics"
-            android:textColor="#F6F4F4"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Side-by-side Pie Charts -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:weightSum="2"
-            android:layout_marginBottom="16dp">
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:paddingBottom="64dp"
+            android:paddingTop="100dp">
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/incomePieChart"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp" />
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="69dp"
+                android:layout_height="61dp"
+                android:layout_gravity="start"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/logo_only" />
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/expensePieChart"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Analytics"
+                android:textColor="#F6F4F4"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp"/>
 
-        <!-- Bar graph container -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp">
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/summaryBarChart"
+            <!-- Side-by-side Pie Charts -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:weightSum="2"
+                android:layout_marginBottom="16dp">
 
-    </LinearLayout>
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/incomePieChart"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/expensePieChart"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <!-- Bar graph container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/summaryBarChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 </androidx.core.widget.NestedScrollView>

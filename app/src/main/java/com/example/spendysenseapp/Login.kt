@@ -80,8 +80,15 @@ class Login : AppCompatActivity() {
                     if(task.isSuccessful){
                         //show the use of logging
                         Log.d("User logging in", "signInWithEmail:success")
-                        Toast.makeText(this,"Welcome to spendy sense",Toast.LENGTH_SHORT,).show()
-                        startActivity(Intent(this, MainActivity::class.java))
+                        val user = auth.currentUser
+                        if(user != null && user.isEmailVerified){
+                            Toast.makeText(this,"Welcome to spendy sense",Toast.LENGTH_SHORT,).show()
+                            startActivity(Intent(this, MainActivity::class.java))
+                        }
+                        else {
+                            auth.signOut() // Sign them out immediately
+                            Toast.makeText(this, "Please verify your email first! Check your inbox", Toast.LENGTH_LONG).show()
+                        }
                     } else {
                         Log.w("User logging in", "signInWithEmail:failure", task.exception)
                         Toast.makeText(this,"Authentication failed.",Toast.LENGTH_SHORT,).show()
@@ -106,6 +113,9 @@ class Login : AppCompatActivity() {
 //
 //                auth.signInWithEmailAndPassword(email, password)
 //            }
+        }
+        binding.forgotPasswordBtn.setOnClickListener{
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 

@@ -102,9 +102,20 @@ class Registration : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         Log.d("Registration", "Task completed: ${task.isSuccessful}")
                         if (task.isSuccessful) {
-                            Log.d("Registration", "User ID: ${task.result?.user?.uid}")
-                            Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, WelcomePage::class.java))
+                            val user = auth.currentUser
+                            user?.sendEmailVerification()
+                                ?.addOnCompleteListener { verificationTask ->
+                                    if(verificationTask.isSuccessful) {
+                                        Log.d("Registration", "User ID: ${task.result?.user?.uid}")
+                                        Log.d("Email Sending", "Email verification sent!")
+                                        Toast.makeText(
+                                            this,
+                                            "Account created successfully. An verification email has been sent to your inbox",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                        startActivity(Intent(this, WelcomePage::class.java))
+                                    }
+                                }
                         } else {
                             Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT).show()
                             Log.e("Registration", "Error: ${task.exception?.printStackTrace()}")
