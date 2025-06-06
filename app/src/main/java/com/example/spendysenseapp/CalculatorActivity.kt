@@ -109,11 +109,8 @@ class CalculatorActivity : AppCompatActivity() {
     }
 
     private fun isCompleteNumber(expr: String): Boolean {
-        // Return true if the expression is a valid complete number or valid equation
-        // i.e. does not end with an operator or just empty
-        if (expr.isEmpty()) return false
-        val lastChar = expr.last()
-        return lastChar.isDigit() || lastChar == '.'
+        val number = expr.toDoubleOrNull()
+        return number != null && number >= 0 && !expr.contains(Regex("[+\\-*/]"))
     }
 
     private fun evaluateExpression(expression: String): Double {
