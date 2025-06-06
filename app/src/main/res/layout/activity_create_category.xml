@@ -1,93 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/main_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0D4946"
-    android:orientation="vertical"
     tools:context=".CreateCategoryActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
 
-    <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/spendysense_logo_png" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/spendysense_logo_png"
+            android:contentDescription="App Logo"
+            android:layout_marginBottom="32dp" />
+
 
         <TextView
             android:id="@+id/tvCreateCategory"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:gravity="center_horizontal"
             android:text="Create Category"
             android:textColor="#FFFFFF"
-            android:textSize="28dp"
-            android:textStyle="bold" />
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:layout_marginBottom="40dp" />
 
+
+        <TextView
+            android:id="@+id/tvNameCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name your category:"
+            android:textColor="#FFF"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp"/>
 
         <EditText
             android:id="@+id/edtCategoryName"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
             android:background="@drawable/rounded_textview_corner"
             android:backgroundTint="#FFFFFF"
-            android:ems="10"
             android:hint="Category Name"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#BBBBBB"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:inputType="text"
-            android:minHeight="48dp"
-            android:padding="10dp" />
+            android:layout_marginBottom="48dp"
+            android:gravity="center_vertical"
+            android:elevation="2dp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/tvIcon"
-            android:layout_width="231dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/rounded_white_button"
-            android:text=" Icon"
-            android:textColor="#000000"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/rounded_profile_button"
+            android:padding="14dp"
+            android:layout_marginBottom="48dp"
+            android:elevation="2dp">
 
-        <ImageView
-            android:id="@+id/imgIcon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="16dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_launcher_foreground"
-            android:background="@drawable/circle_bg_income_icon" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSelectIcon"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_selecticon_button"
+                android:text="Select Icon"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:id="@+id/imgIcon"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/img_selectcategory"
+                android:padding="14dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_launcher_foreground" />
+        </LinearLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCreateCategory"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/rounded_create_button"
+            android:text="Create Category"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:elevation="4dp" />
 
     </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSelectIcon"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_create_button"
-        android:text="Select Icon" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCreateCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_create_button"
-        android:text="Create Category"
-        android:layout_marginTop="50dp"/>
-
-</LinearLayout>
+</ScrollView>
