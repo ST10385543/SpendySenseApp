@@ -31,37 +31,17 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:textAlignment="center"
-                android:text="All transactions for
-            Month"
+                android:text="All transactions for Month"
                 android:textColor="#FFFFFF"
                 android:textSize="35sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="150dp"
-                    android:id="@+id/editTransactionBtn"
-                    android:layout_height="wrap_content"
-                    android:text="Edit"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/edit_button_style"/>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/deleteTransactionBtn"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/delete_button_style"
-                    android:text="Delete" />
-            </LinearLayout>
+                android:text="N.B - Click item to view details"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:textSize="19sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,7 +88,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/transactionRv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    />
             </LinearLayout>
         </LinearLayout>
     </com.faltenreich.skeletonlayout.SkeletonLayout>

@@ -1,11 +1,15 @@
 package com.example.spendysenseapp.ui.home
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +18,7 @@ import com.example.spendysenseapp.Adapter.TransactionAdapter
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.TransactionsDao
 import com.example.spendysenseapp.Services.SessionManager
+import com.example.spendysenseapp.TransactionDetailsActivity
 import com.example.spendysenseapp.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +49,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var transactionAdapter: TransactionAdapter
 
+    private lateinit var transactionDetailsLauncher: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -73,6 +80,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        transactionDetailsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data?.getBooleanExtra("TRANSACTION_DELETED", false) == true) {
+                //loadTransactionData()
+            }
+        }
 
         lifecycleScope.launch {
             setupRecyclerView()
@@ -99,7 +111,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView(){
-        transactionAdapter = TransactionAdapter(mutableListOf())
+        transactionAdapter = TransactionAdapter(mutableListOf()){ transactionId ->
+            val intent = Intent(requireContext(), TransactionDetailsActivity::class.java)
+            intent.putExtra("TRANSACTION_ID", transactionId)
+            transactionDetailsLauncher.launch(intent)
+        }
         binding.transactionRv.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = transactionAdapter

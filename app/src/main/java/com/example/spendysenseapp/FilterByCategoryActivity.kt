@@ -1,10 +1,14 @@
 package com.example.spendysenseapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,6 +34,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
     private var currentUser: FirebaseUser? = null
     val firestoreTransactionService = FirestoreService("transactions", Transaction::class.java)
     val firestoreCategoryService = FirestoreService("categories", Categories::class.java)
+    private lateinit var transactionDetailsLauncher: ActivityResultLauncher<Intent>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +47,11 @@ class FilterByCategoryActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        transactionDetailsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && result.data?.getBooleanExtra("TRANSACTION_DELETED", false) == true) {
+                setupRecyclerView()
+            }
+        }
 
         val sessionManager = SessionManager.getInstance(this)
         if (!sessionManager.isLoggedIn()) {
@@ -51,11 +61,15 @@ class FilterByCategoryActivity : AppCompatActivity() {
         }
         currentUser = sessionManager.getCurrentUser()
 
-        setupRecyclerView()
+        //setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
-        transactionAdapter = TransactionAdapter(mutableListOf())
+        transactionAdapter = TransactionAdapter(mutableListOf()){ transactionId ->
+            val intent = Intent(applicationContext, TransactionDetailsActivity::class.java)
+            intent.putExtra("TRANSACTION_ID", transactionId)
+            transactionDetailsLauncher.launch(intent)
+        }
         binding.transactionRv.apply {
             layoutManager = LinearLayoutManager(this@FilterByCategoryActivity)
             adapter = transactionAdapter

@@ -26,6 +26,14 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/spendysense_logo_png"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_num_button"
+                android:text="Back"
+                android:layout_margin="15dp"
+                android:id="@+id/backBtn"
+                android:backgroundTint="#FFFFFF"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,25 +157,27 @@
                     android:layout_margin="10dp"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#FFFFFF"
+                    android:visibility="gone"
                     android:textSize="18sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/noImageUploadedTv"
                     android:text="No image uploaded"
+                    android:visibility="gone"
                     android:layout_margin="10dp"
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:textColor="#FF0000"/>
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/deleteTransactionBtn"
+                    android:text="Delete"
+                    android:background="@drawable/rounded_expense_button"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
             </LinearLayout>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_num_button"
-                android:text="Back"
-                android:id="@+id/backBtn"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="#FFFFFF"/>
         </LinearLayout>
     </com.faltenreich.skeletonlayout.SkeletonLayout>
 </ScrollView>

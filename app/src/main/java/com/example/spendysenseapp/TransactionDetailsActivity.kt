@@ -1,10 +1,12 @@
 package com.example.spendysenseapp
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -86,6 +88,50 @@ class TransactionDetailsActivity : AppCompatActivity() {
         }
         binding.backBtn.setOnClickListener {
             finish()
+        }
+        binding.deleteTransactionBtn.setOnClickListener{
+            deleteTransaction()
+        }
+    }
+
+    private fun deleteTransaction(){
+        val transactionId = intent.getStringExtra("TRANSACTION_ID") ?: return
+
+        lifecycleScope.launch {
+            val firestoreService = FirestoreService("transactions", Transaction::class.java)
+            val storageService = StorageService()
+
+            // Fetch transaction to get image URL
+            val transaction = withContext(Dispatchers.IO) {
+                firestoreService.get(transactionId)
+            }
+
+            try {
+                // Delete image from storage if exists
+                if (transaction != null && transaction.receiptImage.isNotEmpty()) {
+                    // Extract the storage path from the URL
+                    val imageUrl = transaction.receiptImage
+                    val storagePath = imageUrl.substringAfter("/o/").substringBefore("?").replace("%2F", "/")
+                    withContext(Dispatchers.IO) {
+                        storageService.deleteFile(storagePath)
+                    }
+                }
+                // Delete transaction from Firestore
+                withContext(Dispatchers.IO) {
+                    firestoreService.delete(transactionId)
+                }
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@TransactionDetailsActivity, "Transaction deleted", Toast.LENGTH_SHORT).show()
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("TRANSACTION_DELETED", true)
+                    setResult(RESULT_OK, resultIntent)
+                    finish()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@TransactionDetailsActivity, "Failed to delete transaction", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

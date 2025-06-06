@@ -91,7 +91,7 @@ class Login : AppCompatActivity() {
                         }
                     } else {
                         Log.w("User logging in", "signInWithEmail:failure", task.exception)
-                        Toast.makeText(this,"Authentication failed.",Toast.LENGTH_SHORT,).show()
+                        Toast.makeText(this,"Username or password incorrect!x`",Toast.LENGTH_SHORT,).show()
                     }
                 }
 //            lifecycleScope.launch {

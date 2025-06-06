@@ -13,15 +13,16 @@ import com.example.spendysenseapp.TransactionDetailsActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TransactionAdapter(private var transactionList: MutableList<Transaction>) :
-    RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>(){
+class TransactionAdapter(
+    private var transactionList: MutableList<Transaction>,
+    private var onTransactionClick: (String) -> Unit
+) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>(){
 
         //holds reference to each item UI elements
         class TransactionViewHolder(view : View) : RecyclerView.ViewHolder(view) {
             val transactionName: TextView = view.findViewById(R.id.transactionNameTv)
             val transactionDate: TextView = view.findViewById(R.id.transactionDateTv)
             val transactionAmount: TextView = view.findViewById(R.id.transactionAmountTv)
-            val viewButton: Button = view.findViewById(R.id.viewButton)
         }
 
     private val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
@@ -37,12 +38,8 @@ class TransactionAdapter(private var transactionList: MutableList<Transaction>) 
         holder.transactionName.text = transaction.name
         holder.transactionDate.text = formatDate(transaction.dateCreated)
         holder.transactionAmount.text = "R%.2f".format(transaction.amount)
-        holder.viewButton.setOnClickListener {
-            val context = holder.itemView.context
-            val intent = Intent(context, TransactionDetailsActivity::class.java).apply {
-                putExtra("TRANSACTION_ID", transaction.id)
-            }
-            context.startActivity(intent)
+        holder.itemView.setOnClickListener {
+            onTransactionClick(transaction.id)
         }
     }
 
