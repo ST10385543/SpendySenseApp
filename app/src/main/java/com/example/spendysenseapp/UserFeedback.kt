@@ -21,6 +21,12 @@ class UserFeedback : AppCompatActivity() {
         //  references to the UI elements
         val enterText = findViewById<EditText>(R.id.EnterText)
         val submitButton = findViewById<Button>(R.id.Submitbtn)
+        val backButton = findViewById<Button>(R.id.backbtn)
+
+        backButton.setOnClickListener {
+            finish()
+        }
+
 
         submitButton.setOnClickListener {
             val feedbackText = enterText.text.toString()
