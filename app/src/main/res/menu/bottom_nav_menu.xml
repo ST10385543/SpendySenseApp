@@ -15,17 +15,17 @@
     <item
         android:id="@+id/navigation_AddTransaction"
         android:icon="@drawable/baseline_add_circle_24"
-        android:title="AddTransaction" />
+        android:title="Add Transaction" />
 
     <item
         android:id="@+id/navigation_ViewTransaction"
         android:icon="@drawable/baseline_assignment_24"
-        android:title="ViewTransaction" />
+        android:title="View Transaction" />
 
     <item
         android:id="@+id/navigation_UserProfile"
         android:icon="@drawable/baseline_person_outline_24"
-        android:title="UserProfile" />
+        android:title="User Profile" />
 
 
 
