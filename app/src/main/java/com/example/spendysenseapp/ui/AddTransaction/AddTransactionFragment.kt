@@ -64,6 +64,9 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
+    //Coding Meet 2023. Pick Images From Gallery | StartActivityForResult Deprecated | Contracts | Android Studio Kotlin,
+    // Youtube. [Online].
+    //Avaiable at: https://www.youtube.com/watch?v=dxqD8FqMPRs [Accessed 29 May 2025]
     private val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -75,10 +78,19 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
+
+    //Vogel, L. 2025. Android Camera API - Tutorial, Youtube. [Online].
+    //Avaiable at: https://www.vogella.com/tutorials/AndroidCamera/article.html [Accessed 30 May 2025]
+
+    //BTech Days. 2021. How to open Camera in Android Studio, Youtube. [Online].
+    //Avaiable at: https://www.youtube.com/watch?app=desktop&v=YLUmfyGFjnU&t=600s [Accessed 30 May 2025]
+
     private val cameraLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) { bitmap ->
         bitmap?.let {
+            //Coding Demos. 2020. How to Take a Photo Using The Camera And Display it in Android Imageview, Youtube. [Online].
+            //Avaiable at: https://www.youtube.com/watch?app=desktop&v=YLUmfyGFjnU&t=600s [Accessed 30 May 2025]
             val outputStream = ByteArrayOutputStream()
             it.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
             selectedImageBytes = outputStream.toByteArray()
@@ -246,6 +258,10 @@ class AddTransactionFragment : Fragment() {
             }
         }
     }
+
+
+    //Mohsen Mashkour. 2023. how to save Images to the Firebase storage. Android studio | Kotlin., Youtube. [Online].
+    //Avaiable at: https://www.youtube.com/watch?v=CWSiX_KzP4o [Accessed 30 May 2025]
 
     private fun handleImageUri(uri: Uri) {
         val compressedBytes = uriToCompressedByteArray(uri, maxSizeKB = 300)
