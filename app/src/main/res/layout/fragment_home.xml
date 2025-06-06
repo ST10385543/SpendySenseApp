@@ -11,9 +11,15 @@
     android:paddingTop="?attr/actionBarSize"
     android:background="#004643">
 
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:id="@+id/homeSkeleton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/mainLinearLayout"
         android:orientation="vertical">
 
         <ImageView
@@ -21,6 +27,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:id="@+id/SpendySenseLogoIv"
             android:src="@drawable/spendysense_logo_png"/>
 
         <TextView
@@ -54,7 +61,7 @@
                     android:id="@+id/currentMonthTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="March"
+                    android:text=""
                     android:textColor="#FFFFFF"
                     android:textSize="40sp"
                     android:layout_marginTop="10dp"
@@ -210,50 +217,62 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/recentTransactionsLinLay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recentTransactionsLinLay"
             android:background="@drawable/monthlygoalshape"
             android:orientation="vertical"
             android:layout_margin="15dp">
 
+            <!-- Headings Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="Name"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="30sp"/>
+                    android:textSize="18sp"
+                    android:gravity="center"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="Date"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="30sp"/>
+                    android:textSize="18sp"
+                    android:gravity="center"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Amount"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="30sp"/>
+                    android:textSize="18sp"
+                    android:gravity="center"/>
             </LinearLayout>
 
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC"/>
+
+            <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/transactionRv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -352,4 +371,5 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 </androidx.core.widget.NestedScrollView>

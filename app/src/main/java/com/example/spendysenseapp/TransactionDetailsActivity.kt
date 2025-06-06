@@ -78,6 +78,7 @@ class TransactionDetailsActivity : AppCompatActivity() {
                             .placeholder(R.drawable.ic_launcher_foreground)
                             .into(binding.transactionImageIv)
                     }
+                    binding.transactionImageIv.visibility = View.VISIBLE
                     binding.noImageUploadedTv.visibility = View.GONE
                 } else {
                     binding.transactionImageIv.visibility = View.GONE

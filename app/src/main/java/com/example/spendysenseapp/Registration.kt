@@ -117,7 +117,7 @@ class Registration : AppCompatActivity() {
                                     }
                                 }
                         } else {
-                            Toast.makeText(this, "Account creation failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Account already exists!", Toast.LENGTH_SHORT).show()
                             Log.e("Registration", "Error: ${task.exception?.printStackTrace()}")
                         }
                     }
