@@ -56,50 +56,62 @@ class CreateCategoryActivity : AppCompatActivity() {
         imgIcon = findViewById(R.id.imgIcon)
         edtCategoryName = findViewById(R.id.edtCategoryName)
 
-        val btnSelectIcon = findViewById<Button>(R.id.btnSelectIcon)
-        val btnSaveCategory = findViewById<Button>(R.id.btnCreateCategory)
+        val btnBack = findViewById<Button>(R.id.BackCategorybtn)
+        btnBack.setOnClickListener {
+            finish()
 
-        btnSelectIcon.setOnClickListener {
-            val intent = Intent(this, SelectIconActivity::class.java)
-            selectIconLauncher.launch(intent)
-        }
+            val btnSelectIcon = findViewById<Button>(R.id.btnSelectIcon)
+            val btnSaveCategory = findViewById<Button>(R.id.btnCreateCategory)
 
-        btnSaveCategory.setOnClickListener {
-            val categoryName = edtCategoryName.text.toString().trim()
-
-            if (categoryName.isEmpty()) {
-                Toast.makeText(this, "Please enter a category name", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            btnSelectIcon.setOnClickListener {
+                val intent = Intent(this, SelectIconActivity::class.java)
+                selectIconLauncher.launch(intent)
             }
 
-            if (selectedIconResId == -1) {
-                Toast.makeText(this, "Please select an icon", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            btnSaveCategory.setOnClickListener {
+                val categoryName = edtCategoryName.text.toString().trim()
 
-            val iconPath = selectedIconResId.toString()
+                if (categoryName.isEmpty()) {
+                    Toast.makeText(this, "Please enter a category name", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
-            val categoryId = "Category_${UUID.randomUUID().toString().substring(0, 8)}_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
+                if (selectedIconResId == -1) {
+                    Toast.makeText(this, "Please select an icon", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
-            val newCategory = Categories(
-                id = categoryId,
-                CategoryName = categoryName,
-                iconImgPath = iconPath,
-                userId = currentUser?.uid ?: ""
-            )
+                val iconPath = selectedIconResId.toString()
 
-            val firestoreService = FirestoreService("categories", Categories::class.java)
-            lifecycleScope.launch {
-                try {
-                    firestoreService.add(categoryId, newCategory)
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(applicationContext, "Category saved", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                } catch (e: Exception) {
-                    Log.w("CategoryAddingFailed", "Error creating category", e)
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(applicationContext, "Failed to create category", Toast.LENGTH_SHORT).show()
+                val categoryId = "Category_${
+                    UUID.randomUUID().toString().substring(0, 8)
+                }_${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())}"
+
+                val newCategory = Categories(
+                    id = categoryId,
+                    CategoryName = categoryName,
+                    iconImgPath = iconPath,
+                    userId = currentUser?.uid ?: ""
+                )
+
+                val firestoreService = FirestoreService("categories", Categories::class.java)
+                lifecycleScope.launch {
+                    try {
+                        firestoreService.add(categoryId, newCategory)
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(applicationContext, "Category saved", Toast.LENGTH_SHORT)
+                                .show()
+                            finish()
+                        }
+                    } catch (e: Exception) {
+                        Log.w("CategoryAddingFailed", "Error creating category", e)
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                applicationContext,
+                                "Failed to create category",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }
