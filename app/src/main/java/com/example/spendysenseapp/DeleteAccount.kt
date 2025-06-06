@@ -27,6 +27,10 @@ class DeleteAccount : AppCompatActivity() {
         binding = ActivityDeleteAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.CanceldeleteBtn.setOnClickListener {
+            finish()
+        }
+
         binding.deleteAccountBtn.setOnClickListener {
             val enteredPassword = binding.passwordEt.text.toString()
             auth = FirebaseAuth.getInstance()

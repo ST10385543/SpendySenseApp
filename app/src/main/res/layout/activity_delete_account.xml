@@ -85,14 +85,14 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/deleteAccountBtn"
-        android:layout_marginTop="30dp"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
         android:background="@drawable/rounded_profile_button"
         android:backgroundTint="#D54040"
-        android:textColor="@color/white"
-        android:text="Delete" />
+        android:text="Delete"
+        android:textColor="@color/white" />
 
     <ProgressBar
         android:layout_marginTop="10dp"
@@ -101,4 +101,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:visibility="gone"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/CanceldeleteBtn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_profile_button"
+        android:backgroundTint="#408DD5"
+        android:text="Cancel"
+        android:textColor="@color/white" />
 </LinearLayout>
