@@ -37,6 +37,8 @@ class FirestoreService<T : Any>(
         val snapshot = collection.document(documentId).get().await()
         return snapshot.exists()
     }
+
+
 }
 
 //val transactionService = FirestoreService("transactions", Transaction::class.java)

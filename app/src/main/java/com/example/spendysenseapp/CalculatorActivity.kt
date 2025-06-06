@@ -7,12 +7,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.spendysenseapp.databinding.ActivityCalculatorBinding
-import com.example.spendysenseapp.ui.AddTransaction.AddTransactionFragment
 
 @Suppress("DEPRECATION")
 class CalculatorActivity : AppCompatActivity() {
 
-    // Inspire by:
+    // Inspired by:
     // Foxandroid. 2025. How to Make Calculator App in Android Studio || Calculator App Tutorial || 2022,
     // Youtube [Online]
     // Avaiable at: https://www.youtube.com/watch?v=-VsatCUSxek [Accessed 30 April 2025]

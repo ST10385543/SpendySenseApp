@@ -59,7 +59,7 @@ class TransactionDetailsActivity : AppCompatActivity() {
 
             transaction?.let { it ->
                 binding.transactionNameTv.text = it.name
-                binding.transactionAmountTv.text = String.format(Locale.getDefault(), "%.2f", it.amount)
+                binding.transactionAmountTv.text = String.format(Locale.getDefault(), "R%.2f", it.amount)
                 binding.transactionTypeTv.text = it.type
                 binding.transactionDateTv.text = formatDate(it.dateCreated)
 

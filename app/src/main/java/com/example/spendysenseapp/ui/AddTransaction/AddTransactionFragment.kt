@@ -52,6 +52,8 @@ class AddTransactionFragment : Fragment() {
     private var selectedImageBytes: ByteArray? = null
     private var transactionType: String? = null
 
+    private var categoriesList: List<Categories> = emptyList()
+
 
 
     private val calculatorLauncher = registerForActivityResult(
@@ -169,6 +171,8 @@ class AddTransactionFragment : Fragment() {
         lifecycleScope.launch {
             val firestoreService = FirestoreService("categories", Categories::class.java)
             val categories = firestoreService.getAll().filter { it.userId == (currentUser?.uid ?: "") }
+            categoriesList = categories // Save full list for later use
+
             withContext(Dispatchers.Main) {
                 val categoryNames = categories.map { it.CategoryName }
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryNames)
@@ -177,14 +181,44 @@ class AddTransactionFragment : Fragment() {
 
                 binding.spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        selectedCategoryId = categories.getOrNull(position)?.id
+                        val selectedCategory = categoriesList.getOrNull(position)
+                        selectedCategoryId = selectedCategory?.id
+
+                        // ** Set the category icon dynamically **
+                        if (selectedCategory != null && !selectedCategory.iconImgPath.isNullOrEmpty()) {
+                            setCategoryIcon(selectedCategory.iconImgPath)
+                        } else {
+                            // fallback icon if no imgpath
+                            binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
+                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {
                         selectedCategoryId = null
+                        binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
+                    }
+                }
+
+                // Optional: set initial icon for first category
+                if (categoriesList.isNotEmpty()) {
+                    val firstCategory = categoriesList[0]
+                    if (!firstCategory.iconImgPath.isNullOrEmpty()) {
+                        setCategoryIcon(firstCategory.iconImgPath)
+                    } else {
+                        binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
                     }
                 }
             }
+        }
+    }
+
+    private fun setCategoryIcon(imgPath: String) {
+        val resId = resources.getIdentifier(imgPath, "drawable", requireContext().packageName)
+        if (resId != 0) {
+            binding.imgIcon.setImageResource(resId)
+        } else {
+            // fallback drawable resource
+            binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
         }
     }
 

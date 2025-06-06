@@ -113,7 +113,7 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/imageView20"
+                android:id="@+id/imgGym"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_weight="1"
@@ -123,7 +123,7 @@
                 app:srcCompat="@drawable/dumbbell" />
 
             <ImageView
-                android:id="@+id/imageView22"
+                android:id="@+id/imgGame"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_weight="1"
@@ -134,7 +134,7 @@
                 app:srcCompat="@drawable/game" />
 
             <ImageView
-                android:id="@+id/imageView21"
+                android:id="@+id/imgMountains"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_weight="1"
@@ -187,7 +187,7 @@
                 app:srcCompat="@drawable/home" />
         </LinearLayout>
 
-        <!-- Income Icons Row 2 -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -227,6 +227,171 @@
                 android:padding="16dp"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/graduation_cap" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgSports"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/sports" />
+
+            <ImageView
+                android:id="@+id/imgFastFood"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/fastfood" />
+
+            <ImageView
+                android:id="@+id/imgBaby"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/baby" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgRepairs"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/repairs" />
+
+            <ImageView
+                android:id="@+id/imgFlight"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/flight" />
+
+            <ImageView
+                android:id="@+id/imgHoliday"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/holidays" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgShopping"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/shopping" />
+
+            <ImageView
+                android:id="@+id/imgPets"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/pets" />
+
+            <ImageView
+                android:id="@+id/imgWork"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/work" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgTelevision"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/television" />
+
+            <ImageView
+                android:id="@+id/imgCinema"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/cinema" />
+
+            <ImageView
+                android:id="@+id/imgElectronics"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/electronics" />
         </LinearLayout>
 
     </LinearLayout>

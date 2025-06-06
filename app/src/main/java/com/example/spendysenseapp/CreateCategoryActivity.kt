@@ -38,7 +38,7 @@ class CreateCategoryActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val iconResId = result.data?.getIntExtra("ICON_RES_ID", -1)
+            val iconResId = result.data?.getIntExtra("icon_res_id", -1)
             if (iconResId != null && iconResId != -1) {
                 selectedIconResId = iconResId
                 imgIcon.setImageResource(iconResId)
