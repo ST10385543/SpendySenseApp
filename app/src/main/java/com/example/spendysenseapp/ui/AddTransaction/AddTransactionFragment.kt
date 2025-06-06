@@ -42,8 +42,8 @@ class AddTransactionFragment : Fragment() {
 
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
-    private var currentUser: FirebaseUser? = null
 
+    private var currentUser: FirebaseUser? = null
     private lateinit var db: SpendySenseDatabase
     private lateinit var categoryDao: CategoriesDao
     private lateinit var sessionManager: SessionManager
@@ -51,50 +51,31 @@ class AddTransactionFragment : Fragment() {
     private var selectedCategoryId: String? = null
     private var selectedImageBytes: ByteArray? = null
     private var transactionType: String? = null
-
     private var categoriesList: List<Categories> = emptyList()
-
-
 
     private val calculatorLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            val data = result.data
-            val resultValue = data?.getStringExtra("calc_result")
+            val resultValue = result.data?.getStringExtra("calc_result")
             resultValue?.let {
                 binding.edtAmount.setText(it)
             }
         }
     }
 
-    //Coding Meet 2023. Pick Images From Gallery | StartActivityForResult Deprecated | Contracts | Android Studio Kotlin,
-    // Youtube. [Online].
-    //Avaiable at: https://www.youtube.com/watch?v=dxqD8FqMPRs [Accessed 29 May 2025]
     private val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val uri = result.data?.data
-            uri?.let {
-                handleImageUri(it)
-            }
+            result.data?.data?.let { handleImageUri(it) }
         }
     }
-
-
-    //Vogel, L. 2025. Android Camera API - Tutorial [Online].
-    //Avaiable at: https://www.vogella.com/tutorials/AndroidCamera/article.html [Accessed 30 May 2025]
-
-    //BTech Days. 2021. How to open Camera in Android Studio, Youtube. [Online].
-    //Avaiable at: https://www.youtube.com/watch?app=desktop&v=YLUmfyGFjnU&t=600s [Accessed 30 May 2025]
 
     private val cameraLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) { bitmap ->
         bitmap?.let {
-            //Coding Demos. 2020. How to Take a Photo Using The Camera And Display it in Android Imageview, Youtube. [Online].
-            //Avaiable at: https://www.youtube.com/watch?app=desktop&v=YLUmfyGFjnU&t=600s [Accessed 30 May 2025]
             val outputStream = ByteArrayOutputStream()
             it.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
             selectedImageBytes = outputStream.toByteArray()
@@ -102,10 +83,7 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -168,27 +146,41 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun loadCategoriesIntoSpinner() {
+        // Reset icon and selection
+        binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
+        selectedCategoryId = null
+
         lifecycleScope.launch {
             val firestoreService = FirestoreService("categories", Categories::class.java)
             val categories = firestoreService.getAll().filter { it.userId == (currentUser?.uid ?: "") }
-            categoriesList = categories // Save full list for later use
+
+            // Save for use in selection
+            categoriesList = categories
 
             withContext(Dispatchers.Main) {
-                val categoryNames = categories.map { it.CategoryName }
+                val categoryNames = mutableListOf("Select Category")
+                categoryNames.addAll(categories.map { it.CategoryName })
+
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryNames)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.spnCategory.adapter = adapter
+                binding.spnCategory.setSelection(0) // Set to "Select Category"
 
                 binding.spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val selectedCategory = categoriesList.getOrNull(position)
-                        selectedCategoryId = selectedCategory?.id
+                        if (position == 0) {
+                            // Default selection, clear icon
+                            selectedCategoryId = null
+                            binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
+                            return
+                        }
 
-                        // ** Set the category icon dynamically **
-                        if (selectedCategory != null && !selectedCategory.iconImgPath.isNullOrEmpty()) {
+                        val selectedCategory = categoriesList[position - 1] // Adjust index
+                        selectedCategoryId = selectedCategory.id
+
+                        if (!selectedCategory.iconImgPath.isNullOrEmpty()) {
                             setCategoryIcon(selectedCategory.iconImgPath)
                         } else {
-                            // fallback icon if no imgpath
                             binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
                         }
                     }
@@ -198,28 +190,13 @@ class AddTransactionFragment : Fragment() {
                         binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
                     }
                 }
-
-                // Optional: set initial icon for first category
-                if (categoriesList.isNotEmpty()) {
-                    val firstCategory = categoriesList[0]
-                    if (!firstCategory.iconImgPath.isNullOrEmpty()) {
-                        setCategoryIcon(firstCategory.iconImgPath)
-                    } else {
-                        binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
-                    }
-                }
             }
         }
     }
 
     private fun setCategoryIcon(imgPath: String) {
         val resId = resources.getIdentifier(imgPath, "drawable", requireContext().packageName)
-        if (resId != 0) {
-            binding.imgIcon.setImageResource(resId)
-        } else {
-            // fallback drawable resource
-            binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
-        }
+        binding.imgIcon.setImageResource(if (resId != 0) resId else R.drawable.ic_launcher_foreground)
     }
 
     private fun saveTransaction() {
@@ -295,14 +272,9 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
-
-    //Mohsen Mashkour. 2023. how to save Images to the Firebase storage. Android studio | Kotlin., Youtube. [Online].
-    //Avaiable at: https://www.youtube.com/watch?v=CWSiX_KzP4o [Accessed 30 May 2025]
-
     private fun handleImageUri(uri: Uri) {
         val compressedBytes = uriToCompressedByteArray(uri, maxSizeKB = 300)
         selectedImageBytes = compressedBytes
-
         val bitmap = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.size)
         binding.imgPreview.setImageBitmap(bitmap)
     }
@@ -360,9 +332,12 @@ class AddTransactionFragment : Fragment() {
     private fun resetForm() {
         binding.edtTransactionName.setText("")
         binding.edtAmount.setText("")
-        binding.spnCategory.setSelection(0)
+        binding.spnCategory.setSelection(-1)  // Reset to default item
+        selectedCategoryId = null
         selectedImageBytes = null
+        transactionType = null
         binding.imgPreview.setImageResource(android.R.drawable.btn_star_big_off)
+        binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
         binding.btnIncome.setBackgroundResource(R.drawable.button_income_background)
         binding.btnExpense.setBackgroundResource(R.drawable.button_expense_background)
         binding.btnIncome.setElevation(0f)
