@@ -36,7 +36,7 @@ class TransactionAdapter(private var transactionList: MutableList<Transaction>) 
         val transaction = transactionList[position]
         holder.transactionName.text = transaction.name
         holder.transactionDate.text = formatDate(transaction.dateCreated)
-        holder.transactionAmount.text = "%.2f".format(transaction.amount)
+        holder.transactionAmount.text = "R%.2f".format(transaction.amount)
         holder.viewButton.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, TransactionDetailsActivity::class.java).apply {
