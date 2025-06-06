@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,66 +11,89 @@
     tools:context=".ui.analytics.AnalyticsFragment">
 
     <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:id="@+id/analyticsSkeleton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/analyticsSkeleton">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="100dp"
             android:paddingBottom="64dp"
-            android:paddingTop="100dp">
+            android:gravity="center_horizontal">
 
+            <!-- App Logo -->
             <ImageView
                 android:id="@+id/imageView6"
-                android:layout_width="69dp"
-                android:layout_height="61dp"
-                android:layout_gravity="start"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/logo_only" />
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginBottom="12dp"
+                android:contentDescription="App Logo"
+                android:src="@drawable/logo_only"
+                android:scaleType="centerInside" />
 
+            <!-- Section Title -->
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:text="Analytics"
                 android:textColor="#F6F4F4"
-                android:textSize="40sp"
+                android:textSize="32sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="24dp"/>
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="24dp" />
 
-            <!-- Side-by-side Pie Charts -->
+            <!-- Pie Charts -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:weightSum="2"
-                android:layout_marginBottom="16dp">
+                android:background="@drawable/chart_background"
+                android:layout_marginBottom="24dp"
+                android:divider="?android:attr/dividerHorizontal"
+                android:showDividers="middle"
+                android:dividerPadding="8dp">
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/incomePieChart"
                     android:layout_width="0dp"
-                    android:layout_height="250dp"
+                    android:layout_height="260dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="8dp" />
+                    android:padding="8dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/expensePieChart"
                     android:layout_width="0dp"
-                    android:layout_height="250dp"
+                    android:layout_height="260dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp" />
+                    android:padding="8dp" />
             </LinearLayout>
 
-            <!-- Bar graph container -->
+            <!-- Bar Chart Section Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monthly Summary"
+                android:textColor="#F6F4F4"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="12dp"
+                android:layout_gravity="start" />
+
+            <!-- Bar Chart -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:background="@drawable/chart_background"
+                android:padding="12dp"
+                android:elevation="2dp"
                 android:layout_marginBottom="32dp">
 
                 <com.github.mikephil.charting.charts.BarChart

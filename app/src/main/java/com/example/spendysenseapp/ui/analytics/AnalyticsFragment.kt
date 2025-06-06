@@ -164,7 +164,7 @@ class AnalyticsFragment : Fragment() {
     private fun displayIncomeChart(incomeMap: Map<String, Double>) {
         val sortedIncome = incomeMap.entries.sortedByDescending { it.value }
         val entries = sortedIncome.map {
-            PieEntry(it.value.toFloat(), "${it.key} (R${"%.2f".format(it.value)})")
+            PieEntry(it.value.toFloat(), "${it.key}")
         }
 
         val baseColor = Color.parseColor("#2196F3") // Blue base
@@ -198,7 +198,7 @@ class AnalyticsFragment : Fragment() {
     private fun displayExpenseChart(expenseMap: Map<String, Double>) {
         val sortedExpense = expenseMap.entries.sortedByDescending { it.value }
         val entries = sortedExpense.map {
-            PieEntry(it.value.toFloat(), "${it.key} (R${"%.2f".format(it.value)})")
+            PieEntry(it.value.toFloat(), "${it.key}")
         }
 
         val baseColor = Color.parseColor("#F44336") // Red base
@@ -292,7 +292,7 @@ class AnalyticsFragment : Fragment() {
     }
 
 
-     //Generates a list of color shades from a base color for chart segments
+    //Generates a list of color shades from a base color for chart segments
     //inspired by https://chatgpt.com/share/68420050-0770-800b-a938-164f64c5e017
     private fun generateShades(baseColor: Int, count: Int): List<Int> {
         val hsv = FloatArray(3)
