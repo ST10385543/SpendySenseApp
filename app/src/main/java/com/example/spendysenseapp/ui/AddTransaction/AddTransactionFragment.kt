@@ -52,6 +52,8 @@ class AddTransactionFragment : Fragment() {
     private var selectedImageBytes: ByteArray? = null
     private var transactionType: String? = null
 
+
+
     private val calculatorLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -79,7 +81,7 @@ class AddTransactionFragment : Fragment() {
     }
 
 
-    //Vogel, L. 2025. Android Camera API - Tutorial, Youtube. [Online].
+    //Vogel, L. 2025. Android Camera API - Tutorial [Online].
     //Avaiable at: https://www.vogella.com/tutorials/AndroidCamera/article.html [Accessed 30 May 2025]
 
     //BTech Days. 2021. How to open Camera in Android Studio, Youtube. [Online].

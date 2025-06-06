@@ -1,12 +1,21 @@
 package com.example.spendysenseapp
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.spendysenseapp.databinding.ActivityCalculatorBinding
+import com.example.spendysenseapp.ui.AddTransaction.AddTransactionFragment
 
+@Suppress("DEPRECATION")
 class CalculatorActivity : AppCompatActivity() {
+
+    // Inspire by:
+    // Foxandroid. 2025. How to Make Calculator App in Android Studio || Calculator App Tutorial || 2022,
+    // Youtube [Online]
+    // Avaiable at: https://www.youtube.com/watch?v=-VsatCUSxek [Accessed 30 April 2025]
 
     private lateinit var binding: ActivityCalculatorBinding
     private var expression = ""
@@ -29,18 +38,22 @@ class CalculatorActivity : AppCompatActivity() {
             button.setOnClickListener {
                 expression += value
                 binding.tvCalcResult.text = expression
+                updateCalculateButtonState()
             }
         }
 
         binding.btnAC.setOnClickListener {
             expression = ""
             binding.tvCalcResult.text = "0"
+            updateCalculateButtonState()
         }
+
 
         binding.btnDel.setOnClickListener {
             if (expression.isNotEmpty()) {
                 expression = expression.dropLast(1)
                 binding.tvCalcResult.text = if (expression.isEmpty()) "0" else expression
+                updateCalculateButtonState()
             }
         }
 
@@ -49,19 +62,59 @@ class CalculatorActivity : AppCompatActivity() {
                 val result = evaluateExpression(expression)
                 binding.tvCalcResult.text = result.toString()
                 expression = result.toString()
+                updateCalculateButtonState()
             } catch (e: Exception) {
                 Toast.makeText(this, "Invalid expression", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.btnCalculate.setOnClickListener {
-            val result = binding.tvCalcResult.text.toString()
-            val intent = Intent().apply {
-                putExtra("calc_result", result)
+            if (isCompleteNumber(expression)) {
+                val result = binding.tvCalcResult.text.toString()
+                val intent = Intent().apply {
+                    putExtra("calc_result", result)
+                }
+                setResult(RESULT_OK, intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Please complete your calculation first", Toast.LENGTH_SHORT).show()
+                updateCalculateButtonState()
             }
-            setResult(RESULT_OK, intent)
-            finish()
         }
+
+        // Handle back navigation to AddTransactionFragment
+        // Kumar, M. 2025. Goodbye to onBackPressed(): A Guide to Modern Back press Handling in Android [Online]
+        // Avaiable at: https://www.youtube.com/watch?v=dxqD8FqMPRs [Accessed 30 May 2025]
+        binding.btnReturnToAddTrans.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        // Initialize button state at startup
+        updateCalculateButtonState()
+    }
+
+    private fun updateCalculateButtonState() {
+        val drawable = ContextCompat.getDrawable(this, R.drawable.btn_calc_rounded)?.mutate()
+        if (isCompleteNumber(expression)) {
+            binding.btnCalculate.isEnabled = true
+            binding.btnCalculate.text = "Confirm   Amount?"
+            drawable?.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_green_dark), PorterDuff.Mode.SRC_IN)
+        } else {
+            binding.btnCalculate.isEnabled = false
+            binding.btnCalculate.text = "Complete Calculation"
+            drawable?.setColorFilter(ContextCompat.getColor(this, android.R.color.holo_red_dark), PorterDuff.Mode.SRC_IN)
+        }
+        drawable?.let {
+            binding.btnCalculate.background = it
+        }
+    }
+
+    private fun isCompleteNumber(expr: String): Boolean {
+        // Return true if the expression is a valid complete number or valid equation
+        // i.e. does not end with an operator or just empty
+        if (expr.isEmpty()) return false
+        val lastChar = expr.last()
+        return lastChar.isDigit() || lastChar == '.'
     }
 
     private fun evaluateExpression(expression: String): Double {
