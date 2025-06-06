@@ -52,7 +52,7 @@
             android:background="@drawable/rounded_textview_corner"
             android:backgroundTint="#FFFFFF"
             android:hint="Category Name"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textColorHint="#BBBBBB"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
@@ -110,11 +110,12 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/BackCategorybtn"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:background="@drawable/rounded_create_button"
             android:backgroundTint="#ED6464"
             android:elevation="4dp"
+            android:layout_marginTop="30dp"
             android:text="Back"
             android:textColor="#EFEDED"
             android:textSize="20sp"
