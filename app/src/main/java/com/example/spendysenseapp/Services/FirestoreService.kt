@@ -23,6 +23,13 @@ class FirestoreService<T : Any>(
         val snapshot = collection.get().await()
         return snapshot.documents.mapNotNull { it.toObject(clazz) }
     }
+    suspend fun getMostRecent(limit: Long = 5): List<T> {
+        val snapshot = collection.orderBy("dateCreated", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .limit(limit)
+            .get()
+            .await()
+        return snapshot.documents.mapNotNull { it.toObject(clazz) }
+    }
 
     suspend fun update(documentId: String, data: Map<String, Any>) {
         collection.document(documentId).update(data).await()
