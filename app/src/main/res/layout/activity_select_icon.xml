@@ -1,202 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/main_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0D4946"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:fillViewport="true"
     tools:context=".SelectIconActivity">
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/spendysense_logo_png" />
-
-    <TextView
-        android:id="@+id/tvCreateCategory3"
+    <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="Create Category"
-        android:textColor="#FFFFFF"
-        android:textSize="28sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
 
-    <!-- Income label -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal">
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/spendysense_logo_png"
+            android:contentDescription="App Logo" />
 
+        <!-- Title -->
         <TextView
-            android:id="@+id/labelIncomeSquare"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:background="@drawable/blue_sqaure"
-            android:layout_gravity="center_vertical" />
+            android:id="@+id/tvCreateCategory3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Create Category"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:letterSpacing="0.05" />
 
-        <TextView
-            android:id="@+id/labelIncome"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Income"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginStart="8dp" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical">
 
-    <!-- Expense label -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/labelExpenseSquare"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:background="@drawable/pink_sqaure"
-            android:layout_gravity="center_vertical" />
+            <TextView
+                android:id="@+id/labelIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select you desired icon!"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="12dp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/labelExpense"
-            android:layout_width="wrap_content"
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" Expense"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginStart="8dp" />
+            android:layout_marginTop="28dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgPhone"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/smartphone" />
+
+            <ImageView
+                android:id="@+id/imgGroceries"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/groceries" />
+
+            <ImageView
+                android:id="@+id/imgGiveGift"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/recieve_a_gift" />
+        </LinearLayout>
+
+        <!-- Expense Icons Row 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/dumbbell" />
+
+            <ImageView
+                android:id="@+id/imageView22"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/game" />
+
+            <ImageView
+                android:id="@+id/imageView21"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/mountains" />
+        </LinearLayout>
+
+        <!-- Income Icons Row 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgRecGift"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/give_a_gift" />
+
+            <ImageView
+                android:id="@+id/imgSalary"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/salary" />
+
+            <ImageView
+                android:id="@+id/imgHome"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/home" />
+        </LinearLayout>
+
+        <!-- Income Icons Row 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgcar"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/sedan" />
+
+            <ImageView
+                android:id="@+id/imgHealth"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/healthcare" />
+
+            <ImageView
+                android:id="@+id/imgEdu"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/graduation_cap" />
+        </LinearLayout>
+
     </LinearLayout>
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginTop="20dp">
-
-    <ImageView
-        android:id="@+id/imgPhone"
-        android:layout_width="105dp"
-        android:layout_height="76dp"
-        android:background="@drawable/circle_bg_expense_icon"
-        app:srcCompat="@drawable/smartphone" />
-
-    <ImageView
-        android:id="@+id/imgGroceries"
-        android:layout_width="105dp"
-        android:layout_height="76dp"
-        android:background="@drawable/circle_bg_expense_icon"
-        app:srcCompat="@drawable/groceries" />
-
-
-
-    <ImageView
-        android:id="@+id/imgGiveGift"
-        android:layout_width="105dp"
-        android:layout_height="76dp"
-        android:background="@drawable/circle_bg_expense_icon"
-        app:srcCompat="@drawable/recieve_a_gift" />
-
-
-</LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-        <ImageView
-            android:id="@+id/imageView20"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:layout_weight="1"
-            android:background="@drawable/circle_bg_expense_icon"
-            app:srcCompat="@drawable/dumbbell" />
-        <ImageView
-            android:id="@+id/imageView22"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:layout_weight="1"
-            android:background="@drawable/circle_bg_expense_icon"
-            app:srcCompat="@drawable/game" />
-        <ImageView
-            android:id="@+id/imageView21"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:layout_weight="1"
-            android:background="@drawable/circle_bg_expense_icon"
-
-            app:srcCompat="@drawable/mountains" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/imgRecGift"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:background="@drawable/circle_bg_income_icon"
-            app:srcCompat="@drawable/give_a_gift" />
-
-        <ImageView
-            android:id="@+id/imgSalary"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:background="@drawable/circle_bg_income_icon"
-            app:srcCompat="@drawable/salary" />
-
-        <ImageView
-            android:id="@+id/imgHome"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:background="@drawable/circle_bg_income_icon"
-            app:srcCompat="@drawable/home" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:id="@+id/imgcar"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:background="@drawable/circle_bg_income_icon"
-            app:srcCompat="@drawable/sedan" />
-
-        <ImageView
-            android:id="@+id/imgHealth"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:background="@drawable/circle_bg_income_icon"
-            app:srcCompat="@drawable/healthcare" />
-
-        <ImageView
-            android:id="@+id/imgEdu"
-            android:layout_width="105dp"
-            android:layout_height="76dp"
-            android:background="@drawable/circle_bg_income_icon"
-            app:srcCompat="@drawable/graduation_cap" />
-
-
-    </LinearLayout>
-
-
-</LinearLayout>
+</ScrollView>
