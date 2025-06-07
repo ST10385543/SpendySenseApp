@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 class Achievements(
     val achievementId: String = "",
-    var achievementName: String = "",
-    var achievementDescription: String = "",
-    var achievementIconPath: String = "",
-    var achievementDifficulty: String = ""
+    val achievementName: String = "",
+    val achievementDescription: String = "",
+    val achievementDifficulty: String = "",
+    val achievementIconPath: String = ""
 )

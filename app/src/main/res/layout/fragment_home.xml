@@ -69,7 +69,10 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FF0000"
                     android:textSize="18sp"
+                    android:background="@drawable/rounded_profile_button"
                     android:layout_gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:visibility="gone"
                     android:text=""/>
 

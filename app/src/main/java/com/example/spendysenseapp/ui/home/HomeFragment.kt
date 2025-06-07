@@ -179,28 +179,6 @@ class HomeFragment : Fragment() {
         binding.currentMonthTv.text = "${monthString}"
     }
 
-//    private suspend fun fillValues(){
-//        val transactions = withContext(Dispatchers.IO) {
-//            transactionsDao.getUserTransactionSortedByMonth(currentUser.uid, getCurrentYearMonth())
-//        }
-//
-//        var totalIncome = 0.0
-//        var totalExpense = 0.0
-//
-//        transactions.forEach { transaction ->
-//            when(transaction.type) {
-//                "income" -> totalIncome += transaction.amount
-//                "expense" -> totalExpense += transaction.amount
-//            }
-//        }
-//        val balance = totalIncome - totalExpense
-//
-//        withContext(Dispatchers.Main) {
-//            binding.balanceValueTv.text = "%.2f".format(balance)
-//            binding.incomeValueTv.text = "%.2f".format(totalIncome)
-//            binding.expenseValueTv.text = "%.2f".format(totalExpense)
-//        }
-//    }
     private fun getCurrentYearMonth(): String {
         val calendar = Calendar.getInstance()
         return SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(calendar.time)
@@ -236,10 +214,12 @@ class HomeFragment : Fragment() {
         chartTotalExpense = totalExpense
 
         withContext(Dispatchers.Main) {
-            binding.balanceValueTv.text = "%.2f".format(balance)
-            binding.incomeValueTv.text = "%.2f".format(totalIncome)
-            binding.expenseValueTv.text = "%.2f".format(totalExpense)
-            updateBudgetPieChart(chartTotalExpense, chartMaxGoal)
+            _binding?.let { binding ->
+                binding.balanceValueTv.text = "%.2f".format(balance)
+                binding.incomeValueTv.text = "%.2f".format(totalIncome)
+                binding.expenseValueTv.text = "%.2f".format(totalExpense)
+                updateBudgetPieChart(chartTotalExpense, chartMaxGoal)
+            }
         }
     }
     private suspend fun setMonthlyGoal() {
@@ -361,6 +341,8 @@ class HomeFragment : Fragment() {
             val overAmount = totalExpense - maxGoal
             warningTv.text = "You are overbudget by R${"%.2f".format(overAmount)}"
             warningTv.visibility = View.VISIBLE
+            //added style
+            android.text.style.StyleSpan(android.graphics.Typeface.BOLD)
         } else {
             warningTv.visibility = View.GONE
         }
