@@ -13,7 +13,11 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -106,6 +110,22 @@ class Registration : AppCompatActivity() {
                             user?.sendEmailVerification()
                                 ?.addOnCompleteListener { verificationTask ->
                                     if(verificationTask.isSuccessful) {
+                                        // Generate friend code for sharing
+                                        val friendCode = generateFriendCode()
+                                        // Create user document in Firestore
+                                        val userDoc = hashMapOf(
+                                            "friendCode" to friendCode
+                                        )
+                                        FirebaseFirestore.getInstance()
+                                            .collection("user")
+                                            .document(user.uid)
+                                            .set(userDoc)
+                                            .addOnSuccessListener {
+                                                Log.d("Registration", "User document created with friend code: $friendCode")
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.e("Registration", "Failed to create user document: ${e.message}")
+                                            }
                                         Log.d("Registration", "User ID: ${task.result?.user?.uid}")
                                         Log.d("Email Sending", "Email verification sent!")
                                         Toast.makeText(
@@ -156,5 +176,11 @@ class Registration : AppCompatActivity() {
         val matcher: Matcher = pattern.matcher(password)
 
         return matcher.matches()
+    }
+    private fun generateFriendCode(length: Int = 8): String {
+        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return (1..length)
+            .map { chars.random() }
+            .joinToString("")
     }
 }

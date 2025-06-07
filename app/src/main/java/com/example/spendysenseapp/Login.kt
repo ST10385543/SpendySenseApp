@@ -20,6 +20,7 @@ import com.example.spendysenseapp.ui.home.HomeFragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -82,6 +83,26 @@ class Login : AppCompatActivity() {
                         Log.d("User logging in", "signInWithEmail:success")
                         val user = auth.currentUser
                         if(user != null && user.isEmailVerified){
+                            val userRef = FirebaseFirestore.getInstance().collection("user").document(user.uid)
+                            userRef.get().addOnSuccessListener { doc ->
+                                if (doc.exists() && !doc.contains("friendCode")) {
+                                    // Generate and set friend code for legacy user
+                                    val friendCode = generateFriendCode()
+                                    userRef.update("friendCode", friendCode)
+                                        .addOnSuccessListener {
+                                            Log.d(
+                                                "Login",
+                                                "Friend code added for legacy user: $friendCode"
+                                            )
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.e(
+                                                "Login",
+                                                "Failed to add friend code: ${e.message}"
+                                            )
+                                        }
+                                }
+                            }
                             Toast.makeText(this,"Welcome to spendy sense",Toast.LENGTH_SHORT,).show()
                             startActivity(Intent(this, MainActivity::class.java))
                         }
@@ -117,6 +138,13 @@ class Login : AppCompatActivity() {
         binding.forgotPasswordBtn.setOnClickListener{
             startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
+    }
+
+    private fun generateFriendCode(length: Int = 8): String {
+        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return (1..length)
+            .map { chars.random() }
+            .joinToString("")
     }
 
     //utilized from Biraj Zalavadia. 2014. Regular expressions in android for password field, 22 April 2014. [Online]. Available at: https://stackoverflow.com/questions/23214434/regular-expression-in-android-for-password-field [Accessed 20 May 2025]

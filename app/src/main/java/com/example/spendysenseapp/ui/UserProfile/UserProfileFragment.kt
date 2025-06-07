@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.spendysenseapp.AchievementsActivity
+import com.example.spendysenseapp.CreateCategoryActivity
 import com.example.spendysenseapp.DeleteAccount
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Feedback
@@ -75,13 +76,19 @@ class UserProfileFragment : Fragment() {
 
         val createCategoryBtn = view.findViewById<Button>(R.id.CreateCategorybtn)
         createCategoryBtn.setOnClickListener {
-            Toast.makeText(requireContext(), "Create Category clicked", Toast.LENGTH_SHORT).show()
-
+            startActivity(Intent(requireContext(), CreateCategoryActivity::class.java))
         }
 
         val achievementsBtn = view.findViewById<Button>(R.id.Achievementsbtn)
         achievementsBtn.setOnClickListener {
             startActivity(Intent(requireContext(), AchievementsActivity::class.java))
         }
+
+        val friendsBtn = view.findViewById<Button>(R.id.Friendsbtn)
+        friendsBtn.setOnClickListener {
+            //startActivity(Intent(requireContext(), AchievementsActivity::class.java))
+            Toast.makeText(requireContext(), "Friends clicked", Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

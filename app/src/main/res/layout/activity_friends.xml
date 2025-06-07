@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#004643"
+    tools:context=".FriendsActivity">
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/friendlySkeleton">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/CalculatorLogo"
+                android:layout_width="54dp"
+                android:layout_height="64dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/spendysense_logo_png" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username's friends"
+                android:textColor="#FFFFFF"
+                android:textSize="40sp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friends"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:layout_margin="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="15dp"
+                android:background="@drawable/monthlygoalshape">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Username"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Action"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:gravity="center"/>
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/friendsRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:padding="20dp"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Want to add a friend? Use the code below"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userFriendCodeTv"
+                android:text=""
+                android:textColor="#FFFFFF"
+                android:textSize="40sp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Or search their code below"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/enterFriendCodeEt"
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_textview_corner"
+                android:backgroundTint="#FFFFFF"
+                android:layout_gravity="center_horizontal"
+                android:padding="10dp"
+                android:hint="Enter friend code"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="21sp"
+                android:text="Submit"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/design_default_color_error"
+                android:layout_gravity="center"
+                android:enabled="false"/>
+
+
+        </LinearLayout>
+
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+</ScrollView>

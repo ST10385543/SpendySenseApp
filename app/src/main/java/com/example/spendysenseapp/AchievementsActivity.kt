@@ -11,6 +11,7 @@ import com.example.spendysenseapp.Adapter.AchievementAdapter
 import com.example.spendysenseapp.RoomDB.Achievements
 import com.example.spendysenseapp.databinding.ActivityAchievementsBinding
 import com.example.spendysenseapp.databinding.ActivityCalculatorBinding
+import com.faltenreich.skeletonlayout.Skeleton
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
@@ -18,6 +19,9 @@ import com.google.firebase.firestore.firestore
 
 class AchievementsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAchievementsBinding
+    //gotten from Fahlteich, P. 2025. SkeletonLayout: Skeleton view pattern for Android, Github. [Online].
+    //Avaiable at: https://github.com/Faltenreich/SkeletonLayout [Accessed 29 May 2025]
+    private lateinit var skeleton: Skeleton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,9 +31,12 @@ class AchievementsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         binding = ActivityAchievementsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        skeleton = binding.achievementSkeleton
+
+        skeleton.showSkeleton()
 
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         if (currentUserId != null) {
@@ -74,6 +81,7 @@ class AchievementsActivity : AppCompatActivity() {
                         // 3. Update adapters
                         unlockedRecyclerView.adapter = AchievementAdapter(unlocked, isLockedList = false)
                         lockedRecyclerView.adapter = AchievementAdapter(locked, isLockedList = true)
+                        skeleton.showOriginal()
                     }
             }
     }

@@ -48,6 +48,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
     private var startDateMillis: Long? = null
     private var endDateMillis: Long? = null
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private var categoriesList: List<Categories> = emptyList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +93,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
             val categories = firestoreCategoryService.getAll().filter { it.userId == currentUser?.uid }
             val categoryNames = mutableListOf("All Categories")
             val categoryIds = mutableListOf<String?>(null)
+            categoriesList = categories
             categories.forEach {
                 categoryNames.add(it.CategoryName)
                 categoryIds.add(it.id)
@@ -103,11 +105,33 @@ class FilterByCategoryActivity : AppCompatActivity() {
             binding.categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                     selectedCategoryId = categoryIds[position]
+                    if (position == 0) {
+                        // Default selection, clear icon
+                        selectedCategoryId = null
+                        binding.imgIcon.setImageResource(com.example.spendysenseapp.R.drawable.ic_launcher_foreground)
+                        return
+                    }
+
+                    val selectedCategory = categoriesList[position - 1] // Adjust index
+                    selectedCategoryId = selectedCategory.id
+
+                    if (!selectedCategory.iconImgPath.isNullOrEmpty()) {
+                        setCategoryIcon(selectedCategory.iconImgPath)
+                    } else {
+                        binding.imgIcon.setImageResource(com.example.spendysenseapp.R.drawable.ic_launcher_foreground)
+                    }
                     filterTransactions()
                 }
-                override fun onNothingSelected(parent: AdapterView<*>) {}
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    selectedCategoryId = null
+                    binding.imgIcon.setImageResource(com.example.spendysenseapp.R.drawable.ic_launcher_foreground)
+                }
             }
         }
+    }
+    private fun setCategoryIcon(imgPath: String) {
+        val resId = resources.getIdentifier(imgPath, "drawable", applicationContext.packageName)
+        binding.imgIcon.setImageResource(if (resId != 0) resId else com.example.spendysenseapp.R.drawable.ic_launcher_foreground)
     }
 
     private fun setupDatePickers() {

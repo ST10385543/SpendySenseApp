@@ -245,7 +245,7 @@ class HomeFragment : Fragment() {
     private suspend fun setMonthlyGoal() {
         val firestore = FirebaseFirestore.getInstance()
         val userId = currentUser.uid
-        val userRef = firestore.collection("User").document(userId)
+        val userRef = firestore.collection("user").document(userId)
 
         // Load and display existing goals
             val snapshot = withContext(Dispatchers.IO) { userRef.get().await() }

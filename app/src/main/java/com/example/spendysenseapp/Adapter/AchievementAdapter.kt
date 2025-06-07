@@ -49,11 +49,6 @@ class AchievementAdapter(
             holder.icon.setImageResource(R.drawable.ic_launcher_background) // fallback icon
         }
 
-        // Use Glide to load image from achievementIconPath
-//        Glide.with(holder.icon.context)
-//            .load(achievement.achievementIconPath)
-//            .into(holder.icon)
-
         if (isLockedList) {
             // Grey out the icon and text
             holder.itemView.alpha = 0.4f

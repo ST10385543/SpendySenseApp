@@ -9,10 +9,15 @@
     android:background="#004643"
     android:gravity="center"
     tools:context=".AchievementsActivity">
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/achievementSkeleton">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <!-- Title -->
         <ImageView
             android:id="@+id/logo"
@@ -130,4 +135,5 @@
                 android:nestedScrollingEnabled="false" />
         </LinearLayout>
     </LinearLayout>
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 </ScrollView>
