@@ -22,6 +22,12 @@ import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.TransactionDetailsActivity
 import com.example.spendysenseapp.databinding.FragmentHomeBinding
 import com.faltenreich.skeletonlayout.Skeleton
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.AggregateField.count
 import com.google.firebase.firestore.FirebaseFirestore
@@ -62,6 +68,13 @@ class HomeFragment : Fragment() {
     //Avaiable at: https://github.com/Faltenreich/SkeletonLayout [Accessed 29 May 2025]
     private lateinit var skeleton: Skeleton
 
+    //Pie Chart inspired by CodingWithMitch (2016) Creating a Simple Pie Chart in Android Studio, YouTube video, [Online].
+    //Available at: https://www.youtube.com/watch?v=8BcTXbwDGbg [Accessed: 29 May 2025].
+    private lateinit var budgetPieChart: PieChart
+
+    private var chartMaxGoal: Double = 0.0
+    private var chartTotalExpense: Double = 0.0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,11 +94,14 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         transactionDetailsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data?.getBooleanExtra("TRANSACTION_DELETED", false) == true) {
-                loadTransactionData()
+                lifecycleScope.launch {
+                    loadTransactionData()
+                }
             }
         }
         skeleton = binding.homeSkeleton
         skeleton.showSkeleton()
+        budgetPieChart = binding.budgetPieChart
 
         lifecycleScope.launch {
             currentUser = sessionManager.getCurrentUser()!!
@@ -141,8 +157,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun loadTransactionData(){
-        lifecycleScope.launch {
+    private suspend fun loadTransactionData(){
             val firestoreService = FirestoreService("transactions", Transaction::class.java)
             val transactions = withContext(Dispatchers.IO) {
                 val allTransactions = firestoreService.getMostRecent()
@@ -151,7 +166,6 @@ class HomeFragment : Fragment() {
                 } ?: emptyList()
             }
             transactionAdapter.updateData(transactions)
-        }
     }
 
     override fun onDestroyView() {
@@ -219,30 +233,34 @@ class HomeFragment : Fragment() {
             }
         }
         val balance = totalIncome - totalExpense
+        chartTotalExpense = totalExpense
 
         withContext(Dispatchers.Main) {
             binding.balanceValueTv.text = "%.2f".format(balance)
             binding.incomeValueTv.text = "%.2f".format(totalIncome)
             binding.expenseValueTv.text = "%.2f".format(totalExpense)
+            updateBudgetPieChart(chartTotalExpense, chartMaxGoal)
         }
     }
-    private fun setMonthlyGoal() {
+    private suspend fun setMonthlyGoal() {
         val firestore = FirebaseFirestore.getInstance()
         val userId = currentUser.uid
         val budgetRef = firestore.collection("userMonthlyBudget").document(userId)
 
         // Load and display existing goals
-        lifecycleScope.launch {
             val snapshot = withContext(Dispatchers.IO) { budgetRef.get().await() }
             if (snapshot.exists()) {
                 val minGoal = snapshot.getDouble("minimumGoal") ?: 0.0
                 val maxGoal = snapshot.getDouble("maximumGoal") ?: 0.0
                 withContext(Dispatchers.Main) {
                     if (minGoal != 0.0) binding.minimumMonthlyGoalTv.text = "Min: R$minGoal"
-                    if (maxGoal != 0.0) binding.maximumMonthlyGoalTv.text = "Max: R$maxGoal"
+                    if (maxGoal != 0.0) {
+                        chartMaxGoal = maxGoal
+                        binding.maximumMonthlyGoalTv.text = "Max: R$maxGoal"
+                        updateBudgetPieChart(chartTotalExpense, chartMaxGoal)
+                    }
                 }
             }
-        }
 
         binding.setMinimumGoalBtn.setOnClickListener {
             val minGoalStr = binding.minimumMonthlyGoalEt.text.toString()
@@ -284,8 +302,67 @@ class HomeFragment : Fragment() {
                     binding.maximumMonthlyGoalEt.text.clear()
                     binding.maximumMonthlyGoalTv.text = "Max: R$maxGoal"
                     Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
+                    chartMaxGoal = maxGoal
+                    updateBudgetPieChart(chartTotalExpense, chartMaxGoal)
                 }
             }
+        }
+    }
+    private fun updateBudgetPieChart(totalExpense: Double, maxGoal: Double) {
+        val entries = mutableListOf<PieEntry>()
+        val colors = mutableListOf<Int>()
+
+        // Expense section (red)
+        if (totalExpense > 0) {
+            entries.add(PieEntry(totalExpense.toFloat(), "Spent"))
+            colors.add(android.graphics.Color.RED)
+        }
+
+        // Remaining budget (grey)
+        val remaining = (maxGoal - totalExpense).coerceAtLeast(0.0)
+        if (remaining > 0) {
+            entries.add(PieEntry(remaining.toFloat(), "Remaining"))
+            colors.add(android.graphics.Color.LTGRAY)
+        }
+
+        val dataSet = PieDataSet(entries, "").apply {
+            this.colors = colors
+            valueTextSize = 16f
+            valueTextColor = android.graphics.Color.BLACK
+        }
+
+        budgetPieChart.apply {
+            data = PieData(dataSet)
+            budgetPieChart.setUsePercentValues(true)
+            val data = PieData(dataSet)
+            data.setValueFormatter(PercentFormatter(budgetPieChart))
+            budgetPieChart.data = data
+            description.isEnabled = false
+            centerText = "Budget: R${"%.2f".format(maxGoal)}"
+            setCenterTextSize(18f)
+            setEntryLabelColor(android.graphics.Color.BLACK)
+            setEntryLabelTextSize(14f)
+            setDrawEntryLabels(false)
+            isDrawHoleEnabled = true
+            holeRadius = 50f
+            transparentCircleRadius = 45f
+            legend.isEnabled = true
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER  // Horizontal center
+            legend.xEntrySpace = 10f  // Spacing between legend entries
+            legend.yEntrySpace = 5f
+            legend.textSize = 15f  // Adjust text size if needed
+            animateY(1000)
+            invalidate()
+        }
+
+        // Show overbudget warning if needed
+        val warningTv = binding.overBudgetWarningTv
+        if (totalExpense > maxGoal && maxGoal > 0.0) {
+            val overAmount = totalExpense - maxGoal
+            warningTv.text = "You are overbudget by R${"%.2f".format(overAmount)}"
+            warningTv.visibility = View.VISIBLE
+        } else {
+            warningTv.visibility = View.GONE
         }
     }
 
