@@ -37,6 +37,7 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.zip.Deflater
+import androidx.navigation.fragment.findNavController
 
 class AddTransactionFragment : Fragment() {
 
@@ -257,6 +258,8 @@ class AddTransactionFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(requireContext(), "Transaction saved", Toast.LENGTH_SHORT).show()
                     resetForm()
+
+                    findNavController().navigate(R.id.action_addTransactionFragment_to_homeFragment)
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

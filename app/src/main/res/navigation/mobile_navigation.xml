@@ -33,7 +33,11 @@
         android:id="@+id/navigation_AddTransaction"
         android:name="com.example.spendysenseapp.ui.AddTransaction.AddTransactionFragment"
         android:label="AddTransaction"
-        tools:layout="@layout/fragment_add_transaction" />
+        tools:layout="@layout/fragment_add_transaction">
+        <action
+            android:id="@+id/action_addTransactionFragment_to_homeFragment"
+            app:destination="@id/navigation_home" />
+</fragment>
 
     <fragment
         android:id="@+id/navigation_ViewTransaction"
