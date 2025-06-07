@@ -6,54 +6,70 @@ import android.widget.Toast
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.spendysenseapp.RoomDB.Feedback
-import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
+import com.example.spendysenseapp.Services.FirestoreService
+import com.example.spendysenseapp.Services.SessionManager
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 class UserFeedback : AppCompatActivity() {
+
+    private val firestoreService = FirestoreService("feedback", Feedback::class.java)
+    private lateinit var sessionManager: SessionManager
+    private var currentUser: FirebaseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_feedback)
 
-        //  references to the UI elements
         val enterText = findViewById<EditText>(R.id.EnterText)
         val submitButton = findViewById<Button>(R.id.Submitbtn)
         val backButton = findViewById<Button>(R.id.backbtn)
+        sessionManager = SessionManager.getInstance(applicationContext)
+
+        currentUser = sessionManager.getCurrentUser()
 
         backButton.setOnClickListener {
             finish()
         }
 
-
         submitButton.setOnClickListener {
             val feedbackText = enterText.text.toString()
-
-            // Validating that the feedback text is not empty
+            val feedbackId = "user_feedback_${UUID.randomUUID().toString().substring(0, 8)}_${
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
+                    Date()
+                )}"
             if (feedbackText.isNotEmpty()) {
-                // Create the Feedback object
-                val feedback = Feedback(
-                    id = 0,  // Room will auto-generate the ID
-                    UserId = 1, // Set the UserId to the current user ID
-                    Title = "User Feedback", // You can customize the title as needed
-                    Description = feedbackText
-                )
+                val feedback = currentUser?.let { it1 ->
+                    Feedback(
+                        id = feedbackId,
+                        UserId = it1.uid,
+                        Title = "User Feedback",
+                        Description = feedbackText
+                    )
+                }
 
-                // inserting the feedback into the database using a coroutine
+                val documentId = UUID.randomUUID().toString()
+
                 CoroutineScope(Dispatchers.IO).launch {
-                    // Get the DAO from the Room database
-                    val feedbackDao = SpendySenseDatabase.getDatabase(application).feedbackDao()
-
-                    feedbackDao.insertFeedback(feedback)
-
-
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@UserFeedback, "Feedback submitted successfully", Toast.LENGTH_SHORT).show()
-
-                        // clear EditText after submitting
-                        enterText.text.clear()
+                    try {
+                        if (feedback != null) {
+                            firestoreService.add(documentId, feedback)
+                        }
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@UserFeedback, "Feedback submitted successfully", Toast.LENGTH_SHORT).show()
+                            enterText.text.clear()
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@UserFeedback, "Failed to submit feedback", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             } else {

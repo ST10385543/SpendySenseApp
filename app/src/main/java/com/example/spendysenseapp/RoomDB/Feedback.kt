@@ -12,8 +12,8 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE // deletes transactions if category is deleted
     )])
 data class Feedback(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    var UserId: Int,
+    @PrimaryKey val id: String,
+    var UserId: String,
     var Title: String,
     var Description: String
 )
