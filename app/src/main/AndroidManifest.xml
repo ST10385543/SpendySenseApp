@@ -21,7 +21,7 @@
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".Achievements"
+            android:name=".AchievementsActivity"
             android:exported="false" />
         <activity
             android:name=".FilterByCategoryActivity"

@@ -245,10 +245,10 @@ class HomeFragment : Fragment() {
     private suspend fun setMonthlyGoal() {
         val firestore = FirebaseFirestore.getInstance()
         val userId = currentUser.uid
-        val budgetRef = firestore.collection("userMonthlyBudget").document(userId)
+        val userRef = firestore.collection("User").document(userId)
 
         // Load and display existing goals
-            val snapshot = withContext(Dispatchers.IO) { budgetRef.get().await() }
+            val snapshot = withContext(Dispatchers.IO) { userRef.get().await() }
             if (snapshot.exists()) {
                 val minGoal = snapshot.getDouble("minimumGoal") ?: 0.0
                 val maxGoal = snapshot.getDouble("maximumGoal") ?: 0.0
@@ -270,7 +270,7 @@ class HomeFragment : Fragment() {
             }
             val minGoal = minGoalStr.toDouble()
             lifecycleScope.launch {
-                val snapshot = withContext(Dispatchers.IO) { budgetRef.get().await() }
+                val snapshot = withContext(Dispatchers.IO) { userRef.get().await() }
                 val currentMax = snapshot.getDouble("maximumGoal") ?: 0.0
                 if (currentMax != 0.0 && minGoal >= currentMax) {
                     withContext(Dispatchers.Main) {
@@ -279,7 +279,7 @@ class HomeFragment : Fragment() {
                     return@launch
                 }
                 val data = mapOf("minimumGoal" to minGoal)
-                budgetRef.set(data, com.google.firebase.firestore.SetOptions.merge()).await()
+                userRef.set(data, com.google.firebase.firestore.SetOptions.merge()).await()
                 withContext(Dispatchers.Main) {
                     binding.minimumMonthlyGoalEt.text.clear()
                     binding.minimumMonthlyGoalTv.text = "Min: R$minGoal"
@@ -297,7 +297,7 @@ class HomeFragment : Fragment() {
             val maxGoal = maxGoalStr.toDouble()
             lifecycleScope.launch {
                 val data = mapOf("maximumGoal" to maxGoal)
-                budgetRef.set(data, com.google.firebase.firestore.SetOptions.merge()).await()
+                userRef.set(data, com.google.firebase.firestore.SetOptions.merge()).await()
                 withContext(Dispatchers.Main) {
                     binding.maximumMonthlyGoalEt.text.clear()
                     binding.maximumMonthlyGoalTv.text = "Max: R$maxGoal"

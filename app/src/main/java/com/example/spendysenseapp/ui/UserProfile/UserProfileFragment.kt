@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.spendysenseapp.AchievementsActivity
 import com.example.spendysenseapp.DeleteAccount
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Feedback
@@ -80,7 +81,7 @@ class UserProfileFragment : Fragment() {
 
         val achievementsBtn = view.findViewById<Button>(R.id.Achievementsbtn)
         achievementsBtn.setOnClickListener {
-            Toast.makeText(requireContext(), "Achievements clicked", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(requireContext(), AchievementsActivity::class.java))
         }
     }
 }

@@ -9,11 +9,11 @@ import androidx.room.TypeConverters
 @Database(
     entities = [
         Users::class,
-        Achievements::class,
+        //Achievements::class,
         Categories::class,
         //Transaction::class,
         Feedback::class,
-        User_Achievements::class
+        //User_Achievements::class
     ],
     version = 15
     //7 - added a migration due to adding min and max goals
@@ -30,11 +30,11 @@ import androidx.room.TypeConverters
 abstract class SpendySenseDatabase : RoomDatabase(){
 
     abstract fun userDao(): UserDao
-    abstract fun achievementDao(): AchievementsDao
+    //abstract fun achievementDao(): AchievementsDao
     abstract fun categoryDao(): CategoriesDao
     //abstract fun transactionDao(): TransactionsDao
     abstract fun feedbackDao(): FeedbackDao
-    abstract fun user_achievementsDao(): User_AchievementsDao
+    //abstract fun user_achievementsDao(): User_AchievementsDao
 
     companion object {
         @Volatile
