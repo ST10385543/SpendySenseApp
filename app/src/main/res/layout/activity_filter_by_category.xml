@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#004643"
-    android:id="@+id/main"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="50dp"
@@ -20,44 +19,87 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:src="@drawable/spendysense_logo_png"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/monthlygoalshape"
-            android:padding="16dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="16dp">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filter by Category:"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:text="Filter by category"
                 android:textColor="#FFFFFF"
-                android:textSize="25sp"/>
+                android:textSize="35sp"/>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/categoryChipGroup"
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:spinnerMode="dropdown"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:background="#EEEEEE"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <Button
+                    android:id="@+id/startDateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Date"/>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/endDateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End Date"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/resetDateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reset Dates"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/categoryTotalTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="Total spent: R0.00"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"/>
-        </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/transactionRv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+            <TextView
+                android:id="@+id/noDataTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="No data available"
+                android:textColor="#FF0000"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transactionRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:padding="20dp"/>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

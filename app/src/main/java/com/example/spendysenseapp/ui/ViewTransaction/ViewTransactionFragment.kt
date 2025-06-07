@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.TransactionAdapter
+import com.example.spendysenseapp.FilterByCategoryActivity
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.Services.FirestoreService
@@ -79,6 +80,9 @@ class ViewTransactionFragment : Fragment() {
         skeleton = binding.transactionRv.applySkeleton(R.layout.transaction_list_item)
 
         skeleton.showSkeleton()
+        binding.filterByCategoryBtn.setOnClickListener {
+            startActivity(Intent(requireContext(), FilterByCategoryActivity::class.java))
+        }
     }
     private fun setupRecyclerView(){
         transactionAdapter = TransactionAdapter(mutableListOf()){ transactionId ->

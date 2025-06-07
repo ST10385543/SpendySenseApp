@@ -46,6 +46,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filter"
+                    android:id="@+id/filterByCategoryBtn"
+                    android:textSize="12sp"
+                    android:padding="10dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_white_button"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/recentTransactionsLinLay"
                 android:background="@drawable/monthlygoalshape"
                 android:orientation="vertical"

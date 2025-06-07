@@ -1,5 +1,6 @@
 package com.example.spendysenseapp.ui.home
 
+import android.R.attr.button
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -14,15 +15,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.TransactionAdapter
-import com.example.spendysenseapp.CreateCategoryActivity
 import com.example.spendysenseapp.RoomDB.Transaction
+import com.example.spendysenseapp.RoomDB.WashingSomethingActivity
 import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.TransactionDetailsActivity
 import com.example.spendysenseapp.databinding.FragmentHomeBinding
-import com.example.spendysenseapp.RoomDB.WashingSomethingActivity
 import com.faltenreich.skeletonlayout.Skeleton
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.AggregateField.count
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
 
 class HomeFragment : Fragment() {
 
@@ -87,10 +89,6 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             currentUser = sessionManager.getCurrentUser()!!
-            if (currentUser == null) {
-                Toast.makeText(requireContext(), "Session expired. Please log in again.", Toast.LENGTH_LONG).show()
-                return@launch
-            }
             setupRecyclerView()
             setCurrentMonth()
             changeLinearLayout()
@@ -99,8 +97,20 @@ class HomeFragment : Fragment() {
             setMonthlyGoal()
             skeleton.showOriginal()
         }
+
+        var logoClickCount = 0
+        var lastClickTime = 0L
         binding.SpendySenseLogoIv.setOnClickListener {
-            startActivity(Intent(requireContext(), WashingSomethingActivity::class.java))
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastClickTime > 1000) {
+                logoClickCount = 0
+            }
+            logoClickCount++
+            lastClickTime = currentTime
+            if (logoClickCount == 3) {
+                logoClickCount = 0
+                startActivity(Intent(requireContext(), WashingSomethingActivity::class.java))
+            }
         }
     }
 
@@ -177,13 +187,25 @@ class HomeFragment : Fragment() {
 //            binding.expenseValueTv.text = "%.2f".format(totalExpense)
 //        }
 //    }
+    private fun getCurrentYearMonth(): String {
+        val calendar = Calendar.getInstance()
+        return SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(calendar.time)
+    }
+    private fun getYearMonthFromMillis(millis: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = millis
+        return SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(calendar.time)
+    }
+
     private suspend fun fillValues() {
+
         val firestoreService = FirestoreService("transactions", Transaction::class.java)
+        val yearMonth = getCurrentYearMonth()
         val transactions = withContext(Dispatchers.IO) {
-            val allTransactions = firestoreService.getMostRecent()
+            val allTransactions = firestoreService.getAll()
             currentUser?.let { user ->
                 allTransactions.filter {
-                    it.userID == user.uid
+                    it.userID == user.uid && getYearMonthFromMillis(it.dateCreated) == yearMonth
                 }
             } ?: emptyList()
         }

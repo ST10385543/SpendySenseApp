@@ -14,6 +14,16 @@
         android:id="@+id/analyticsSkeleton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <!-- App Logo -->
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="App Logo"
+            android:layout_margin="10sp"
+            android:src="@drawable/logo_only"
+            android:scaleType="centerInside" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,16 +34,6 @@
             android:paddingTop="100dp"
             android:paddingBottom="64dp"
             android:gravity="center_horizontal">
-
-            <!-- App Logo -->
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginBottom="12dp"
-                android:contentDescription="App Logo"
-                android:src="@drawable/logo_only"
-                android:scaleType="centerInside" />
 
             <!-- Section Title -->
             <TextView
