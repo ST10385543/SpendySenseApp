@@ -1,95 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#004643"
+    android:gravity="center"
     tools:context=".Achievements">
+
+    <!-- Title -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="84dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/logo_only" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Achievements "
+        android:text="Achievements"
         android:textColor="#F6F4F4"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155" />
+        android:layout_marginTop="8dp" />
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="84dp"
-        android:layout_height="83dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/logo_only" />
-
+    <!-- Emojis + Circle Score layout -->
     <FrameLayout
-        android:id="@+id/frameLayout3"
-        android:layout_width="354dp"
-        android:layout_height="87dp"
-        android:background="@drawable/rounded_profile_button"
-        android:backgroundTint="#03A9F4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.251">
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:padding="8dp">
 
-        <ImageView
-            android:id="@+id/Emoji"
-            android:layout_width="84dp"
-            android:layout_height="83dp"
-            app:srcCompat="@drawable/confetti" />
+        <!-- Blue rounded rectangle with emojis -->
+        <LinearLayout
+            android:id="@+id/emoji_bar"
+            android:layout_width="360dp"
+            android:layout_height="80dp"
+            android:background="@drawable/bg_rounded_blue"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center">
 
-        <ImageView
-            android:id="@+id/Smile"
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/confetti"
+                android:layout_marginHorizontal="4dp" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/party_blower"
+                android:layout_marginHorizontal="4dp" />
+
+            <!-- Spacer, we’ll center the circle manually later -->
+            <View
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="4dp" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/community"
+                android:layout_marginHorizontal="4dp" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/balloons"
+                android:layout_marginHorizontal="4dp" />
+        </LinearLayout>
+
+        <!-- Circle Score TextView overlapping -->
+        <TextView
+            android:id="@+id/score"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginLeft="90dp"
-            app:srcCompat="@drawable/party_blower" />
-
-        <ImageView
-            android:id="@+id/People"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="170dp"
-            app:srcCompat="@drawable/community" />
-
-        <ImageView
-            android:id="@+id/Baloon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="260dp"
-            app:srcCompat="@drawable/balloons" />
-
+            android:text="4/20"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:background="@drawable/circle_achieve_score"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:elevation="8dp" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Coming soon in part 3 "
-        android:textColor="#F6F4F4"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
