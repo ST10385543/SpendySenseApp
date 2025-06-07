@@ -14,19 +14,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:padding="24dp">
 
-        <!-- Logo -->
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/spendysense_logo_png"
-            android:contentDescription="App Logo" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp">
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/Backtwobtn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/rounded_profile_button"
+                android:backgroundTint="#EB5E7D"
+                android:text="back"
+                android:textSize="24sp" />
+
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/spendysense_logo_png"
+                android:contentDescription="App Logo"/>
+        </RelativeLayout>
         <!-- Title -->
+
         <TextView
             android:id="@+id/tvCreateCategory3"
             android:layout_width="match_parent"
@@ -38,7 +54,6 @@
             android:textStyle="bold"
             android:gravity="center"
             android:letterSpacing="0.05" />
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,11 +68,11 @@
                 android:id="@+id/labelIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select you desired icon!"
+                android:layout_marginStart="12dp"
+                android:text="Select your desired icon!"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginStart="12dp" />
+                android:textStyle="bold" />
         </LinearLayout>
 
 

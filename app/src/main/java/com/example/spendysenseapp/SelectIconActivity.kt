@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -88,9 +89,16 @@ class SelectIconActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_icon)
 
+        val backButton = findViewById<Button>(R.id.Backtwobtn)
+        backButton.setOnClickListener {
+            finish()
+        }
+
         for ((viewId, iconResId) in iconMap) {
             val imageView = findViewById<ImageView>(viewId)
             val randomColor = colorList.random()
+
+
 
             val drawable = ContextCompat.getDrawable(this, R.drawable.circle_icon_select)
             val wrappedDrawable: Drawable = DrawableCompat.wrap(drawable!!)
@@ -102,7 +110,8 @@ class SelectIconActivity : AppCompatActivity() {
                 resultIntent.putExtra("icon_res_id", iconResId)
                 setResult(RESULT_OK, resultIntent)
                 finish()
+
+                }
             }
         }
     }
-}
