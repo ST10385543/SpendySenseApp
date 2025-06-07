@@ -362,6 +362,47 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/imgBirthday"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/birthday" />
+
+            <ImageView
+                android:id="@+id/imgDessert"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/dessert" />
+
+            <ImageView
+                android:id="@+id/imgCooking"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/cooking" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
                 android:id="@+id/imgTelevision"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
@@ -392,6 +433,129 @@
                 android:padding="16dp"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/electronics" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgAquarium"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/aquarium" />
+
+            <ImageView
+                android:id="@+id/imgZoo"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/zoo" />
+
+            <ImageView
+                android:id="@+id/imgWaterPark"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/waterpark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgRollerCoaster"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/rollercoaster" />
+
+            <ImageView
+                android:id="@+id/imgCruise"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/cruise" />
+
+            <ImageView
+                android:id="@+id/imgParty"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/party" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgLights"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/lights" />
+
+            <ImageView
+                android:id="@+id/imgWater"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/water" />
+
+            <ImageView
+                android:id="@+id/imgSchool"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/circle_icon_select"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/school" />
         </LinearLayout>
 
     </LinearLayout>

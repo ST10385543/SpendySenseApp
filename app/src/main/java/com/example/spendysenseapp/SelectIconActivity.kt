@@ -12,9 +12,36 @@ import androidx.core.graphics.drawable.DrawableCompat
 class SelectIconActivity : AppCompatActivity() {
 
     private val colorList = listOf(
-        "#FF9800", "#4CAF50", "#03A9F4", "#E91E63", "#9C27B0", "#3F51B5", "#009688",
-        "#F44336", "#8BC34A", "#FFEB3B", "#795548", "#607D8B", "#CDDC39", "#FFC107",
-        "#00BCD4", "#FF5722", "#673AB7", "#00E5FF", "#C51162", "#AEEA00"
+        "#FF9800", // Orange
+        "#4CAF50", // Green
+        "#03A9F4", // Light Blue
+        "#E91E63", // Pink
+        "#9C27B0", // Purple
+        "#3F51B5", // Indigo
+        "#009688", // Teal
+        "#F44336", // Red
+        "#8BC34A", // Lime
+        "#FFEB3B", // Yellow
+        "#795548", // Brown
+        "#607D8B", // Blue Grey
+        "#CDDC39", // Light Green
+        "#FFC107", // Amber
+        "#00BCD4", // Cyan
+        "#FF5722", // Deep Orange
+        "#673AB7", // Deep Purple
+        "#00E5FF", // Bright Cyan
+        "#C51162", // Magenta
+        "#AEEA00", // Light Lime
+        "#001F54", // Navy
+        "#FFD700", // Gold
+        "#808000", // Olive
+        "#FF7F50", // Coral
+        "#87CEEB", // Sky Blue
+        "#FF6347", // Tomato
+        "#2E8B57", // Sea Green
+        "#DC143C", // Crimson
+        "#40E0D0", // Turquoise
+        "#DDA0DD"  // Plum
     )
 
     // Map each ImageView ID to its drawable icon resource
@@ -43,8 +70,18 @@ class SelectIconActivity : AppCompatActivity() {
         R.id.imgTelevision to R.drawable.television,
         R.id.imgCinema to R.drawable.cinema,
         R.id.imgElectronics to R.drawable.electronics,
-
-
+        R.id.imgBirthday to R.drawable.birthday,
+        R.id.imgDessert to R.drawable.dessert,
+        R.id.imgCooking to R.drawable.cooking,
+        R.id.imgAquarium to R.drawable.aquarium,
+        R.id.imgWaterPark to R.drawable.waterpark,
+        R.id.imgZoo to R.drawable.zoo,
+        R.id.imgCruise to R.drawable.cruise,
+        R.id.imgParty to R.drawable.party,
+        R.id.imgRollerCoaster to R.drawable.rollercoaster,
+        R.id.imgLights to R.drawable.lights,
+        R.id.imgWater to R.drawable.water,
+        R.id.imgSchool to R.drawable.school
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
