@@ -111,6 +111,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="150dp"
+                android:id="@+id/sendFriendRequestBtn"
                 android:layout_height="wrap_content"
                 android:textSize="21sp"
                 android:text="Submit"

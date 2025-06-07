@@ -190,7 +190,6 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun fillValues() {
-
         val firestoreService = FirestoreService("transactions", Transaction::class.java)
         val yearMonth = getCurrentYearMonth()
         val transactions = withContext(Dispatchers.IO) {

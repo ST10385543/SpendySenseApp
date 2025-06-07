@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.spendysenseapp.AchievementsActivity
 import com.example.spendysenseapp.CreateCategoryActivity
 import com.example.spendysenseapp.DeleteAccount
+import com.example.spendysenseapp.FriendsActivity
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Feedback
 import com.example.spendysenseapp.RoomDB.Users
@@ -86,8 +87,7 @@ class UserProfileFragment : Fragment() {
 
         val friendsBtn = view.findViewById<Button>(R.id.Friendsbtn)
         friendsBtn.setOnClickListener {
-            //startActivity(Intent(requireContext(), AchievementsActivity::class.java))
-            Toast.makeText(requireContext(), "Friends clicked", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(requireContext(), FriendsActivity::class.java))
         }
 
     }

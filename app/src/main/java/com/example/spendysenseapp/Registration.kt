@@ -110,22 +110,36 @@ class Registration : AppCompatActivity() {
                             user?.sendEmailVerification()
                                 ?.addOnCompleteListener { verificationTask ->
                                     if(verificationTask.isSuccessful) {
-                                        // Generate friend code for sharing
-                                        val friendCode = generateFriendCode()
-                                        // Create user document in Firestore
-                                        val userDoc = hashMapOf(
-                                            "friendCode" to friendCode
-                                        )
-                                        FirebaseFirestore.getInstance()
-                                            .collection("user")
-                                            .document(user.uid)
-                                            .set(userDoc)
-                                            .addOnSuccessListener {
-                                                Log.d("Registration", "User document created with friend code: $friendCode")
+                                        val db = FirebaseFirestore.getInstance()
+                                        val userCollection = db.collection("user")
+                                        val userRef = userCollection.document(user.uid)
+                                        userRef.get().addOnSuccessListener { doc ->
+                                            if (!doc.exists()) {
+                                                // Create user document if it doesn't exist
+                                                val friendCode = generateFriendCode()
+                                                val userDoc = hashMapOf(
+                                                    "userId" to user.uid,
+                                                    "friendCode" to friendCode
+                                                )
+                                                userRef.set(userDoc)
+                                                    .addOnSuccessListener {
+                                                        Log.d("UserInit", "User document created for legacy user")
+                                                    }
+                                                    .addOnFailureListener { e ->
+                                                        Log.e("UserInit", "Failed to create user document: ${e.message}")
+                                                    }
+                                            } else if (!doc.contains("friendCode")) {
+                                                // Add friendCode if missing
+                                                val friendCode = generateFriendCode()
+                                                userRef.update("friendCode", friendCode)
+                                                    .addOnSuccessListener {
+                                                        Log.d("UserInit", "Friend code added for legacy user: $friendCode")
+                                                    }
+                                                    .addOnFailureListener { e ->
+                                                        Log.e("UserInit", "Failed to add friend code: ${e.message}")
+                                                    }
                                             }
-                                            .addOnFailureListener { e ->
-                                                Log.e("Registration", "Failed to create user document: ${e.message}")
-                                            }
+                                        }
                                         Log.d("Registration", "User ID: ${task.result?.user?.uid}")
                                         Log.d("Email Sending", "Email verification sent!")
                                         Toast.makeText(
