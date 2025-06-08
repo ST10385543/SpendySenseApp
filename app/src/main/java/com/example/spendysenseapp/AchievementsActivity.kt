@@ -114,6 +114,7 @@ class AchievementsActivity : AppCompatActivity() {
                         }
 
                         Log.d("AchievementsDebug", "Unlocked count: ${unlockedList.size}, Locked count: ${lockedList.size}")
+                        binding.score.text = "${userAchievementDocs.count()}/${achievementDocs.count()}"
 
                         // 3. Notify adapters after data is updated
                         unlockedAdapter.notifyDataSetChanged()

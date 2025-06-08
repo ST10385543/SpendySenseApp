@@ -89,7 +89,7 @@
             android:id="@+id/score"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="4/20"
+            android:text=""
             android:textColor="#000"
             android:textStyle="bold"
             android:textSize="18sp"
