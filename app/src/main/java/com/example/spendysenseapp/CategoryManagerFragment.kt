@@ -1,5 +1,6 @@
 package com.example.spendysenseapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -36,6 +37,9 @@ class CategoryManagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.categorySkeleton.showSkeleton()
+        binding.addCategoryBtn.setOnClickListener {
+            startActivity(Intent(requireContext(), CreateCategoryActivity::class.java))
+        }
         adapter = CategoryAdapter(categoryList) { category ->
             deleteCategory(category)
         }
