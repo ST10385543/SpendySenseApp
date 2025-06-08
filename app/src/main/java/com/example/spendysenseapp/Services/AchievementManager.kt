@@ -16,23 +16,47 @@ object AchievementManager {
             //this is a singular achievement block, add the logic for the others
             //for one time achievements, use tryUnlockAchievement
             //for counter ones, use increment one
+            //format of an achivement
+            //once of achievement, like easter egg
+            //use tryUnlockAchievement
+            //if its couting progress, use increment progress one
+            //below is example of single once off achievemen
+            // this is the name of the event that you pass from the
+            //method, as shown in HomeFragment.kt
             "washing_something" -> tryUnlockAchievement(
+                //passes the user id from the method it originates from
                 userId,
+                //the id of the achievement, get this from firebase, or how
+                //you named it
                 "find_easter_egg",
+                //these are the methods that send back a onSuccess or onFailure, depending
                 onUnlocked,
                 onAlreadyUnlocked,
                 onFailure
             )
+            //this one is an example of a counted variable, where you need multiple instances
+            //to complete an achievement
+            //use the incrementProgress method
             "make_3_categories" -> incrementProgress(
+                //again the user id
                 userId,
+                //id of the achievement from firebase
                 "make_3_categories",
+                //target refers to how many actions need to be done to complete the achievement
+                //its not an array, so you dont have to start counting from 0, it will be
+                //from 1
                 3 ,
+                //this is again onSuccess or onFailure methods
                 onUnlocked,
                 onFailure = onFailure
             )
             }
         }
     }
+//these 2 methods you shouldnt??? have to change, only having to make new achievement instances
+//in the above class
+//to see an example of an achivement, go to the homeFragment, look for the launch code for the
+//washing something activity
     fun tryUnlockAchievement(
         userId: String,
         achievementId: String,

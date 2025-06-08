@@ -95,10 +95,16 @@ class CreateCategoryActivity : AppCompatActivity() {
                 iconImgPath = iconPath,
                 userId = currentUser?.uid ?: ""
             )
+            //this is the example of a counter variable achievement
             if (currentUser != null) {
                 AchievementManager.checkAndUnlock(
+                    //pass the id as normal
                     currentUser.uid,
+                    //then the event name, again gotten from the achievementManager class
                     "make_3_categories",
+                    //then an onUnlocked event
+                    //now you SHOULD be able to do it, but i can understand if its still a bit
+                    //confusing, ill try to do when i get back
                     onUnlocked = { achievement ->
                         Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
                     },

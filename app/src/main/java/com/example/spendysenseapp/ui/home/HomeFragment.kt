@@ -122,13 +122,24 @@ class HomeFragment : Fragment() {
             if (currentTime - lastClickTime > 1000) {
                 logoClickCount = 0
             }
+            //this is the launcher for washing something activity
             logoClickCount++
             lastClickTime = currentTime
             if (logoClickCount == 3) {
                 logoClickCount = 0
+                //so, to check for an achievement, call the class AchievementManager
+                //then the checkAndUnlock with the following information:
                 AchievementManager.checkAndUnlock(
+                    //pass the current user id, as shown in the achievementManager class
                     currentUser.uid,
+                    //the name of the event, not nessesarily the achievement_id, can use
+                    //this to obcuscate the achievement name
                     "washing_something",
+                    //make sure the onUnlock passes an achievement lambda to get the achievement name
+                    //this is a successful achievement
+                    //next, in the createCategoryActivity, you will see an example of a counter achievement
+                    //passes to achievementManager
+                    //line 98
                     onUnlocked = { achievement ->
                         Toast.makeText(requireContext(), "🎉 Achievement unlocked: ${achievement.achievementName} unlocked!", Toast.LENGTH_SHORT).show()
                     },
