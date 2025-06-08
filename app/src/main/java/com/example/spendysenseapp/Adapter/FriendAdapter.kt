@@ -17,7 +17,7 @@ class FriendAdapter(
 ) : RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
 
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val friendUsername: TextView = itemView.findViewById(R.id.friendUsername)
+        val friendUsername: TextView = itemView.findViewById(R.id.friendEmail)
         val acceptButton: MaterialButton = itemView.findViewById(R.id.acceptButton)
         val rejectButton: MaterialButton = itemView.findViewById(R.id.rejectButton)
     }

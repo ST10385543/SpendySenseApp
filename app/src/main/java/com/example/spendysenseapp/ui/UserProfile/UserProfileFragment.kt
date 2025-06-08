@@ -1,5 +1,6 @@
 package com.example.spendysenseapp.ui.UserProfile
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +11,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.spendysenseapp.AchievementsActivity
+import com.example.spendysenseapp.CategoryManagerFragment
 import com.example.spendysenseapp.CreateCategoryActivity
 import com.example.spendysenseapp.DeleteAccount
 import com.example.spendysenseapp.FriendsActivity
@@ -75,9 +78,9 @@ class UserProfileFragment : Fragment() {
         }
 
 
-        val createCategoryBtn = view.findViewById<Button>(R.id.CreateCategorybtn)
-        createCategoryBtn.setOnClickListener {
-            startActivity(Intent(requireContext(), CreateCategoryActivity::class.java))
+        val categoryManagerBtn = view.findViewById<Button>(R.id.CategoryManagerBtn)
+        categoryManagerBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_UserProfile_to_categoryManagerFragment)
         }
 
         val achievementsBtn = view.findViewById<Button>(R.id.Achievementsbtn)

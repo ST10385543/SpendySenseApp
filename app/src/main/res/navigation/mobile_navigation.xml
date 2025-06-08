@@ -50,8 +50,18 @@
         android:id="@+id/navigation_UserProfile"
         android:name="com.example.spendysenseapp.ui.UserProfile.UserProfileFragment"
         android:label="UserProfile"
-        tools:layout="@layout/fragment_user_profile" />
-
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_navigation_UserProfile_to_categoryManagerFragment"
+            app:destination="@id/categoryManagerFragment"
+            app:popUpTo="@id/navigation_UserProfile"
+            app:popUpToInclusive="false"/>
+    </fragment>
+    <fragment
+        android:id="@+id/categoryManagerFragment"
+        android:name="com.example.spendysenseapp.CategoryManagerFragment"
+        android:label="fragment_category_manager"
+        tools:layout="@layout/fragment_category_manager" />
 
 
 </navigation>

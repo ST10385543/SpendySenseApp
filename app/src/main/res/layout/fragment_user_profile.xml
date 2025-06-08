@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="#004643"
     android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
     tools:context=".ui.UserProfile.UserProfileFragment" >
 
     <LinearLayout
@@ -48,13 +49,13 @@
             android:text="Achievements" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/CreateCategorybtn"
+            android:id="@+id/CategoryManagerBtn"
             android:layout_width="329dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:background="@drawable/rounded_profile_button"
-            android:text="Create Category" />
+            android:text="Category manager" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/UserFeedbackbtn"
@@ -109,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="100dp"
             android:background="@drawable/rounded_profile_button"
             android:text="Logout"
             android:onClick="onLogoutClick"/>

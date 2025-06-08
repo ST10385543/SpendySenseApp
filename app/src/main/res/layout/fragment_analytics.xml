@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#004643"
     android:fillViewport="true"
-    android:layout_marginBottom="70dp"
+    android:paddingTop="?attr/actionBarSize"
     tools:context=".ui.analytics.AnalyticsFragment">
 
     <com.faltenreich.skeletonlayout.SkeletonLayout

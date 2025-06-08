@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.ViewTransaction.ViewTransactionFragment"
     android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
     android:background="#004643">
     <com.faltenreich.skeletonlayout.SkeletonLayout
         android:id="@+id/transactionSkeletonLayout"

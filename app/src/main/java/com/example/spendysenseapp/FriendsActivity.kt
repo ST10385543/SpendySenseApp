@@ -110,6 +110,7 @@ class FriendsActivity : AppCompatActivity() {
                         val request = hashMapOf(
                             "requestId" to requestId,
                             "fromUserId" to currentUser.uid,
+                            "fromUsername" to documents.documents[0].getString("userEmail"),
                             "toUserId" to toUserId,
                             "timeSent" to System.currentTimeMillis(),
                             "status" to "pending"
