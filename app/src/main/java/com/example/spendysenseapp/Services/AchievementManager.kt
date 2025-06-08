@@ -65,6 +65,18 @@ object AchievementManager {
                 onUnlocked,
                 onFailure = onFailure
             )
+            //provide user feedback
+            "provide_user_feedback" -> tryUnlockAchievement(
+                //passes the user id from the method it originates from
+                userId,
+                //the id of the achievement, get this from firebase, or how
+                //you named it
+                "provide_user_feedback",
+                //these are the methods that send back a onSuccess or onFailure, depending
+                onUnlocked,
+                onAlreadyUnlocked,
+                onFailure
+            )
             }
         }
     }

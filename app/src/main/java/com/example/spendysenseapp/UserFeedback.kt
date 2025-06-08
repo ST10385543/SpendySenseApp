@@ -6,6 +6,7 @@ import android.widget.Toast
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.spendysenseapp.RoomDB.Feedback
+import com.example.spendysenseapp.Services.AchievementManager
 import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import com.google.firebase.auth.FirebaseUser
@@ -70,6 +71,26 @@ class UserFeedback : AppCompatActivity() {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(this@UserFeedback, "Failed to submit feedback", Toast.LENGTH_SHORT).show()
                         }
+                    }
+                    currentUser?.let { it1 ->
+                        AchievementManager.checkAndUnlock(
+                            //pass the current user id, as shown in the achievementManager class
+                            it1.uid,
+                            //the name of the event, not nessesarily the achievement_id, can use
+                            //this to obcuscate the achievement name
+                            "provide_user_feedback",
+                            //make sure the onUnlock passes an achievement lambda to get the achievement name
+                            //this is a successful achievement
+                            //next, in the createCategoryActivity, you will see an example of a counter achievement
+                            //passes to achievementManager
+                            //line 98
+                            onUnlocked = { achievement ->
+                                Toast.makeText(applicationContext, "🎉 Achievement unlocked: ${achievement.achievementName} unlocked!", Toast.LENGTH_SHORT).show()
+                            },
+                            onFailure = {
+                                Toast.makeText(applicationContext, "⚠️ Could not unlock achievement", Toast.LENGTH_SHORT).show()
+                            }
+                        )
                     }
                 }
             } else {
