@@ -1,41 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#002F2D"
+    android:padding="10dp">
+    <TextView
+        android:id="@+id/friendEmail"
+        android:layout_width="0dp"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#002F2D">
-            <TextView
-                android:id="@+id/friendEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:layout_margin="10dp"
-                android:textSize="18sp"
-                android:layout_weight="2"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/acceptButton"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:layout_margin="10dp"
-                android:background="@drawable/rounded_income_button"
-                android:text="Accept"
-                android:textSize="14sp"
-                android:layout_weight="0.5"/>
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/rejectButton"
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_expense_button"
-            android:text="Reject"
-            android:textSize="14sp"
-            android:layout_weight="0.5"/>
-        </LinearLayout>
-</androidx.cardview.widget.CardView>
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"/>
+    <Button
+        android:id="@+id/viewAchievementsBtn"
+        android:background="@drawable/rounded_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Achievements"/>
+    <Button
+        android:id="@+id/removeFriendBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:text="Remove"/>
+</LinearLayout>

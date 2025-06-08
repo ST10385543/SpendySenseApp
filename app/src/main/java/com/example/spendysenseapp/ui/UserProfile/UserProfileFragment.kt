@@ -50,6 +50,18 @@ class UserProfileFragment : Fragment() {
         lifecycleScope.launch {
             currentUser = auth.currentUser
         }
+        currentUser?.uid?.let { uid ->
+            val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
+            db.collection("user").document(uid).get()
+                .addOnSuccessListener { document ->
+                    val email = document.getString("userEmail")
+                    view.findViewById<android.widget.TextView>(R.id.usernameTv).text = email ?: "Unknown"
+                }
+                .addOnFailureListener {
+                    Log.e("UserProfile", "Failed to fetch user email", it)
+                }
+        }
+
 
         // Logout button
         val logoutBtn = view.findViewById<Button>(R.id.Logoutbtn)
@@ -73,7 +85,7 @@ class UserProfileFragment : Fragment() {
         // User Feedback button
         val feedbackBtn = view.findViewById<Button>(R.id.UserFeedbackbtn)
         feedbackBtn.setOnClickListener {
-            val intent = Intent(requireActivity(), UserFeedback::class.java) // ✅ CORRECT
+            val intent = Intent(requireActivity(), UserFeedback::class.java)
             startActivity(intent)
         }
 

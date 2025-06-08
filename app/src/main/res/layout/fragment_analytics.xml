@@ -8,6 +8,7 @@
     android:background="#004643"
     android:fillViewport="true"
     android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.analytics.AnalyticsFragment">
 
     <com.faltenreich.skeletonlayout.SkeletonLayout

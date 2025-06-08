@@ -8,6 +8,7 @@
     android:background="#004643"
     android:orientation="vertical"
     android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.UserProfile.UserProfileFragment" >
 
     <LinearLayout
@@ -21,7 +22,7 @@
         android:layout_margin="15dp"
         android:src="@drawable/logo_only" />
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/usernameTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

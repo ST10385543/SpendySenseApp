@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#004643"
+    android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context=".CategoryManagerFragment">
     <com.faltenreich.skeletonlayout.SkeletonLayout
         android:layout_width="match_parent"

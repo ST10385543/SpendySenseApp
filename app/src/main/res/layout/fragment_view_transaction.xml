@@ -7,6 +7,7 @@
     tools:context=".ui.ViewTransaction.ViewTransactionFragment"
     android:orientation="vertical"
     android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     android:background="#004643">
     <com.faltenreich.skeletonlayout.SkeletonLayout
         android:id="@+id/transactionSkeletonLayout"
@@ -32,32 +33,32 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:textAlignment="center"
-                android:text="All transactions for Month"
+                android:text="All transactions"
                 android:textColor="#FFFFFF"
                 android:textSize="35sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="N.B - Click item to view details"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="15dp"
-                android:textSize="19sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="N.B - Click item to view details"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="15dp"
+                    android:textSize="19sp"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="Filter"
                     android:id="@+id/filterByCategoryBtn"
                     android:textSize="12sp"
                     android:padding="10dp"
                     android:layout_margin="10dp"
-                    android:background="@drawable/rounded_white_button"/>
+                    android:background="@drawable/rounded_button"/>
             </LinearLayout>
 
             <LinearLayout
@@ -78,8 +79,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Name"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:gravity="center"
+                        android:layout_weight="2"
                         android:textColor="#FFFFFF"
                         android:textSize="30sp"/>
 
@@ -87,8 +88,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Date"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:textColor="#FFFFFF"
                         android:textSize="30sp"/>
 
@@ -96,8 +97,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Amount"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:textColor="#FFFFFF"
                         android:textSize="30sp"/>
                 </LinearLayout>

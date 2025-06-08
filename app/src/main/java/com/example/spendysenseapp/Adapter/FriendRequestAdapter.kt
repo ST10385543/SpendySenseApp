@@ -1,4 +1,4 @@
-// app/src/main/java/com/example/spendysenseapp/Adapter/FriendAdapter.kt
+// app/src/main/java/com/example/spendysenseapp/Adapter/FriendRequestAdapter.kt
 package com.example.spendysenseapp.Adapter
 
 import android.view.LayoutInflater
@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.FriendRequest
 
-class FriendAdapter(
+class FriendRequestAdapter(
     private val friendRequests: List<FriendRequest>,
     private val onAccept: (FriendRequest) -> Unit,
     private val onReject: (FriendRequest) -> Unit
-) : RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
+) : RecyclerView.Adapter<FriendRequestAdapter.FriendViewHolder>() {
 
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val friendUsername: TextView = itemView.findViewById(R.id.friendEmail)
@@ -24,7 +24,7 @@ class FriendAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.friend_list_item, parent, false)
+            .inflate(R.layout.friend_request_list_item, parent, false)
         return FriendViewHolder(view)
     }
 

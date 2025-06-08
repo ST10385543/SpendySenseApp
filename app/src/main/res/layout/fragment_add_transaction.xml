@@ -8,6 +8,7 @@
     android:scrollbars="vertical"
     android:fadeScrollbars="false"
     android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.AddTransaction.AddTransactionFragment">
 
     <LinearLayout

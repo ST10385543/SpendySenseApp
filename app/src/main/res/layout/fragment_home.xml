@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
     android:orientation="vertical"
-    android:paddingBottom="56dp"
+    android:paddingBottom="?attr/actionBarSize"
     android:paddingTop="?attr/actionBarSize"
     android:background="#004643">
 

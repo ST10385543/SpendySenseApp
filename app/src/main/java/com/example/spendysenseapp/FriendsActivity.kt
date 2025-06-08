@@ -1,8 +1,10 @@
 package com.example.spendysenseapp
 
-import android.content.ContentValues.TAG
+import com.example.spendysenseapp.Adapter.FriendsListAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,13 +13,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.spendysenseapp.Adapter.AchievementAdapter
-import com.example.spendysenseapp.Adapter.FriendAdapter
-import com.example.spendysenseapp.RoomDB.Achievements
+import com.example.spendysenseapp.Adapter.FriendRequestAdapter
 import com.example.spendysenseapp.RoomDB.FriendRequest
-import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
-import com.example.spendysenseapp.databinding.ActivityAchievementsBinding
 import com.example.spendysenseapp.databinding.ActivityFriendsBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
@@ -42,6 +40,21 @@ class FriendsActivity : AppCompatActivity() {
         }
         binding = ActivityFriendsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.friendlySkeleton.showSkeleton()
+
+        binding.changeToFriendRequestSw.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.friendRequestsLayout.visibility = View.VISIBLE
+                binding.friendsListLayout.visibility = View.GONE
+            } else {
+                binding.friendRequestsLayout.visibility = View.GONE
+                binding.friendsListLayout.visibility = View.VISIBLE
+            }
+
+        }
+        binding.friendRequestsRv.layoutManager = LinearLayoutManager(this)
+        binding.friendsRv.layoutManager = LinearLayoutManager(this)
+
         sessionManager = SessionManager.getInstance(applicationContext)
         binding.friendsRv.layoutManager = LinearLayoutManager(this)
         lifecycleScope.launch {
@@ -49,22 +62,77 @@ class FriendsActivity : AppCompatActivity() {
             getUsersFriendCode()
             setupFriendSearchListener()
             loadFriendRequests()
+            loadFriendsList()
+            binding.friendlySkeleton.showOriginal()
         }
     }
-    private fun loadFriendRequests() {
+    private suspend fun loadFriendRequests() {
         val db = FirebaseFirestore.getInstance()
         db.collection("friend_requests")
             .whereEqualTo("toUserId", currentUser.uid)
             .get()
             .addOnSuccessListener { documents ->
                 val friendRequests = documents.map { it.toObject(FriendRequest::class.java) }
-                binding.friendsRv.adapter = FriendAdapter(friendRequests,
+                binding.friendRequestsRv.adapter = FriendRequestAdapter(friendRequests,
                     { request -> acceptFriendRequest(request, currentUser.uid) },
                     { request -> rejectFriendRequest(request) }
                 )
             }
     }
-    private fun getUsersFriendCode() {
+    //data class to get friend email for friends list
+    data class FriendInfo(val uid: String, val email: String)
+
+    private suspend fun loadFriendsList() {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("user").document(currentUser.uid).get()
+            .addOnSuccessListener { document ->
+                val friends = document.get("friends") as? List<String> ?: emptyList()
+                if (friends.isEmpty()) {
+                    binding.friendsRv.adapter = FriendsListAdapter(emptyList(), {}, {})
+                    return@addOnSuccessListener
+                }
+                db.collection("user")
+                    .whereIn("userId", friends)
+                    .get()
+                    .addOnSuccessListener { docs ->
+                        val friendInfos = docs.map {
+                            FriendInfo(
+                                uid = it.getString("userId") ?: "",
+                                email = it.getString("userEmail") ?: ""
+                            )
+                        }
+                        binding.friendsRv.adapter = FriendsListAdapter(
+                            friendInfos,
+                            onViewAchievements = { friendUid ->
+                                val friend = friendInfos.find { it.uid == friendUid }
+                                val intent = Intent(this, AchievementsActivity::class.java)
+                                intent.putExtra("friendUid", friendUid)
+                                intent.putExtra("friendEmail", friend?.email ?: "")
+                                startActivity(intent)
+                            },
+                            onRemoveFriend = { friendUid ->
+                                removeFriend(friendUid)
+                            }
+                        )
+                    }
+            }
+    }
+
+    private fun removeFriend(friendUid: String) {
+        val db = FirebaseFirestore.getInstance()
+        val userRef = db.collection("user").document(currentUser.uid)
+        val friendRef = db.collection("user").document(friendUid)
+        db.runBatch { batch ->
+            batch.update(userRef, "friends", FieldValue.arrayRemove(friendUid))
+            batch.update(friendRef, "friends", FieldValue.arrayRemove(currentUser.uid))
+        }.addOnSuccessListener {
+            Toast.makeText(this, "Friend removed", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                loadFriendsList()
+            }
+        }
+    }
+    private suspend fun getUsersFriendCode() {
         val db = Firebase.firestore
         db.collection("user")
             .whereEqualTo("userId", currentUser.uid)
@@ -84,7 +152,7 @@ class FriendsActivity : AppCompatActivity() {
             }
     }
 
-    private fun setupFriendSearchListener() {
+    private suspend fun setupFriendSearchListener() {
         // Initially disable the button
         binding.sendFriendRequestBtn.isEnabled = false
 
@@ -106,19 +174,34 @@ class FriendsActivity : AppCompatActivity() {
                 .addOnSuccessListener { documents ->
                     if (!documents.isEmpty) {
                         val toUserId = documents.documents[0].getString("userId") ?: return@addOnSuccessListener
-                        val requestId = db.collection("friend_requests").document().id
-                        val request = hashMapOf(
-                            "requestId" to requestId,
-                            "fromUserId" to currentUser.uid,
-                            "fromUsername" to documents.documents[0].getString("userEmail"),
-                            "toUserId" to toUserId,
-                            "timeSent" to System.currentTimeMillis(),
-                            "status" to "pending"
-                        )
-
-                        db.collection("friend_requests").document(requestId).set(request)
-                        Log.d("friendService", "Friend request sent")
-                        Toast.makeText(this, "Friend request sent successfully", Toast.LENGTH_SHORT).show()
+                        // Check if already friends
+                        db.collection("user").document(currentUser.uid).get()
+                            .addOnSuccessListener { userDoc ->
+                                val friends = userDoc.get("friends") as? List<String> ?: emptyList()
+                                if (friends.contains(toUserId)) {
+                                    Toast.makeText(this, "You are already friends!", Toast.LENGTH_SHORT).show()
+                                    return@addOnSuccessListener
+                                }
+                                // Not friends, continue to send request
+                                db.collection("user")
+                                    .whereEqualTo("userId", currentUser.uid)
+                                    .get()
+                                    .addOnSuccessListener { userDocs ->
+                                        val fromEmail = userDocs.documents[0].getString("userEmail") ?: "Unknown"
+                                        val requestId = db.collection("friend_requests").document().id
+                                        val request = hashMapOf(
+                                            "requestId" to requestId,
+                                            "fromUserId" to currentUser.uid,
+                                            "fromUsername" to fromEmail,
+                                            "toUserId" to toUserId,
+                                            "timeSent" to System.currentTimeMillis(),
+                                            "status" to "pending"
+                                        )
+                                        db.collection("friend_requests").document(requestId).set(request)
+                                        Log.d("friendService", "Friend request sent")
+                                        Toast.makeText(this, "Friend request sent successfully", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
                     } else {
                         binding.enterFriendCodeEt.error = "No users found"
                         Log.d("friendService", "No users found")
