@@ -116,7 +116,7 @@
                 android:id="@+id/unlockedRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="true" />
 
             <TextView
                 android:text="Locked"
@@ -132,7 +132,7 @@
                 android:id="@+id/lockedRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="true" />
         </LinearLayout>
     </LinearLayout>
     </com.faltenreich.skeletonlayout.SkeletonLayout>
