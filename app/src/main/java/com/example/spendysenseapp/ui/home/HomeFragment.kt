@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.TransactionAdapter
 import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.RoomDB.WashingSomethingActivity
+import com.example.spendysenseapp.Services.AchievementManager
 import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.TransactionDetailsActivity
@@ -125,6 +126,16 @@ class HomeFragment : Fragment() {
             lastClickTime = currentTime
             if (logoClickCount == 3) {
                 logoClickCount = 0
+                AchievementManager.checkAndUnlock(
+                    currentUser.uid,
+                    "washing_something",
+                    onUnlocked = { achievement ->
+                        Toast.makeText(requireContext(), "🎉 Achievement unlocked: ${achievement.achievementName} unlocked!", Toast.LENGTH_SHORT).show()
+                    },
+                    onFailure = {
+                        Toast.makeText(requireContext(), "⚠️ Could not unlock achievement", Toast.LENGTH_SHORT).show()
+                    }
+                    )
                 startActivity(Intent(requireContext(), WashingSomethingActivity::class.java))
             }
         }

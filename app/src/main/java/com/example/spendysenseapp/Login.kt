@@ -83,36 +83,7 @@ class Login : AppCompatActivity() {
                         Log.d("User logging in", "signInWithEmail:success")
                         val user = auth.currentUser
                         if(user != null && user.isEmailVerified){
-                            val db = FirebaseFirestore.getInstance()
-                            val userCollection = db.collection("user")
-                            val userRef = userCollection.document(user.uid)
-                            userRef.get().addOnSuccessListener { doc ->
-                                if (!doc.exists()) {
-                                    // Create user document if it doesn't exist
-                                    val friendCode = generateFriendCode()
-                                    val userDoc = hashMapOf(
-                                        "userId" to user.uid,
-                                        "friendCode" to friendCode
-                                    )
-                                    userRef.set(userDoc)
-                                        .addOnSuccessListener {
-                                            Log.d("UserInit", "User document created for legacy user")
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Log.e("UserInit", "Failed to create user document: ${e.message}")
-                                        }
-                                } else if (!doc.contains("friendCode")) {
-                                    // Add friendCode if missing
-                                    val friendCode = generateFriendCode()
-                                    userRef.update("friendCode", friendCode)
-                                        .addOnSuccessListener {
-                                            Log.d("UserInit", "Friend code added for legacy user: $friendCode")
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Log.e("UserInit", "Failed to add friend code: ${e.message}")
-                                        }
-                                }
-                            }
+                            createAndWriteDocument(binding.emailEt.text.toString())
                             Toast.makeText(this,"Welcome to spendy sense",Toast.LENGTH_SHORT,).show()
                             startActivity(Intent(this, MainActivity::class.java))
                         }
@@ -147,6 +118,42 @@ class Login : AppCompatActivity() {
         }
         binding.forgotPasswordBtn.setOnClickListener{
             startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
+    }
+
+    //if user is legacy user, checks if the user document exists for them, if it doesnt create and assign values like in reg
+    private fun createAndWriteDocument(email: String){
+        val currentUser = auth.currentUser
+        val db = FirebaseFirestore.getInstance()
+        val userCollection = db.collection("user")
+        val userRef = currentUser?.let { userCollection.document(it.uid) }
+        userRef?.get()?.addOnSuccessListener { doc ->
+            if (!doc.exists()) {
+                // Create user document if it doesn't exist
+                val friendCode = generateFriendCode()
+                val userDoc = hashMapOf(
+                    "userId" to currentUser.uid,
+                    "friendCode" to friendCode,
+                    "userEmail" to email
+                )
+                userRef.set(userDoc)
+                    .addOnSuccessListener {
+                        Log.d("UserInit", "User document created for legacy user")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("UserInit", "Failed to create user document: ${e.message}")
+                    }
+            } else if (!doc.contains("friendCode")) {
+                // Add friendCode if missing
+                val friendCode = generateFriendCode()
+                userRef.update("friendCode", friendCode)
+                    .addOnSuccessListener {
+                        Log.d("UserInit", "Friend code added for legacy user: $friendCode")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("UserInit", "Failed to add friend code: ${e.message}")
+                    }
+            }
         }
     }
 

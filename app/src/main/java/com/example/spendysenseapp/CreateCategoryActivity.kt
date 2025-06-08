@@ -15,6 +15,7 @@ import com.example.spendysenseapp.RoomDB.Categories
 import com.example.spendysenseapp.RoomDB.CategoriesDao
 import com.example.spendysenseapp.RoomDB.SpendySenseDatabase
 import com.example.spendysenseapp.RoomDB.Transaction
+import com.example.spendysenseapp.Services.AchievementManager
 import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import kotlinx.coroutines.Dispatchers
@@ -94,6 +95,15 @@ class CreateCategoryActivity : AppCompatActivity() {
                 iconImgPath = iconPath,
                 userId = currentUser?.uid ?: ""
             )
+            if (currentUser != null) {
+                AchievementManager.checkAndUnlock(
+                    currentUser.uid,
+                    "make_3_categories",
+                    onUnlocked = { achievement ->
+                        Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                    },
+                )
+            }
 
             val firestoreService = FirestoreService("categories", Categories::class.java)
             lifecycleScope.launch {

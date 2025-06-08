@@ -110,36 +110,7 @@ class Registration : AppCompatActivity() {
                             user?.sendEmailVerification()
                                 ?.addOnCompleteListener { verificationTask ->
                                     if(verificationTask.isSuccessful) {
-                                        val db = FirebaseFirestore.getInstance()
-                                        val userCollection = db.collection("user")
-                                        val userRef = userCollection.document(user.uid)
-                                        userRef.get().addOnSuccessListener { doc ->
-                                            if (!doc.exists()) {
-                                                // Create user document if it doesn't exist
-                                                val friendCode = generateFriendCode()
-                                                val userDoc = hashMapOf(
-                                                    "userId" to user.uid,
-                                                    "friendCode" to friendCode
-                                                )
-                                                userRef.set(userDoc)
-                                                    .addOnSuccessListener {
-                                                        Log.d("UserInit", "User document created for legacy user")
-                                                    }
-                                                    .addOnFailureListener { e ->
-                                                        Log.e("UserInit", "Failed to create user document: ${e.message}")
-                                                    }
-                                            } else if (!doc.contains("friendCode")) {
-                                                // Add friendCode if missing
-                                                val friendCode = generateFriendCode()
-                                                userRef.update("friendCode", friendCode)
-                                                    .addOnSuccessListener {
-                                                        Log.d("UserInit", "Friend code added for legacy user: $friendCode")
-                                                    }
-                                                    .addOnFailureListener { e ->
-                                                        Log.e("UserInit", "Failed to add friend code: ${e.message}")
-                                                    }
-                                            }
-                                        }
+                                        createAndReadDocument(binding.edtEmail.text.toString())
                                         Log.d("Registration", "User ID: ${task.result?.user?.uid}")
                                         Log.d("Email Sending", "Email verification sent!")
                                         Toast.makeText(
@@ -178,6 +149,42 @@ class Registration : AppCompatActivity() {
     //utilized from iversoncru. 2013. How to check valid email format entered in EditText?, 29 May 2013. [Online]. Available at: https://stackoverflow.com/questions/16812039/how-to-check-valid-email-format-entered-in-edittext [Accessed 20 May 2025]
     private fun isValidEmail(email: String): Boolean{
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    //this checks if the user document exists, if it doesnt, create it with the required values
+    private fun createAndReadDocument(email: String){
+        val user = auth.currentUser
+        val db = FirebaseFirestore.getInstance()
+        val userCollection = db.collection("user")
+        val userRef = user?.let { userCollection.document(it.uid) }
+        userRef?.get()?.addOnSuccessListener { doc ->
+            if (!doc.exists()) {
+                // Create user document if it doesn't exist
+                val friendCode = generateFriendCode()
+                val userDoc = hashMapOf(
+                    "userId" to user.uid,
+                    "friendCode" to friendCode,
+                    "userEmail" to email
+                )
+                userRef.set(userDoc)
+                    .addOnSuccessListener {
+                        Log.d("UserInit", "User document created for legacy user")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("UserInit", "Failed to create user document: ${e.message}")
+                    }
+            } else if (!doc.contains("friendCode")) {
+                // Add friendCode if missing
+                val friendCode = generateFriendCode()
+                userRef.update("friendCode", friendCode)
+                    .addOnSuccessListener {
+                        Log.d("UserInit", "Friend code added for legacy user: $friendCode")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("UserInit", "Failed to add friend code: ${e.message}")
+                    }
+            }
+        }
     }
 
     //utilized from Biraj Zalavadia. 2014. Regular expressions in android for password field, 22 April 2014. [Online]. Available at: https://stackoverflow.com/questions/23214434/regular-expression-in-android-for-password-field [Accessed 20 May 2025]

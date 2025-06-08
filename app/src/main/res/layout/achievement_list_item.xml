@@ -29,20 +29,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/achievementDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#CCCCCC"
+                android:textColor="#000000"
                 android:textSize="14sp"/>
             <TextView
                 android:id="@+id/achievementDifficulty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#CCCCCC"
+                android:textColor="#000000"
                 android:textSize="14sp"/>
         </LinearLayout>
     </LinearLayout>

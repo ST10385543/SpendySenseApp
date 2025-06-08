@@ -66,7 +66,7 @@ class AchievementsActivity : AppCompatActivity() {
         val unlockedIds = mutableSetOf<String>()
 
         // 1. Get unlocked achievement IDs for this user
-        db.collection("user_achievements")
+        db.collection("user_achievement")
             .whereEqualTo("userId", userId)
             .whereEqualTo("completed", true)
             .get()
