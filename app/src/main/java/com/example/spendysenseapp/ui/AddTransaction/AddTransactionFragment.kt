@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -129,6 +131,53 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
+    private suspend fun generateSuggestion(transaction: Transaction): String? {
+        if (transaction.type != "expense") return null
+
+        val firestoreService = FirestoreService("transactions", Transaction::class.java)
+        val userId = currentUser?.uid ?: return null
+
+        val allTransactions = firestoreService.getAll().filter { it.userID == userId }
+
+        var totalIncome = 0.0
+        var totalExpense = 0.0
+
+        allTransactions.forEach { trans ->
+            when (trans.type) {
+                "income" -> totalIncome += trans.amount
+                "expense" -> totalExpense += trans.amount
+            }
+        }
+
+        return when {
+            totalExpense > totalIncome -> {
+                "You should save more. Your expenses (${String.format("%.2f", totalExpense)}) " +
+                        "are more than your income (${String.format("%.2f", totalIncome)}) at the moment."
+            }
+            (totalExpense / totalIncome) > 0.7 -> {
+                "You're spending a large portion (${String.format("%.0f", (totalExpense / totalIncome) * 100)}%) " +
+                        "of your income. Consider saving more."
+            }
+            transaction.amount > (totalIncome * 0.3) -> {
+                "This is a significant expense (${String.format("%.0f", (transaction.amount / totalIncome) * 100)}% " +
+                        "of your income). Make sure it's necessary."
+            }
+            else -> null
+        }
+    }
+
+    private fun showSuggestionDialog(message: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Financial Tip")
+            .setMessage(message)
+            .setPositiveButton("Got it") { dialog, _ -> dialog.dismiss() }
+            .setNeutralButton("Learn more") { dialog, _ ->
+                dialog.dismiss()
+                Toast.makeText(requireContext(), "Redirecting to financial tips...", Toast.LENGTH_SHORT).show()
+            }
+            .show()
+    }
+
     private fun showImageSourceDialog() {
         val options = arrayOf("Camera", "Gallery")
         AlertDialog.Builder(requireContext())
@@ -147,7 +196,6 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun loadCategoriesIntoSpinner() {
-        // Reset icon and selection
         binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
         selectedCategoryId = null
 
@@ -155,7 +203,6 @@ class AddTransactionFragment : Fragment() {
             val firestoreService = FirestoreService("categories", Categories::class.java)
             val categories = firestoreService.getAll().filter { it.userId == (currentUser?.uid ?: "") }
 
-            // Save for use in selection
             categoriesList = categories
 
             withContext(Dispatchers.Main) {
@@ -165,18 +212,17 @@ class AddTransactionFragment : Fragment() {
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryNames)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.spnCategory.adapter = adapter
-                binding.spnCategory.setSelection(0) // Set to "Select Category"
+                binding.spnCategory.setSelection(0)
 
                 binding.spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         if (position == 0) {
-                            // Default selection, clear icon
                             selectedCategoryId = null
                             binding.imgIcon.setImageResource(R.drawable.ic_launcher_foreground)
                             return
                         }
 
-                        val selectedCategory = categoriesList[position - 1] // Adjust index
+                        val selectedCategory = categoriesList[position - 1]
                         selectedCategoryId = selectedCategory.id
 
                         if (!selectedCategory.iconImgPath.isNullOrEmpty()) {
@@ -255,9 +301,18 @@ class AddTransactionFragment : Fragment() {
             val firestoreService = FirestoreService("transactions", Transaction::class.java)
             try {
                 firestoreService.add(transactionId, transaction)
+
+                val suggestion = generateSuggestion(transaction)
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(requireContext(), "Transaction saved", Toast.LENGTH_SHORT).show()
                     resetForm()
+
+                    suggestion?.let { msg ->
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            showSuggestionDialog(msg)
+                        }, 1500)
+                    }
 
                     findNavController().navigate(R.id.action_addTransactionFragment_to_homeFragment)
                 }
@@ -335,7 +390,7 @@ class AddTransactionFragment : Fragment() {
     private fun resetForm() {
         binding.edtTransactionName.setText("")
         binding.edtAmount.setText("")
-        binding.spnCategory.setSelection(-1)  // Reset to default item
+        binding.spnCategory.setSelection(0)
         selectedCategoryId = null
         selectedImageBytes = null
         transactionType = null
