@@ -53,6 +53,9 @@ object AchievementManager {
             }
         }
     }
+        //love..Jerry ;)
+
+
 //these 2 methods you shouldnt??? have to change, only having to make new achievement instances
 //in the above class
 //to see an example of an achivement, go to the homeFragment, look for the launch code for the

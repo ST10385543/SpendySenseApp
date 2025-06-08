@@ -11,9 +11,9 @@ import com.example.spendysenseapp.Adapter.AchievementAdapter
 import com.example.spendysenseapp.RoomDB.Achievements
 import com.example.spendysenseapp.databinding.ActivityAchievementsBinding
 import com.faltenreich.skeletonlayout.Skeleton
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class AchievementsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAchievementsBinding
@@ -62,66 +62,77 @@ class AchievementsActivity : AppCompatActivity() {
 
     private fun loadAchievements(userId: String) {
         val db = Firebase.firestore
-
         val unlockedIds = mutableSetOf<String>()
 
-        // 1. Get unlocked achievement IDs for this user
         db.collection("user_achievement")
             .whereEqualTo("userId", userId)
             .whereEqualTo("completed", true)
             .get()
             .addOnSuccessListener { userAchievementDocs ->
+                // Normalize IDs: trim and lowercase for consistency
                 unlockedIds.addAll(
-                    userAchievementDocs.mapNotNull { it.getString("achievementId") }
-                        .map { it.trim().lowercase() }
+                    userAchievementDocs.mapNotNull {
+                        it.getString("achievementId")?.trim()?.lowercase()
+                    }
                 )
-                Log.d("AchievementsDebug", "Unlocked IDs: $unlockedIds")
 
-                // 2. Get all achievements
                 db.collection("achievements")
                     .get()
                     .addOnSuccessListener { achievementDocs ->
-                        Log.d("AchievementsDebug", "Total achievements fetched: ${achievementDocs.size()}")
-
-                        // Clear lists before adding
                         unlockedList.clear()
                         lockedList.clear()
 
-                        for (doc in achievementDocs) {
-                            Log.d("AchievementsDebug", "Raw data: ${doc.data}")
+                        val easyList = mutableListOf<Achievements>()
+                        val mediumList = mutableListOf<Achievements>()
+                        val hardList = mutableListOf<Achievements>()
+                        val unknownList = mutableListOf<Achievements>() // fallback bucket
 
+                        for (doc in achievementDocs) {
                             try {
                                 val achievement = doc.toObject(Achievements::class.java)
-                                val normalizedId = achievement.achievementId.trim().lowercase()
 
-                                Log.d(
-                                    "AchievementsDebug",
-                                    "Parsed achievement: ID=${achievement.achievementId} Name=${achievement.achievementName}"
-                                )
+                                val normalizedId = achievement.achievementId?.trim()?.lowercase()
+                                if (normalizedId.isNullOrBlank()) {
+                                    Log.w("AchievementsDebug", "Skipped doc with null/blank ID: ${doc.id}")
+                                    continue
+                                }
 
-                                if (normalizedId.isNotBlank()) {
-                                    if (unlockedIds.contains(normalizedId)) {
-                                        unlockedList.add(achievement)
-                                    } else {
-                                        lockedList.add(achievement)
-                                    }
+                                val difficulty = achievement.achievementDifficulty?.trim()?.lowercase() ?: ""
+
+                                if (unlockedIds.contains(normalizedId)) {
+                                    unlockedList.add(achievement)
                                 } else {
-                                    Log.w("AchievementsDebug", "Skipped doc with blank achievementId: ${doc.id}")
+                                    when (difficulty) {
+                                        "easy" -> easyList.add(achievement)
+                                        "medium" -> mediumList.add(achievement)
+                                        "hard" -> hardList.add(achievement)
+                                        else -> {
+                                            Log.w("AchievementsDebug", "Unknown difficulty for ID: $normalizedId, using fallback")
+                                            unknownList.add(achievement)
+                                        }
+                                    }
                                 }
                             } catch (e: Exception) {
                                 Log.e("AchievementsDebug", "Error parsing doc ${doc.id}: ${e.message}")
                             }
                         }
 
-                        Log.d("AchievementsDebug", "Unlocked count: ${unlockedList.size}, Locked count: ${lockedList.size}")
-                        binding.score.text = "${userAchievementDocs.count()}/${achievementDocs.count()}"
+                        // Sort lockedList with easy → medium → hard → unknown
+                        lockedList.addAll(easyList + mediumList + hardList + unknownList)
 
-                        // 3. Notify adapters after data is updated
+                        // Update UI
                         unlockedAdapter.notifyDataSetChanged()
                         lockedAdapter.notifyDataSetChanged()
 
+                        binding.score.text = "${unlockedList.size}/${achievementDocs.size()}"
                         skeleton.showOriginal()
                     }
+                    .addOnFailureListener {
+                        Log.e("AchievementsDebug", "Error fetching achievements: ${it.message}")
+                    }
+            }
+            .addOnFailureListener {
+                Log.e("AchievementsDebug", "Error fetching user achievements: ${it.message}")
             }
     }
 }
