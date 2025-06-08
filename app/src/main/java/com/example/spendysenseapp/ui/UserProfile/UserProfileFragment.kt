@@ -33,6 +33,7 @@ class UserProfileFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private var currentUser: FirebaseUser? = null
+    private var email: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,11 +51,12 @@ class UserProfileFragment : Fragment() {
         lifecycleScope.launch {
             currentUser = auth.currentUser
         }
+
         currentUser?.uid?.let { uid ->
             val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
             db.collection("user").document(uid).get()
                 .addOnSuccessListener { document ->
-                    val email = document.getString("userEmail")
+                    email = document.getString("userEmail")
                     view.findViewById<android.widget.TextView>(R.id.usernameTv).text = email ?: "Unknown"
                 }
                 .addOnFailureListener {
@@ -97,7 +99,10 @@ class UserProfileFragment : Fragment() {
 
         val achievementsBtn = view.findViewById<Button>(R.id.Achievementsbtn)
         achievementsBtn.setOnClickListener {
-            startActivity(Intent(requireContext(), AchievementsActivity::class.java))
+            val intent = Intent(requireContext(), AchievementsActivity::class.java)
+            intent.putExtra("userUid", currentUser?.uid)
+            intent.putExtra("userEmail", email)
+            startActivity(intent)
         }
 
         val friendsBtn = view.findViewById<Button>(R.id.Friendsbtn)

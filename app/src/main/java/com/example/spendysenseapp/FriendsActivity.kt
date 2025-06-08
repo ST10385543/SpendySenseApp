@@ -106,8 +106,8 @@ class FriendsActivity : AppCompatActivity() {
                             onViewAchievements = { friendUid ->
                                 val friend = friendInfos.find { it.uid == friendUid }
                                 val intent = Intent(this, AchievementsActivity::class.java)
-                                intent.putExtra("friendUid", friendUid)
-                                intent.putExtra("friendEmail", friend?.email ?: "")
+                                intent.putExtra("userUid", friendUid)
+                                intent.putExtra("userEmail", friend?.email ?: "")
                                 startActivity(intent)
                             },
                             onRemoveFriend = { friendUid ->

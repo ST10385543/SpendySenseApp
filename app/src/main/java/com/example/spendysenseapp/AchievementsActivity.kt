@@ -1,5 +1,6 @@
 package com.example.spendysenseapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -57,9 +58,13 @@ class AchievementsActivity : AppCompatActivity() {
         binding.unlockedRecyclerView.adapter = unlockedAdapter
         binding.lockedRecyclerView.adapter = lockedAdapter
 
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-        if (currentUserId != null) {
-            loadAchievements(currentUserId)
+        val userUid = intent.getStringExtra("userUid")
+        val userEmail = intent.getStringExtra("userEmail")
+
+        binding.usernameAchievementTv.text = "${userEmail}'s achievements"
+
+        if (userUid != null) {
+            loadAchievements(userUid)
         }
     }
 
