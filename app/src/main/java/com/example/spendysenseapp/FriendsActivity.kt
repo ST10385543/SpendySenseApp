@@ -61,35 +61,38 @@ class FriendsActivity : AppCompatActivity() {
             currentUser = sessionManager.getCurrentUser()!!
             getUsersFriendCode()
             setupFriendSearchListener()
-            loadFriendRequests()
-            loadFriendsList()
+            listenToFriendRequests()
+            listenToFriendsList()
             binding.friendlySkeleton.showOriginal()
         }
     }
-    private suspend fun loadFriendRequests() {
+    private fun listenToFriendRequests() {
         val db = FirebaseFirestore.getInstance()
         db.collection("friend_requests")
             .whereEqualTo("toUserId", currentUser.uid)
-            .get()
-            .addOnSuccessListener { documents ->
-                val friendRequests = documents.map { it.toObject(FriendRequest::class.java) }
-                binding.friendRequestsRv.adapter = FriendRequestAdapter(friendRequests,
-                    { request -> acceptFriendRequest(request, currentUser.uid) },
-                    { request -> rejectFriendRequest(request) }
-                )
+            .addSnapshotListener { snapshots, _ ->
+                if (snapshots != null) {
+                    val friendRequests = snapshots.map { it.toObject(FriendRequest::class.java) }
+                    binding.friendRequestsRv.adapter = FriendRequestAdapter(friendRequests,
+                        { request -> acceptFriendRequest(request, currentUser.uid) },
+                        { request -> rejectFriendRequest(request) }
+                    )
+                }
             }
     }
     //data class to get friend email for friends list
     data class FriendInfo(val uid: String, val email: String)
 
-    private suspend fun loadFriendsList() {
+    private fun listenToFriendsList() {
         val db = FirebaseFirestore.getInstance()
-        db.collection("user").document(currentUser.uid).get()
-            .addOnSuccessListener { document ->
-                val friends = document.get("friends") as? List<String> ?: emptyList()
+        val userRef = db.collection("user").document(currentUser.uid)
+
+        userRef.addSnapshotListener { snapshot, _ ->
+            if (snapshot != null && snapshot.exists()) {
+                val friends = snapshot.get("friends") as? List<String> ?: emptyList()
                 if (friends.isEmpty()) {
                     binding.friendsRv.adapter = FriendsListAdapter(emptyList(), {}, {})
-                    return@addOnSuccessListener
+                    return@addSnapshotListener
                 }
                 db.collection("user")
                     .whereIn("userId", friends)
@@ -116,6 +119,7 @@ class FriendsActivity : AppCompatActivity() {
                         )
                     }
             }
+        }
     }
 
     private fun removeFriend(friendUid: String) {
@@ -128,7 +132,7 @@ class FriendsActivity : AppCompatActivity() {
         }.addOnSuccessListener {
             Toast.makeText(this, "Friend removed", Toast.LENGTH_SHORT).show()
             lifecycleScope.launch {
-                loadFriendsList()
+                listenToFriendsList()
             }
         }
     }
@@ -212,6 +216,7 @@ class FriendsActivity : AppCompatActivity() {
                     Log.e("friendService", "Error searching for user", it)
                     Toast.makeText(this, "Error searching for friend", Toast.LENGTH_SHORT).show()
                 }
+            binding.enterFriendCodeEt.setText("")
         }
     }
 
@@ -234,6 +239,11 @@ class FriendsActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Error! Friend adding failed!", Toast.LENGTH_SHORT).show()
             Log.e("friendService", "Friend added failed")
         }
+        lifecycleScope.launch {
+            listenToFriendRequests()
+            listenToFriendsList()
+        }
+
     }
 
     private fun rejectFriendRequest(request: FriendRequest) {
@@ -250,5 +260,8 @@ class FriendsActivity : AppCompatActivity() {
                 Log.e("friendService", "failed to deny friend request")
 
             }
+        lifecycleScope.launch {
+            listenToFriendRequests()
+        }
     }
 }
