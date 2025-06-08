@@ -50,6 +50,21 @@ object AchievementManager {
                 onUnlocked,
                 onFailure = onFailure
             )
+
+            //3rd achievement example, this is a counter one
+            "make_3_categories" -> incrementProgress(
+                //again the user id
+                userId,
+                //id of the achievement from firebase
+                "make_3_categories",
+                //target refers to how many actions need to be done to complete the achievement
+                //its not an array, so you dont have to start counting from 0, it will be
+                //from 1
+                3 ,
+                //this is again onSuccess or onFailure methods
+                onUnlocked,
+                onFailure = onFailure
+            )
             }
         }
     }

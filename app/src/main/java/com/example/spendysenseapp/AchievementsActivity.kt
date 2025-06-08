@@ -14,6 +14,9 @@ import com.faltenreich.skeletonlayout.Skeleton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.Source
 
 class AchievementsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAchievementsBinding
@@ -64,75 +67,64 @@ class AchievementsActivity : AppCompatActivity() {
         val db = Firebase.firestore
         val unlockedIds = mutableSetOf<String>()
 
-        db.collection("user_achievement")
+        val userAchievementsTask = db.collection("user_achievement")
             .whereEqualTo("userId", userId)
             .whereEqualTo("completed", true)
-            .get()
-            .addOnSuccessListener { userAchievementDocs ->
-                // Normalize IDs: trim and lowercase for consistency
+            .get(Source.SERVER)
+
+        val achievementsTask = db.collection("achievements")
+            .get(Source.SERVER)
+
+        Tasks.whenAllSuccess<QuerySnapshot>(userAchievementsTask, achievementsTask)
+            .addOnSuccessListener { results ->
+                val userAchievementDocs = results[0]
+                val achievementDocs = results[1]
+
                 unlockedIds.addAll(
-                    userAchievementDocs.mapNotNull {
+                    (userAchievementDocs as QuerySnapshot).documents.mapNotNull {
                         it.getString("achievementId")?.trim()?.lowercase()
                     }
                 )
 
-                db.collection("achievements")
-                    .get()
-                    .addOnSuccessListener { achievementDocs ->
-                        unlockedList.clear()
-                        lockedList.clear()
+                unlockedList.clear()
+                lockedList.clear()
 
-                        val easyList = mutableListOf<Achievements>()
-                        val mediumList = mutableListOf<Achievements>()
-                        val hardList = mutableListOf<Achievements>()
-                        val unknownList = mutableListOf<Achievements>() // fallback bucket
+                val easyList = mutableListOf<Achievements>()
+                val mediumList = mutableListOf<Achievements>()
+                val hardList = mutableListOf<Achievements>()
+                val unknownList = mutableListOf<Achievements>()
 
-                        for (doc in achievementDocs) {
-                            try {
-                                val achievement = doc.toObject(Achievements::class.java)
+                for (doc in (achievementDocs as QuerySnapshot).documents) {
+                    try {
+                        val achievement = doc.toObject(Achievements::class.java) ?: continue
+                        val normalizedId = achievement.achievementId?.trim()?.lowercase() ?: continue
+                        val difficulty = achievement.achievementDifficulty?.trim()?.lowercase() ?: ""
 
-                                val normalizedId = achievement.achievementId?.trim()?.lowercase()
-                                if (normalizedId.isNullOrBlank()) {
-                                    Log.w("AchievementsDebug", "Skipped doc with null/blank ID: ${doc.id}")
-                                    continue
-                                }
-
-                                val difficulty = achievement.achievementDifficulty?.trim()?.lowercase() ?: ""
-
-                                if (unlockedIds.contains(normalizedId)) {
-                                    unlockedList.add(achievement)
-                                } else {
-                                    when (difficulty) {
-                                        "easy" -> easyList.add(achievement)
-                                        "medium" -> mediumList.add(achievement)
-                                        "hard" -> hardList.add(achievement)
-                                        else -> {
-                                            Log.w("AchievementsDebug", "Unknown difficulty for ID: $normalizedId, using fallback")
-                                            unknownList.add(achievement)
-                                        }
-                                    }
-                                }
-                            } catch (e: Exception) {
-                                Log.e("AchievementsDebug", "Error parsing doc ${doc.id}: ${e.message}")
+                        if (unlockedIds.contains(normalizedId)) {
+                            unlockedList.add(achievement)
+                        } else {
+                            when (difficulty) {
+                                "easy" -> easyList.add(achievement)
+                                "medium" -> mediumList.add(achievement)
+                                "hard" -> hardList.add(achievement)
+                                else -> unknownList.add(achievement)
                             }
                         }
-
-                        // Sort lockedList with easy → medium → hard → unknown
-                        lockedList.addAll(easyList + mediumList + hardList + unknownList)
-
-                        // Update UI
-                        unlockedAdapter.notifyDataSetChanged()
-                        lockedAdapter.notifyDataSetChanged()
-
-                        binding.score.text = "${unlockedList.size}/${achievementDocs.size()}"
-                        skeleton.showOriginal()
+                    } catch (e: Exception) {
+                        Log.e("AchievementsDebug", "Error parsing doc ${doc.id}: ${e.message}")
                     }
-                    .addOnFailureListener {
-                        Log.e("AchievementsDebug", "Error fetching achievements: ${it.message}")
-                    }
+                }
+
+                lockedList.addAll(easyList + mediumList + hardList + unknownList)
+
+                unlockedAdapter.notifyDataSetChanged()
+                lockedAdapter.notifyDataSetChanged()
+
+                binding.score.text = "${unlockedList.size}/${unlockedList.size + lockedList.size}"
+                skeleton.showOriginal()
             }
             .addOnFailureListener {
-                Log.e("AchievementsDebug", "Error fetching user achievements: ${it.message}")
+                Log.e("AchievementsDebug", "Error fetching data: ${it.message}")
             }
     }
 }
