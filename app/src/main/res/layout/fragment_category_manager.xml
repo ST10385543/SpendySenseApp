@@ -16,12 +16,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="15dp"
                 android:src="@drawable/logo_only" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/backbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_profile_button"
+                android:backgroundTint="#F65477"
+                android:text="Back" />
+        </LinearLayout>
+
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
@@ -32,6 +55,7 @@
                 android:textColor="#F8F6F6"
                 android:textSize="30sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

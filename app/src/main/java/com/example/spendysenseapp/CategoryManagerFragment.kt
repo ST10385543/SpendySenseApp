@@ -39,6 +39,11 @@ class CategoryManagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.categorySkeleton.showSkeleton()
+
+        binding.backbtn.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
         binding.addCategoryBtn.setOnClickListener {
             startActivity(Intent(requireContext(), CreateCategoryActivity::class.java))
         }
