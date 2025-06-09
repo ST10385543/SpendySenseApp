@@ -4,6 +4,12 @@ import com.example.spendysenseapp.RoomDB.Achievements
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 
+//this class is used to manage the various achievements checks, instead of doing it
+//within each achievement block, the comments below explain the process or adding
+//a new achievement based on the one in the firestore
+//this object, that is gotten from the class it is called
+//getting the userId, the name of the event from the activity
+//and units with actions on unlock, already unlocked, and failure
 object AchievementManager {
     fun checkAndUnlock(
         userId: String,
@@ -156,6 +162,7 @@ object AchievementManager {
 //in the above class
 //to see an example of an achivement, go to the homeFragment, look for the launch code for the
 //washing something activity
+//this checks for achievments with a singular activity, like a once off
     fun tryUnlockAchievement(
         userId: String,
         achievementId: String,
@@ -163,6 +170,7 @@ object AchievementManager {
         onAlreadyUnlocked: (Achievements) -> Unit = {},
         onFailure: (Exception) -> Unit = {}
     ) {
+        //prepares the document id for creation
         val db = Firebase.firestore
         val docId = "${userId}_$achievementId"
 
@@ -178,11 +186,14 @@ object AchievementManager {
 
                 val ref = db.collection("user_achievement").document(docId)
 
+                //gets the user_achievement document
                 ref.get()
                     .addOnSuccessListener { doc ->
+                        //checks if the event is already unlocked
                         if (doc.exists() && doc.getBoolean("completed") == true) {
                             onAlreadyUnlocked(achievement)
                         } else {
+                            //if not, create a new firebase document
                             val data = hashMapOf(
                                 "id" to docId,
                                 "userId" to userId,
@@ -192,6 +203,7 @@ object AchievementManager {
                                 "progress" to 100
                             )
 
+                            //add the reference
                             ref.set(data)
                                 .addOnSuccessListener { onUnlocked(achievement) }
                                 .addOnFailureListener { onFailure(it) }
@@ -201,62 +213,70 @@ object AchievementManager {
             }
     }
 
-        fun incrementProgress(
-            userId: String,
-            achievementId: String,
-            target: Int,
-            onUnlocked: (Achievements) -> Unit = {},
-            onProgress: (current: Int, target: Int) -> Unit = { _, _ -> },
-            onFailure: (Exception) -> Unit = {}
-        ) {
-            val db = Firebase.firestore
-            val docId = "${userId}_$achievementId"
-            //fetch achievement info first
-            db.collection("achievements").document(achievementId)
-                .get()
-                .addOnSuccessListener { achievementDoc ->
-                    val achievement = achievementDoc.toObject(Achievements::class.java)
-                    if (achievement == null) {
-                        onFailure(Exception("Achievement not found"))
-                        return@addOnSuccessListener
-                    }
 
-                    val ref = db.collection("user_achievement").document(docId)
-
-                    db.runTransaction { transaction ->
-                        val snapshot = transaction.get(ref)
-                        val currentProgress = snapshot.getLong("progress")?.toInt() ?: 0
-                        val alreadyCompleted = snapshot.getBoolean("completed") == true
-
-                        if (alreadyCompleted) {
-                            return@runTransaction
-                        }
-
-                        val newProgress = currentProgress + 1
-
-                        val data = hashMapOf(
-                            "id" to docId,
-                            "userId" to userId,
-                            "achievementId" to achievementId,
-                            "progress" to newProgress,
-                            "dateTimeAchieved" to System.currentTimeMillis()
-                        )
-
-                        if (newProgress >= target) {
-                            data["completed"] = true
-                            transaction.set(ref, data)
-                        } else {
-                            data["completed"] = false
-                            transaction.set(ref, data)
-                        }
-                    }.addOnSuccessListener {
-                        ref.get().addOnSuccessListener { updatedDoc ->
-                            val prog = updatedDoc.getLong("progress")?.toInt() ?: 0
-                            val isCompleted = updatedDoc.getBoolean("completed") == true
-
-                            if (isCompleted) onUnlocked(achievement) else onProgress(prog, target)
-                        }
-                    }
-                        .addOnFailureListener { onFailure(it) }
+    //this method is used for incrementing achievements
+    //such as deleting a transaction
+    fun incrementProgress(
+        userId: String,
+        achievementId: String,
+        target: Int,
+        onUnlocked: (Achievements) -> Unit = {},
+        onProgress: (current: Int, target: Int) -> Unit = { _, _ -> },
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        //again prepares the document name
+        val db = Firebase.firestore
+        val docId = "${userId}_$achievementId"
+        //fetch achievement info first
+        db.collection("achievements").document(achievementId)
+            .get()
+            .addOnSuccessListener { achievementDoc ->
+                val achievement = achievementDoc.toObject(Achievements::class.java)
+                if (achievement == null) {
+                    onFailure(Exception("Achievement not found"))
+                    return@addOnSuccessListener
                 }
-        }
+
+                val ref = db.collection("user_achievement").document(docId)
+
+                //runs a firestore transaction to get the values
+                db.runTransaction { transaction ->
+                    val snapshot = transaction.get(ref)
+                    val currentProgress = snapshot.getLong("progress")?.toInt() ?: 0
+                    val alreadyCompleted = snapshot.getBoolean("completed") == true
+
+                    if (alreadyCompleted) {
+                        return@runTransaction
+                    }
+
+                    //increments the progress
+                    val newProgress = currentProgress + 1
+
+                    //prepares the data for a new user_achievement making
+                    val data = hashMapOf(
+                        "id" to docId,
+                        "userId" to userId,
+                        "achievementId" to achievementId,
+                        "progress" to newProgress,
+                        "dateTimeAchieved" to System.currentTimeMillis()
+                    )
+
+                    //checks the progress, if its above target, change field completed to true
+                    if (newProgress >= target) {
+                        data["completed"] = true
+                        transaction.set(ref, data)
+                    } else {
+                        data["completed"] = false
+                        transaction.set(ref, data)
+                    }
+                }.addOnSuccessListener {
+                    ref.get().addOnSuccessListener { updatedDoc ->
+                        val prog = updatedDoc.getLong("progress")?.toInt() ?: 0
+                        val isCompleted = updatedDoc.getBoolean("completed") == true
+
+                        if (isCompleted) onUnlocked(achievement) else onProgress(prog, target)
+                    }
+                }
+                    .addOnFailureListener { onFailure(it) }
+            }
+    }
