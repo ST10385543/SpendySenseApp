@@ -1,0 +1,6 @@
+- Convert relevent activities to fragments
+- introduce singletons for user sessions, database operations
+- Cleaner, more cohearent code/comments
+- Improve view design
+- Introduce themes, styling, consistent styling
+- Remove roomdb dependencies once and for all
