@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spendysenseapp.FriendsActivity
 import com.example.spendysenseapp.R
 
+//this class is the code for the friends list recycler view
+//which gets various friends information, like their username and
+//a button action to view their achievements, and to remove them
 class FriendsListAdapter(
     private val friends: List<FriendsActivity.FriendInfo>,
     private val onViewAchievements: (String) -> Unit,

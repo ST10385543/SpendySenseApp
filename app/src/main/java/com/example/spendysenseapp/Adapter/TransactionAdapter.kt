@@ -9,10 +9,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Transaction
-import com.example.spendysenseapp.TransactionDetailsActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+
+//this is the main adapter class for the transactions recycler view
+//present in both view all transaction and the home view
+//it contains the name, the date and the amount for that transaction
+//it also contains the ability to click the recycler view item itself
+//in order to navigate to the transactions details
 class TransactionAdapter(
     private var transactionList: MutableList<Transaction>,
     private var onTransactionClick: (String) -> Unit
@@ -38,6 +43,7 @@ class TransactionAdapter(
         holder.transactionName.text = transaction.name
         holder.transactionDate.text = formatDate(transaction.dateCreated)
         holder.transactionAmount.text = "R%.2f".format(transaction.amount)
+        //this is the code that navigates to the transactions details
         holder.itemView.setOnClickListener {
             onTransactionClick(transaction.id)
         }

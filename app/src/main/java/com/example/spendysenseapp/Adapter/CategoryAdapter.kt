@@ -10,6 +10,10 @@ import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Categories
 import com.google.android.material.button.MaterialButton
 
+//this method is used for the category recycler view in the
+//filter by category view
+//it contains a button which passes the delete
+//action to the view
 class CategoryAdapter(
     private val categories: List<Categories>,
     private val onDelete: (Categories) -> Unit

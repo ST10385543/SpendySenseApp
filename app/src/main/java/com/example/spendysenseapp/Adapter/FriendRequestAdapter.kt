@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.FriendRequest
 
+//this class is the adapter code for the friends list recycler view
+//also contained in the friends activity, it gets the information
+//such as the username, and accept and reject buttons
 class FriendRequestAdapter(
     private val friendRequests: List<FriendRequest>,
     private val onAccept: (FriendRequest) -> Unit,
