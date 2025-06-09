@@ -11,6 +11,9 @@ import com.bumptech.glide.Glide
 import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Achievements
 
+//This method is the adapter for the achievements recycler view
+//it gets the achievement icon, its name, difficulty, description and other important
+//information
 class AchievementAdapter(
     private val achievements: List<Achievements>,
     private val isLockedList: Boolean = false
@@ -36,6 +39,8 @@ class AchievementAdapter(
         holder.description.text = achievement.achievementDescription
         holder.difficulty.text = achievement.achievementDifficulty
 
+        //this code checks the difficulty of the achievement, and assigns the text view
+        //a color depending
         when (achievement.achievementDifficulty) {
             "easy" -> {
                 holder.difficulty.setTextColor(Color.parseColor("#5fbb37"))
@@ -61,9 +66,12 @@ class AchievementAdapter(
         if (resourceId != 0) {
             holder.icon.setImageResource(resourceId)
         } else {
-            holder.icon.setImageResource(R.drawable.ic_launcher_background) // fallback icon
+            //this is a fallback icon
+            holder.icon.setImageResource(R.drawable.ic_launcher_background)
         }
 
+        //this list checks the state of the list of locked achievements, and
+        //assigns different colors for the ui element
         if (isLockedList) {
             // Grey out the icon and text
             holder.itemView.alpha = 0.4f

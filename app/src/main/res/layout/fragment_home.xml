@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Monthly Goal"
+                    android:text="Budget Goal"
                     android:textColor="#FFFFFF"
                     android:textSize="30sp" />
 
@@ -287,7 +287,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Monthly Goal"
+                android:text="Budget Goal"
                 android:textSize="40sp"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center_horizontal"/>
@@ -297,8 +297,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:layout_gravity="center_horizontal"
-                android:text="Minimum
-                monthly goal"
+                android:text="Minimum budget goal"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"/>
 
@@ -310,7 +309,7 @@
                 android:background="@drawable/rounded_white_shape">
 
                 <EditText
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:layout_margin="10dp"
@@ -318,16 +317,6 @@
                     android:inputType="numberDecimal"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_white_shape"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/setMinimumGoalBtn"
-                    android:background="@drawable/set_button_color"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Set"
-                    android:layout_marginEnd="10dp"/>
             </LinearLayout>
 
             <TextView
@@ -336,8 +325,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:layout_gravity="center_horizontal"
-                android:text="Maximum
-                monthly goal"
+                android:text="Maximum budget goal"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"/>
 
@@ -350,7 +338,7 @@
                 android:background="@drawable/rounded_white_shape">
 
                 <EditText
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:layout_margin="10dp"
@@ -358,17 +346,16 @@
                     android:id="@+id/maximumMonthlyGoalEt"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_white_shape"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/setMaximumGoalBtn"
-                    android:background="@drawable/set_button_color"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Set"
-                    android:layout_marginEnd="10dp"/>
             </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:id="@+id/setGoals"
+                android:background="@drawable/set_button_color"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Set"/>
         </LinearLayout>
     </LinearLayout>
     </com.faltenreich.skeletonlayout.SkeletonLayout>

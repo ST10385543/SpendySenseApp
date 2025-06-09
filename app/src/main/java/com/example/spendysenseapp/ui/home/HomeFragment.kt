@@ -265,43 +265,27 @@ class HomeFragment : Fragment() {
                 }
             }
 
-        binding.setMinimumGoalBtn.setOnClickListener {
+        binding.setGoals.setOnClickListener {
             val minGoalStr = binding.minimumMonthlyGoalEt.text.toString()
-            if (minGoalStr.isEmpty()) {
-                Toast.makeText(requireContext(), "No value entered", Toast.LENGTH_SHORT).show()
+            val maxGoalStr = binding.maximumMonthlyGoalEt.text.toString()
+            if (minGoalStr.isEmpty() || maxGoalStr.isEmpty()) {
+                Toast.makeText(requireContext(), "Both values need to filled in", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val minGoal = minGoalStr.toDouble()
+            val maxGoal = maxGoalStr.toDouble()
+
+            if(minGoal> maxGoal){
+                Toast.makeText(requireContext(), "Minimum value cannot be higher than maximim", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             lifecycleScope.launch {
-                val snapshot = withContext(Dispatchers.IO) { userRef.get().await() }
-                val currentMax = snapshot.getDouble("maximumGoal") ?: 0.0
-                if (currentMax != 0.0 && minGoal >= currentMax) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), "Minimum goal must be less than maximum goal", Toast.LENGTH_SHORT).show()
-                    }
-                    return@launch
-                }
-                val data = mapOf("minimumGoal" to minGoal)
+                val data = mapOf("minimumGoal" to minGoal, "maximumGoal" to maxGoal)
                 userRef.set(data, com.google.firebase.firestore.SetOptions.merge()).await()
                 withContext(Dispatchers.Main) {
                     binding.minimumMonthlyGoalEt.text.clear()
                     binding.minimumMonthlyGoalTv.text = "Min: R$minGoal"
-                    Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
 
-        binding.setMaximumGoalBtn.setOnClickListener {
-            val maxGoalStr = binding.maximumMonthlyGoalEt.text.toString()
-            if (maxGoalStr.isEmpty()) {
-                Toast.makeText(requireContext(), "No value entered", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            val maxGoal = maxGoalStr.toDouble()
-            lifecycleScope.launch {
-                val data = mapOf("maximumGoal" to maxGoal)
-                userRef.set(data, com.google.firebase.firestore.SetOptions.merge()).await()
-                withContext(Dispatchers.Main) {
                     binding.maximumMonthlyGoalEt.text.clear()
                     binding.maximumMonthlyGoalTv.text = "Max: R$maxGoal"
                     Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
@@ -309,6 +293,7 @@ class HomeFragment : Fragment() {
                     updateBudgetPieChart(chartTotalExpense, chartMaxGoal)
                 }
             }
+
         }
     }
     private fun updateBudgetPieChart(totalExpense: Double, maxGoal: Double) {
