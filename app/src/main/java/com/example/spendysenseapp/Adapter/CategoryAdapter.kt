@@ -36,13 +36,11 @@ class CategoryAdapter(
         holder.name.text = category.CategoryName
 
         // Set icon using drawable name (string), fallback to default
-        val imgPath = category.iconImgPath
-        if (!imgPath.isNullOrEmpty()) {
-            val context = holder.itemView.context
-            val resId = context.resources.getIdentifier(imgPath, "drawable", context.packageName)
-            holder.icon.setImageResource(if (resId != 0) resId else R.drawable.ic_launcher_foreground)
+        val iconResId = category.iconImgPath.toIntOrNull()
+        if (iconResId != null && iconResId != 0) {
+            holder.icon.setImageResource(iconResId)
         } else {
-            holder.icon.setImageResource(R.drawable.ic_launcher_foreground)
+            holder.icon.setImageResource(R.drawable.ic_launcher_background)
         }
 
         holder.deleteBtn.setOnClickListener { onDelete(category) }

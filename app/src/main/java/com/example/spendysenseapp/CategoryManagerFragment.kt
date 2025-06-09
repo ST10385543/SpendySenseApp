@@ -63,6 +63,7 @@ class CategoryManagerFragment : Fragment() {
             .whereEqualTo("userId", userId)
             .addSnapshotListener { snapshots, _ ->
                 if (snapshots != null) {
+                    categoryList.clear()
                     for (snapshot in snapshots) {
                         try {
                             val category = snapshot.toObject(Categories::class.java)
