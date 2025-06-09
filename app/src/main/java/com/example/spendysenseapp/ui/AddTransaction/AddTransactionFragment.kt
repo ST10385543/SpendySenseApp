@@ -391,11 +391,17 @@ class AddTransactionFragment : Fragment() {
                     val categoryNames = mutableListOf("Select Category")
                     categoryNames.addAll(categories.map { it.CategoryName.lowercase() })
 
-                    if (transactionType == "expense" && categoryNames.equals("fuel") && amount == 1000.toDouble()) {
+                    var fuel_category = ""
+                    categories.forEach { category ->
+                        if (category.CategoryName.lowercase() == "fuel") {
+                            fuel_category = category.CategoryName
+                        }
+                    }
+                    if (transactionType == "expense" && fuel_category.equals("fuel") && amount == 1000.toDouble() && imageUrl != null) {
                         currentUser?.let {
                             AchievementManager.checkAndUnlock(
                                 it.uid,
-                                "make_10_income_transactions",
+                                "create_fuel_1000__image_expense",
                                 onUnlocked = { achievement ->
                                     //play medium sound effect
                                     val mediaPlayer =
