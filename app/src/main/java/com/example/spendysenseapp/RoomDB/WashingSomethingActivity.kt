@@ -1,8 +1,11 @@
 package com.example.spendysenseapp.RoomDB
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.RelativeLayout
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,7 +22,28 @@ class WashingSomethingActivity : AppCompatActivity() {
             insets
         }
         val rootLayout = findViewById<RelativeLayout>(R.id.main)
-        val bubbleGameView = WashingSomething(this)
+        val bubbleGameView = WashingSomething(
+            this,
+            onTimerFinish = { score ->
+                runOnUiThread {
+                    showSuggestionDialog("Your bubble popping score: $score")
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        finish()
+                    }, 2000)
+                }
+            },
+            onBackPressed = {
+                finish()
+            }
+        )
         rootLayout.addView(bubbleGameView)
+    }
+
+    private fun showSuggestionDialog(message: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Bubble Game Result")
+            .setMessage(message)
+            .setPositiveButton("Continue") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }
