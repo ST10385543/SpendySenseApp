@@ -66,6 +66,9 @@ class AchievementsActivity : AppCompatActivity() {
         if (userUid != null) {
             loadAchievements(userUid)
         }
+        binding.backbtn.setOnClickListener {
+            finish()
+        }
     }
 
     private fun loadAchievements(userId: String) {
