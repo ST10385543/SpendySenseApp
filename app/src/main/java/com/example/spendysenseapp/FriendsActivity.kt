@@ -42,6 +42,10 @@ class FriendsActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.friendlySkeleton.showSkeleton()
 
+        binding.backbtn.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         binding.changeToFriendRequestSw.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 binding.friendRequestsLayout.visibility = View.VISIBLE
