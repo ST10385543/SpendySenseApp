@@ -15,11 +15,14 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.spendysenseapp.RoomDB.Categories
 import com.example.spendysenseapp.RoomDB.Transaction
+import com.example.spendysenseapp.Services.AchievementManager
 import com.example.spendysenseapp.Services.FirestoreService
+import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.Services.StorageService
 import com.example.spendysenseapp.databinding.ActivityTransactionDetailsBinding
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -35,6 +38,8 @@ class TransactionDetailsActivity : AppCompatActivity() {
     //Avaiable at: https://github.com/Faltenreich/SkeletonLayout [Accessed 29 May 2025]
     private lateinit var skeleton: Skeleton
 
+    private var currentUser: FirebaseUser? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,6 +50,9 @@ class TransactionDetailsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        var sessionManager = SessionManager.getInstance(applicationContext)
+        currentUser = sessionManager.getCurrentUser()
+
         skeleton = binding.transactionDetailsSkeleteon
 
         skeleton.showSkeleton()
@@ -121,6 +129,17 @@ class TransactionDetailsActivity : AppCompatActivity() {
                 withContext(Dispatchers.IO) {
                     firestoreService.delete(transactionId)
                 }
+                //delete 5 transactions achievement
+                currentUser?.let {
+                    AchievementManager.checkAndUnlock(
+                        it.uid,
+                        "delete_5_transactions",
+                        onUnlocked = { achievement ->
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@TransactionDetailsActivity, "Transaction deleted", Toast.LENGTH_SHORT).show()
                     val resultIntent = Intent()

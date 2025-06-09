@@ -40,6 +40,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.zip.Deflater
 import androidx.navigation.fragment.findNavController
+import com.example.spendysenseapp.Services.AchievementManager
+import com.example.spendysenseapp.Services.incrementProgress
 
 class AddTransactionFragment : Fragment() {
 
@@ -298,6 +300,60 @@ class AddTransactionFragment : Fragment() {
                 receiptImage = imageUrl
             )
 
+            //create 5 transactions of any type achievement
+            if (transactionType == "income" || transactionType == "expense") {
+                currentUser?.let {
+                    AchievementManager.checkAndUnlock(
+                        it.uid,
+                        "create_5_transactions",
+                        onUnlocked = { achievement ->
+                            Toast.makeText(requireContext(), "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+            }
+
+
+
+            currentUser?.let {
+                AchievementManager.checkAndUnlock(
+                    it.uid,
+                    "make_5_categories",
+                    onUnlocked = { achievement ->
+                        Toast.makeText(requireContext(), "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
+            //create 10 income transactions achievement
+            if (transactionType == "income") {
+                currentUser?.let {
+                    AchievementManager.checkAndUnlock(
+                        it.uid,
+                        "make_10_income_transactions",
+                        onUnlocked = { achievement ->
+                            Toast.makeText(requireContext(), "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+            }
+
+
+            //create expense 69 achievement
+            if (transactionType == "expense" && (binding.edtAmount.text.toString() == "69" || binding.edtAmount.text.toString() == "69.00")) {
+                //create expense 69 achievement
+                AchievementManager.checkAndUnlock(
+                    currentUser?.uid ?: "",
+                    "create_expense_69",
+                    onUnlocked = { achievement ->
+                        Toast.makeText(requireContext(), "🎉 Achievement unlocked: ${achievement.achievementName} unlocked!", Toast.LENGTH_SHORT).show()
+                    },
+                    onFailure = {
+                        Toast.makeText(requireContext(), "⚠️ Could not unlock achievement", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
             val firestoreService = FirestoreService("transactions", Transaction::class.java)
             try {
                 firestoreService.add(transactionId, transaction)
@@ -313,6 +369,8 @@ class AddTransactionFragment : Fragment() {
                             showSuggestionDialog(msg)
                         }, 1500)
                     }
+
+
 
                     findNavController().navigate(R.id.action_addTransactionFragment_to_homeFragment)
                 }

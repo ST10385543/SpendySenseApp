@@ -107,9 +107,10 @@ class CreateCategoryActivity : AppCompatActivity() {
                     //confusing, ill try to do when i get back
                     onUnlocked = { achievement ->
                         Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
-                    },
+                    }
                 )
             }
+
 
             val firestoreService = FirestoreService("categories", Categories::class.java)
             lifecycleScope.launch {

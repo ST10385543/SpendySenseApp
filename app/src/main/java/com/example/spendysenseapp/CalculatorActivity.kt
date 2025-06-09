@@ -2,11 +2,24 @@ package com.example.spendysenseapp
 
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Looper
+import android.view.Gravity
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.os.postDelayed
+import com.example.spendysenseapp.Services.AchievementManager
+import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.ActivityCalculatorBinding
+import com.google.firebase.auth.FirebaseUser
+import java.util.logging.Handler
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class CalculatorActivity : AppCompatActivity() {
@@ -18,11 +31,16 @@ class CalculatorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCalculatorBinding
     private var expression = ""
+    private var currentUser: FirebaseUser? = null //for achievements
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCalculatorBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        var sessionManager = SessionManager.getInstance(applicationContext)
+        currentUser = sessionManager.getCurrentUser()
 
         val buttonValues = mapOf(
             binding.btn0 to "0", binding.btn1 to "1", binding.btn2 to "2", binding.btn3 to "3",
@@ -70,16 +88,59 @@ class CalculatorActivity : AppCompatActivity() {
         binding.btnCalculate.setOnClickListener {
             if (isCompleteNumber(expression)) {
                 val result = binding.tvCalcResult.text.toString()
-                val intent = Intent().apply {
-                    putExtra("calc_result", result)
+
+                // Show the ghost ASCII art centered
+                binding.tvCalcResult.apply {
+                    // typeface = Typeface.MONOSPACE
+                   // textAlignment = View.TEXT_ALIGNMENT_CENTER
+                    gravity = Gravity.CENTER
+                    text = """
+     .-"      "-.
+    /            \
+   |              |
+   |,  .-.  .-.  ,|
+   | )(_o/  \o_)( |
+   |/     /\     \|
+   (_     ^^     _)
+    \__|IIIIII|__/
+     | \IIIIII/ |
+     \          /
+      `--------`
+            """.trimIndent()
                 }
-                setResult(RESULT_OK, intent)
-                finish()
+
+                Toast.makeText(applicationContext, "BOO !!! 👻", Toast.LENGTH_SHORT).show()
+
+                // Achievement check
+                if (result == "800") {
+                    AchievementManager.checkAndUnlock(
+                        currentUser?.uid ?: "",
+                        "find_spooky_message",
+                        onUnlocked = { achievement ->
+                            Toast.makeText(applicationContext, "🎉 Achievement unlocked: ${achievement.achievementName} unlocked!", Toast.LENGTH_SHORT).show()
+                        },
+                        onFailure = {
+                            Toast.makeText(applicationContext, "⚠️ Could not unlock achievement", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+
+                // Coroutine delay for 3 seconds
+                lifecycleScope.launch {
+                    delay(3000) // 3 seconds
+                    val intent = Intent().apply {
+                        putExtra("calc_result", result)
+                    }
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }
+
             } else {
                 Toast.makeText(this, "Please complete your calculation first", Toast.LENGTH_SHORT).show()
                 updateCalculateButtonState()
             }
         }
+
 
         // Handle back navigation to AddTransactionFragment
         // Kumar, M. 2025. Goodbye to onBackPressed(): A Guide to Modern Back press Handling in Android [Online]

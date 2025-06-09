@@ -13,6 +13,7 @@ object AchievementManager {
         onFailure: (Exception) -> Unit = {}
     ){
         when(event){
+            // dear ayush
             //this is a singular achievement block, add the logic for the others
             //for one time achievements, use tryUnlockAchievement
             //for counter ones, use increment one
@@ -50,21 +51,8 @@ object AchievementManager {
                 onUnlocked,
                 onFailure = onFailure
             )
+            //start from here  -->  love..Jerry ;)
 
-            //3rd achievement example, this is a counter one
-            "make_3_categories" -> incrementProgress(
-                //again the user id
-                userId,
-                //id of the achievement from firebase
-                "make_3_categories",
-                //target refers to how many actions need to be done to complete the achievement
-                //its not an array, so you dont have to start counting from 0, it will be
-                //from 1
-                3 ,
-                //this is again onSuccess or onFailure methods
-                onUnlocked,
-                onFailure = onFailure
-            )
             //provide user feedback
             "provide_user_feedback" -> tryUnlockAchievement(
                 //passes the user id from the method it originates from
@@ -77,10 +65,55 @@ object AchievementManager {
                 onAlreadyUnlocked,
                 onFailure
             )
+            //create 5 transactions of any type
+            "create_5_transactions" -> incrementProgress(
+                userId,
+                "create_5_transactions",
+                5 ,
+                //this is again onSuccess or onFailure methods
+                onUnlocked,
+                onFailure = onFailure
+            )
+
+            //create 10 income transactions
+            "make_10_income_transactions" -> incrementProgress(
+                userId,
+                "make_10_income_transactions",
+                10 ,
+                onUnlocked,
+                onFailure = onFailure
+            )
+
+            //create R69 expense
+            "create_expense_69" -> tryUnlockAchievement(
+                userId,
+                "create_expense_69",
+                onUnlocked,
+                onAlreadyUnlocked,
+                onFailure
+            )
+
+            //delete 5 transactions
+            "delete_5_transactions" -> incrementProgress(
+                userId,
+                "delete_5_transactions",
+                5,
+                onUnlocked,
+                onFailure = onFailure
+            )
+
+            //EASTER EGG achievement
+            "find_spooky_message" -> tryUnlockAchievement(
+                userId,
+                "find_spooky_message",
+                onUnlocked,
+                onAlreadyUnlocked,
+                onFailure
+            )
             }
         }
     }
-        //love..Jerry ;)
+
 
 
 //these 2 methods you shouldnt??? have to change, only having to make new achievement instances

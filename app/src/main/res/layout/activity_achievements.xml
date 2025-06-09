@@ -131,8 +131,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lockedRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="true" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
     </com.faltenreich.skeletonlayout.SkeletonLayout>
