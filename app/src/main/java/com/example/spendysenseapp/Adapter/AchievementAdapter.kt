@@ -44,7 +44,7 @@ class AchievementAdapter(
                 holder.difficulty.setTextColor(Color.parseColor("#FFC300"))
             }
             "hard" -> {
-                holder.difficulty.setTextColor(Color.parseColor("#FFC300"))
+                holder.difficulty.setTextColor(Color.parseColor("#FF0000"))
             }
             else -> {
                 holder.difficulty.setTextColor(Color.parseColor("#9EB1CD"))

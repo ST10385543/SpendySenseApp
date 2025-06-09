@@ -73,25 +73,26 @@ class AchievementsActivity : AppCompatActivity() {
         val db = Firebase.firestore
         val unlockedIds = mutableSetOf<String>()
 
-        val userAchievementsTask = db.collection("user_achievement")
+        val allAchievementsRef = db.collection("achievements")
+        val userAchievementsRef = db.collection("user_achievement")
             .whereEqualTo("userId", userId)
             .whereEqualTo("completed", true)
-            .get(Source.SERVER)
 
-        val achievementsTask = db.collection("achievements")
-            .get(Source.SERVER)
+        // Listen for real-time changes in user's completed achievements
+        userAchievementsRef.addSnapshotListener { userSnapshot, userError ->
+            if (userError != null) {
+                Log.e("AchievementsDebug", "User achievement listener failed: ${userError.message}")
+                return@addSnapshotListener
+            }
 
-        Tasks.whenAllSuccess<QuerySnapshot>(userAchievementsTask, achievementsTask)
-            .addOnSuccessListener { results ->
-                val userAchievementDocs = results[0]
-                val achievementDocs = results[1]
+            if (userSnapshot == null) return@addSnapshotListener
 
-                unlockedIds.addAll(
-                    (userAchievementDocs as QuerySnapshot).documents.mapNotNull {
-                        it.getString("achievementId")?.trim()?.lowercase()
-                    }
-                )
+            unlockedIds.clear()
+            unlockedIds.addAll(userSnapshot.documents.mapNotNull {
+                it.getString("achievementId")?.trim()?.lowercase()
+            })
 
+            allAchievementsRef.get(Source.SERVER).addOnSuccessListener { achievementDocs ->
                 unlockedList.clear()
                 lockedList.clear()
 
@@ -101,27 +102,21 @@ class AchievementsActivity : AppCompatActivity() {
                 val platinumList = mutableListOf<Achievements>()
                 val unknownList = mutableListOf<Achievements>()
 
-                for (doc in (achievementDocs as QuerySnapshot).documents) {
-                    try {
-                        val achievement = doc.toObject(Achievements::class.java) ?: continue
-                        val normalizedId =
-                            achievement.achievementId?.trim()?.lowercase() ?: continue
-                        val difficulty =
-                            achievement.achievementDifficulty?.trim()?.lowercase() ?: ""
+                for (doc in achievementDocs.documents) {
+                    val achievement = doc.toObject(Achievements::class.java) ?: continue
+                    val id = achievement.achievementId?.trim()?.lowercase() ?: continue
+                    val difficulty = achievement.achievementDifficulty?.trim()?.lowercase() ?: ""
 
-                        if (unlockedIds.contains(normalizedId)) {
-                            unlockedList.add(achievement)
-                        } else {
-                            when (difficulty) {
-                                "easy" -> easyList.add(achievement)
-                                "medium" -> mediumList.add(achievement)
-                                "hard" -> hardList.add(achievement)
-                                "platinum" -> platinumList.add(achievement)
-                                else -> unknownList.add(achievement)
-                            }
+                    if (unlockedIds.contains(id)) {
+                        unlockedList.add(achievement)
+                    } else {
+                        when (difficulty) {
+                            "easy" -> easyList.add(achievement)
+                            "medium" -> mediumList.add(achievement)
+                            "hard" -> hardList.add(achievement)
+                            "platinum" -> platinumList.add(achievement)
+                            else -> unknownList.add(achievement)
                         }
-                    } catch (e: Exception) {
-                        Log.e("AchievementsDebug", "Error parsing doc ${doc.id}: ${e.message}")
                     }
                 }
 
@@ -133,7 +128,7 @@ class AchievementsActivity : AppCompatActivity() {
                 binding.score.text = "${unlockedList.size}/${unlockedList.size + lockedList.size}"
                 skeleton.showOriginal()
 
-                // Prepare sets of all achievements IDs per difficulty (locked + unlocked)
+                // Prepare all IDs per difficulty
                 val allEasyIds = (easyList + unlockedList).filter {
                     it.achievementDifficulty?.trim()?.lowercase() == "easy"
                 }.mapNotNull { it.achievementId?.trim()?.lowercase() }.toSet()
@@ -149,71 +144,45 @@ class AchievementsActivity : AppCompatActivity() {
                 val allAchievementIds = (easyList + mediumList + hardList + platinumList + unknownList + unlockedList)
                     .mapNotNull { it.achievementId?.trim()?.lowercase() }.toSet()
 
-                // Check if user completed all achievements in each difficulty category
                 val hasCompletedAllEasy = allEasyIds.isNotEmpty() && unlockedIds.containsAll(allEasyIds)
                 val hasCompletedAllMedium = allMediumIds.isNotEmpty() && unlockedIds.containsAll(allMediumIds)
                 val hasCompletedAllHard = allHardIds.isNotEmpty() && unlockedIds.containsAll(allHardIds)
                 val hasCompletedAllAchievements = allAchievementIds.isNotEmpty() && unlockedIds.containsAll(allAchievementIds)
 
-                if (hasCompletedAllEasy && !unlockedIds.contains("easy_completed")) {
-                    AchievementManager.checkAndUnlock(
-                        userId,
-                        "easy_completed",
-                        onUnlocked = {
-                            playUnlockSound()
-                            Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
-                        },
-                        onAlreadyUnlocked = { }
-                    )
-                }
-
-                if (hasCompletedAllMedium && !unlockedIds.contains("medium_completed")) {
-                    AchievementManager.checkAndUnlock(
-                        userId,
-                        "medium_completed",
-                        onUnlocked = {
-                            playUnlockSound()
-                            Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
-                        },
-                        onAlreadyUnlocked = { }
-                    )
-                }
-
-                if (hasCompletedAllHard && !unlockedIds.contains("hard_completed")) {
-                    AchievementManager.checkAndUnlock(
-                        userId,
-                        "hard_completed",
-                        onUnlocked = {
-                            playUnlockSound()
-                            Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
-                        },
-                        onAlreadyUnlocked = { }
-                    )
-                }
-
-                if (hasCompletedAllAchievements && !unlockedIds.contains("all_completed")) {
-                    AchievementManager.checkAndUnlock(
-                        userId,
-                        "all_completed",
-                        onUnlocked = {
-                            playUnlockSound()
-                            Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
-                        },
-                        onAlreadyUnlocked = { }
-                    )
-                }
-
-
-
+                unlockAchievementIfEligible(userId, hasCompletedAllEasy, "easy_completed", unlockedIds)
+                unlockAchievementIfEligible(userId, hasCompletedAllMedium, "medium_completed", unlockedIds)
+                unlockAchievementIfEligible(userId, hasCompletedAllHard, "hard_completed", unlockedIds)
+                unlockAchievementIfEligible(userId, hasCompletedAllAchievements, "all_completed", unlockedIds)
             }
-            .addOnFailureListener {
-                Log.e("AchievementsDebug", "Error fetching data: ${it.message}")
-            }
+        }
     }
+
     private fun playUnlockSound() {
         val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
         mediaPlayer?.start()
         mediaPlayer?.setOnCompletionListener { it.release() }
+    }
+
+    private fun unlockAchievementIfEligible(
+        userId: String,
+        conditionMet: Boolean,
+        achievementId: String,
+        unlockedIds: MutableSet<String>
+    ) {
+        if (conditionMet && !unlockedIds.contains(achievementId)) {
+            AchievementManager.checkAndUnlock(
+                userId,
+                achievementId,
+                onUnlocked = {
+                    unlockedIds.add(achievementId) // Update local tracking
+                    playUnlockSound()
+                    Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
+                },
+                onAlreadyUnlocked = {
+                    unlockedIds.add(achievementId)
+                }
+            )
+        }
     }
 
 }

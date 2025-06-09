@@ -394,7 +394,7 @@ class AddTransactionFragment : Fragment() {
                     var fuel_category = ""
                     categories.forEach { category ->
                         if (category.CategoryName.lowercase() == "fuel") {
-                            fuel_category = category.CategoryName
+                            fuel_category = category.CategoryName.lowercase()
                         }
                     }
                     if (transactionType == "expense" && fuel_category.equals("fuel") && amount == 1000.toDouble() && imageUrl != null) {
