@@ -11,7 +11,9 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.CategoryAdapter
+import com.example.spendysenseapp.Adapter.FriendRequestAdapter
 import com.example.spendysenseapp.RoomDB.Categories
+import com.example.spendysenseapp.RoomDB.FriendRequest
 import com.example.spendysenseapp.databinding.FragmentCategoryManagerBinding
 import com.example.spendysenseapp.databinding.FragmentHomeBinding
 import com.google.firebase.Firebase
@@ -54,36 +56,45 @@ class CategoryManagerFragment : Fragment() {
     private fun loadCategories(userId: String) {
         Firebase.firestore.collection("categories")
             .whereEqualTo("userId", userId)
-            .get()
-            .addOnSuccessListener { docs ->
-                categoryList.clear()
-                for (doc in docs) {
-                    try {
-                        val category = doc.toObject(Categories::class.java)
-                        categoryList.add(category)
-                    } catch (e: Exception) {
-                        Log.e("CategoryManager", "Error parsing category: ${e.message}")
+            .addSnapshotListener { snapshots, _ ->
+                if (snapshots != null) {
+                    for (snapshot in snapshots) {
+                        try {
+                            val category = snapshot.toObject(Categories::class.java)
+                            categoryList.add(category)
+                        } catch (e: Exception) {
+                            Log.e("CategoryManager", "Error parsing category: ${e.message}")
+                        }
                     }
+                    adapter.notifyDataSetChanged()
+                    binding.categorySkeleton.showOriginal()
                 }
-                adapter.notifyDataSetChanged()
-                binding.categorySkeleton.showOriginal()
-            }
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to load categories", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun deleteCategory(category: Categories) {
-        Firebase.firestore.collection("categories")
-            .document(category.id)
-            .delete()
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Category deleted", Toast.LENGTH_SHORT).show()
-                categoryList.remove(category)
-                adapter.notifyDataSetChanged()
+        Firebase.firestore.collection("transactions")
+            .whereEqualTo("categoryId", category.id)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    Toast.makeText(requireContext(), "Transactions exist with this category", Toast.LENGTH_SHORT).show()
+                } else {
+                    Firebase.firestore.collection("categories")
+                        .document(category.id)
+                        .delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(requireContext(), "Category deleted", Toast.LENGTH_SHORT).show()
+                            categoryList.remove(category)
+                            adapter.notifyDataSetChanged()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(requireContext(), "Failed to delete category", Toast.LENGTH_SHORT).show()
+                        }
+                }
             }
             .addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to delete category", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to check transactions", Toast.LENGTH_SHORT).show()
             }
     }
 
