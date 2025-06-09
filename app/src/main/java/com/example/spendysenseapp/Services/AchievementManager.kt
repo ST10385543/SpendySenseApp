@@ -151,7 +151,7 @@ object AchievementManager {
             "all_completed" -> incrementProgress(
                 userId,
                 "all_completed",
-                4,
+                3,
                 onUnlocked,
                 onFailure = onFailure
             )
