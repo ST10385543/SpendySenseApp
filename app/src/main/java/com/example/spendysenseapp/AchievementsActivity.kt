@@ -155,65 +155,65 @@ class AchievementsActivity : AppCompatActivity() {
                 val hasCompletedAllHard = allHardIds.isNotEmpty() && unlockedIds.containsAll(allHardIds)
                 val hasCompletedAllAchievements = allAchievementIds.isNotEmpty() && unlockedIds.containsAll(allAchievementIds)
 
-                if (hasCompletedAllEasy) {
+                if (hasCompletedAllEasy && !unlockedIds.contains("easy_completed")) {
                     AchievementManager.checkAndUnlock(
                         userId,
                         "easy_completed",
-                        onUnlocked = { achievement ->
-                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
-                            mediaPlayer?.start()
-                            mediaPlayer?.setOnCompletionListener { it.release() }
-
-                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
-                        }
+                        onUnlocked = {
+                            playUnlockSound()
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
+                        },
+                        onAlreadyUnlocked = { }
                     )
                 }
 
-                if (hasCompletedAllMedium) {
+                if (hasCompletedAllMedium && !unlockedIds.contains("medium_completed")) {
                     AchievementManager.checkAndUnlock(
                         userId,
                         "medium_completed",
-                        onUnlocked = { achievement ->
-                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
-                            mediaPlayer?.start()
-                            mediaPlayer?.setOnCompletionListener { it.release() }
-
-                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
-                        }
+                        onUnlocked = {
+                            playUnlockSound()
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
+                        },
+                        onAlreadyUnlocked = { }
                     )
                 }
 
-                if (hasCompletedAllHard) {
+                if (hasCompletedAllHard && !unlockedIds.contains("hard_completed")) {
                     AchievementManager.checkAndUnlock(
                         userId,
                         "hard_completed",
-                        onUnlocked = { achievement ->
-                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
-                            mediaPlayer?.start()
-                            mediaPlayer?.setOnCompletionListener { it.release() }
-
-                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
-                        }
+                        onUnlocked = {
+                            playUnlockSound()
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
+                        },
+                        onAlreadyUnlocked = { }
                     )
                 }
 
-                if (hasCompletedAllAchievements) {
+                if (hasCompletedAllAchievements && !unlockedIds.contains("all_completed")) {
                     AchievementManager.checkAndUnlock(
                         userId,
                         "all_completed",
-                        onUnlocked = { achievement ->
-                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
-                            mediaPlayer?.start()
-                            mediaPlayer?.setOnCompletionListener { it.release() }
-
-                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
-                        }
+                        onUnlocked = {
+                            playUnlockSound()
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${it.achievementName}!", Toast.LENGTH_SHORT).show()
+                        },
+                        onAlreadyUnlocked = { }
                     )
                 }
+
+
+
             }
             .addOnFailureListener {
                 Log.e("AchievementsDebug", "Error fetching data: ${it.message}")
             }
+    }
+    private fun playUnlockSound() {
+        val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
+        mediaPlayer?.start()
+        mediaPlayer?.setOnCompletionListener { it.release() }
     }
 
 }
