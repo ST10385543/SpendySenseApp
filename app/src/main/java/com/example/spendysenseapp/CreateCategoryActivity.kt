@@ -1,6 +1,7 @@
 package com.example.spendysenseapp
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -106,6 +107,13 @@ class CreateCategoryActivity : AppCompatActivity() {
                     //now you SHOULD be able to do it, but i can understand if its still a bit
                     //confusing, ill try to do when i get back
                     onUnlocked = { achievement ->
+                        //play easy sound effect
+                        val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.easy_sound)
+                        mediaPlayer?.start()
+                        mediaPlayer?.setOnCompletionListener {
+                            it.release()
+                        }
+
                         Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
                     }
                 )

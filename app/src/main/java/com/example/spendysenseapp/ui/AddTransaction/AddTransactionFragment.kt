@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -307,6 +308,14 @@ class AddTransactionFragment : Fragment() {
                         it.uid,
                         "create_5_transactions",
                         onUnlocked = { achievement ->
+                            //play easy sound effect
+                            val mediaPlayer = MediaPlayer.create(requireContext(), R.raw.easy_sound)
+                            mediaPlayer?.start()
+                            mediaPlayer?.setOnCompletionListener {
+                                it.release()
+                            }
+
+
                             Toast.makeText(requireContext(), "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
                         }
                     )
@@ -332,6 +341,14 @@ class AddTransactionFragment : Fragment() {
                         it.uid,
                         "make_10_income_transactions",
                         onUnlocked = { achievement ->
+                            //play medium sound effect
+                            val mediaPlayer = MediaPlayer.create(requireContext(), R.raw.medium_sound)
+                            mediaPlayer?.start()
+                            mediaPlayer?.setOnCompletionListener {
+                                it.release()
+                            }
+
+
                             Toast.makeText(requireContext(), "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
                         }
                     )
@@ -346,6 +363,14 @@ class AddTransactionFragment : Fragment() {
                     currentUser?.uid ?: "",
                     "create_expense_69",
                     onUnlocked = { achievement ->
+                        //play easy sound effect
+                        val mediaPlayer = MediaPlayer.create(requireContext(), R.raw.easy_sound)
+                        mediaPlayer?.start()
+                        mediaPlayer?.setOnCompletionListener {
+                            it.release()
+                        }
+
+
                         Toast.makeText(requireContext(), "🎉 Achievement unlocked: ${achievement.achievementName} unlocked!", Toast.LENGTH_SHORT).show()
                     },
                     onFailure = {
@@ -354,6 +379,44 @@ class AddTransactionFragment : Fragment() {
                 )
             }
 
+            //create fuel expense transactions achievement
+            lifecycleScope.launch {
+                val firestoreService = FirestoreService("categories", Categories::class.java)
+                val categories =
+                    firestoreService.getAll().filter { it.userId == (currentUser?.uid ?: "") }
+
+                categoriesList = categories
+
+                withContext(Dispatchers.Main) {
+                    val categoryNames = mutableListOf("Select Category")
+                    categoryNames.addAll(categories.map { it.CategoryName.lowercase() })
+
+                    if (transactionType == "expense" && categoryNames.equals("fuel") && amount == 1000.toDouble()) {
+                        currentUser?.let {
+                            AchievementManager.checkAndUnlock(
+                                it.uid,
+                                "make_10_income_transactions",
+                                onUnlocked = { achievement ->
+                                    //play medium sound effect
+                                    val mediaPlayer =
+                                        MediaPlayer.create(requireContext(), R.raw.medium_sound)
+                                    mediaPlayer?.start()
+                                    mediaPlayer?.setOnCompletionListener {
+                                        it.release()
+                                    }
+
+
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Achievement Unlocked: ${achievement.achievementName}!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            )
+                        }
+                    }
+                }
+            }
             val firestoreService = FirestoreService("transactions", Transaction::class.java)
             try {
                 firestoreService.add(transactionId, transaction)

@@ -3,6 +3,7 @@ package com.example.spendysenseapp
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.Typeface
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Looper
 import android.view.Gravity
@@ -89,12 +90,19 @@ class CalculatorActivity : AppCompatActivity() {
             if (isCompleteNumber(expression)) {
                 val result = binding.tvCalcResult.text.toString()
 
-                // Show the ghost ASCII art centered
-                binding.tvCalcResult.apply {
-                    // typeface = Typeface.MONOSPACE
-                   // textAlignment = View.TEXT_ALIGNMENT_CENTER
-                    gravity = Gravity.CENTER
-                    text = """
+                // Achievement check
+                if (result == "800") {
+                    //play spooky sound effect
+                    val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.spooktune)
+                    mediaPlayer?.start()
+                    mediaPlayer?.setOnCompletionListener {
+                        it.release()
+                    }
+
+                    //the ghost ASCII art
+                    binding.tvCalcResult.apply {
+                        gravity = Gravity.CENTER
+                        text = """
      .-"      "-.
     /            \
    |              |
@@ -107,12 +115,11 @@ class CalculatorActivity : AppCompatActivity() {
      \          /
       `--------`
             """.trimIndent()
-                }
+                    }
 
-                Toast.makeText(applicationContext, "BOO !!! 👻", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "BOO !!! 👻", Toast.LENGTH_SHORT).show()
 
-                // Achievement check
-                if (result == "800") {
+                    //achievement for the spooky message
                     AchievementManager.checkAndUnlock(
                         currentUser?.uid ?: "",
                         "find_spooky_message",

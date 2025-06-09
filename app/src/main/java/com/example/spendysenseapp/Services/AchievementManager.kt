@@ -110,6 +110,15 @@ object AchievementManager {
                 onAlreadyUnlocked,
                 onFailure
             )
+
+            //EASTER EGG achievement
+            "create_fuel_1000__image_expense" -> tryUnlockAchievement(
+                userId,
+                "create_fuel_1000__image_expense",
+                onUnlocked,
+                onAlreadyUnlocked,
+                onFailure
+            )
             }
         }
     }

@@ -3,6 +3,7 @@ package com.example.spendysenseapp
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -135,6 +136,14 @@ class TransactionDetailsActivity : AppCompatActivity() {
                         it.uid,
                         "delete_5_transactions",
                         onUnlocked = { achievement ->
+                            //play easy sound effect
+                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.medium_sound)
+                            mediaPlayer?.start()
+                            mediaPlayer?.setOnCompletionListener {
+                                it.release()
+                            }
+
+
                             Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
                         }
                     )

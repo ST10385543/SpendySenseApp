@@ -1,5 +1,6 @@
 package com.example.spendysenseapp
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -85,6 +86,14 @@ class UserFeedback : AppCompatActivity() {
                             //passes to achievementManager
                             //line 98
                             onUnlocked = { achievement ->
+                                //play easy sound effect
+                                val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.easy_sound)
+                                mediaPlayer?.start()
+                                mediaPlayer?.setOnCompletionListener {
+                                    it.release()
+                                }
+
+
                                 Toast.makeText(applicationContext, "🎉 Achievement unlocked: ${achievement.achievementName} unlocked!", Toast.LENGTH_SHORT).show()
                             },
                             onFailure = {
