@@ -4,6 +4,7 @@ import android.R
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -28,10 +29,18 @@ import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.ActivityFilterByCategoryBinding
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
 import java.util.Locale
@@ -50,6 +59,10 @@ class FilterByCategoryActivity : AppCompatActivity() {
     private var endDateMillis: Long? = null
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private var categoriesList: List<Categories> = emptyList()
+    //for displaying in the pie chart
+    private var minGoal: Double? = null
+    private var maxGoal: Double? = null
+    private lateinit var categoryPieChart: PieChart
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +75,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        categoryPieChart = binding.categoryPieChart
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -80,6 +94,7 @@ class FilterByCategoryActivity : AppCompatActivity() {
         }
         currentUser = sessionManager.getCurrentUser()
 
+        fetchUserGoals()
         setupCategorySpinner()
         setupDatePickers()
         setupRecyclerView()
@@ -188,9 +203,17 @@ class FilterByCategoryActivity : AppCompatActivity() {
                 matchesCategory && matchesStart && matchesEnd
             }
             withContext(Dispatchers.Main) {
+                updateCategoryPieChart(filtered)
                 updateTransactionList(filtered)
                 updateCategoryTotal(filtered)
-                binding.noDataTv.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
+                if(filtered.isEmpty()){
+                    binding.noDataTv.visibility = View.VISIBLE
+                    binding.pieChartLinLay.visibility = View.GONE
+                }
+                else {
+                    binding.noDataTv.visibility = View.GONE
+                    binding.pieChartLinLay.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -216,6 +239,60 @@ class FilterByCategoryActivity : AppCompatActivity() {
         binding.transactionRv.apply {
             layoutManager = LinearLayoutManager(this@FilterByCategoryActivity)
             adapter = transactionAdapter
+        }
+    }
+    private fun updateCategoryPieChart(transactions: List<Transaction>) {
+        val categorySums = transactions.groupBy { it.categoryId }
+            .mapValues { entry -> entry.value.sumOf { it.amount } }
+
+        val entries = mutableListOf<PieEntry>()
+        for ((catId, sum) in categorySums) {
+            val category = categoriesList.find { it.id == catId }
+            val name = category?.CategoryName ?: "Unknown"
+            entries.add(PieEntry(sum.toFloat(), name))
+        }
+
+        val dataSet = PieDataSet(entries, "Category Split").apply {
+            colors = ColorTemplate.MATERIAL_COLORS.toList()
+            valueTextSize = 14f
+            valueTextColor = android.graphics.Color.BLACK
+        }
+
+        // Format center text with min and max goals
+        val minGoalStr = minGoal?.let { "Min: R${"%.2f".format(it)}" } ?: "Min: No goal set"
+        val maxGoalStr = maxGoal?.let { "Max: R${"%.2f".format(it)}" } ?: "Max: No goal set"
+        val centerText = "$minGoalStr\n$maxGoalStr"
+
+        categoryPieChart.apply {
+            data = PieData(dataSet)
+            setUsePercentValues(true)
+            description.isEnabled = false
+            this.centerText = centerText
+            setCenterTextSize(16f)
+            setEntryLabelColor(Color.BLACK)
+            setEntryLabelTextSize(12f)
+            isDrawHoleEnabled = true
+            holeRadius = 50f
+            transparentCircleRadius = 45f
+            legend.isEnabled = true
+            legend.textColor = Color.WHITE
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            animateY(1000)
+            invalidate()
+        }
+    }
+    private fun fetchUserGoals() {
+        val userId = currentUser?.uid ?: return
+        val userRef = FirebaseFirestore.getInstance()
+            .collection("user").document(userId)
+        lifecycleScope.launch {
+            val snapshot = withContext(Dispatchers.IO) { userRef.get().await() }
+            if (snapshot.exists()) {
+                minGoal = snapshot.getDouble("minimumGoal")
+                maxGoal = snapshot.getDouble("maximumGoal")
+                //updates chart when data is loaded
+                filterTransactions()
+            }
         }
     }
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="100dp"
+    android:paddingBottom="64dp"
+    android:gravity="center_horizontal">
+
+    <!-- Title skeleton -->
+    <View
+        android:layout_width="160dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/skeleton_placeholder" />
+
+    <!-- Pie charts skeleton -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2"
+        android:layout_marginBottom="24dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/skeleton_circle_placeholder" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="160dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/skeleton_circle_placeholder" />
+    </LinearLayout>
+
+    <!-- Bar chart title skeleton -->
+    <View
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/skeleton_placeholder" />
+
+    <!-- Bar chart skeleton -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/skeleton_placeholder"
+        android:layout_marginBottom="32dp" />
+</LinearLayout>

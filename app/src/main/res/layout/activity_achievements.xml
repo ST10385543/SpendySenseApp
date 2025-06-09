@@ -8,7 +8,9 @@
     android:orientation="vertical"
     android:background="#004643"
     android:gravity="center"
-    tools:context=".AchievementsActivity">
+    tools:context=".AchievementsActivity"
+    android:scrollbars="vertical"
+    >
     <com.faltenreich.skeletonlayout.SkeletonLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -138,7 +140,8 @@
                 android:id="@+id/unlockedRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="true" />
+                android:nestedScrollingEnabled="true"
+                android:scrollbars="vertical"/>
 
             <TextView
                 android:text="Locked"
@@ -153,7 +156,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lockedRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"/>
         </LinearLayout>
     </LinearLayout>
     </com.faltenreich.skeletonlayout.SkeletonLayout>

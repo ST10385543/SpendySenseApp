@@ -106,6 +106,33 @@
                     android:layout_height="wrap_content"
                     android:text="Reset Dates"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pieChartLinLay"
+                android:background="@drawable/chart_background"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/Tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Category pie chart"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20sp"/>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/categoryPieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:layout_margin="16dp" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/categoryTotalTv"
@@ -125,9 +152,18 @@
                 android:textColor="#FF0000"
                 android:textSize="18sp"
                 android:visibility="gone"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N.B - Click item to view details"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:textSize="19sp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/transactionRv"
+                android:background="@drawable/monthlygoalshape"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"

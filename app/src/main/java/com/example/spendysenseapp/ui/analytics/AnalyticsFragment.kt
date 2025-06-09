@@ -6,14 +6,18 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.spendysenseapp.R
 import com.example.spendysenseapp.RoomDB.Categories
 import com.example.spendysenseapp.RoomDB.Transaction
 import com.example.spendysenseapp.Services.FirestoreService
 import com.example.spendysenseapp.Services.SessionManager
 import com.example.spendysenseapp.databinding.FragmentAnalyticsBinding
 import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.SkeletonConfig
+import com.faltenreich.skeletonlayout.createSkeleton
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
@@ -189,6 +193,10 @@ class AnalyticsFragment : Fragment() {
             transparentCircleRadius = 45f
             legend.isEnabled = true
             animateY(1000)
+            //legend stuff
+            legend.xEntrySpace = 3f
+            legend.textColor = Color.parseColor("#FFFFFF")
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
             invalidate()
         }
     }
@@ -223,6 +231,10 @@ class AnalyticsFragment : Fragment() {
             transparentCircleRadius = 45f
             legend.isEnabled = true
             animateY(1000)
+            //legend stuff
+            legend.xEntrySpace = 3f
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            legend.textColor = Color.parseColor("#FFFFFF")
             invalidate()
         }
     }
@@ -247,12 +259,12 @@ class AnalyticsFragment : Fragment() {
 
         val incomeSet = BarDataSet(incomeEntries, "Income").apply {
             color = Color.BLUE
-            valueTextColor = Color.BLACK
+            valueTextColor = Color.WHITE
             valueTextSize = 10f
         }
         val expenseSet = BarDataSet(expenseEntries, "Expense").apply {
             color = Color.RED
-            valueTextColor = Color.BLACK
+            valueTextColor = Color.WHITE
             valueTextSize = 10f
         }
 
@@ -271,6 +283,7 @@ class AnalyticsFragment : Fragment() {
                 position = XAxis.XAxisPosition.BOTTOM
                 granularity = 1f
                 setCenterAxisLabels(true)
+                textColor = Color.WHITE
                 axisMinimum = 0f
                 axisMaximum = maxWeek + 1f
                 valueFormatter = IndexAxisValueFormatter((1..maxWeek).map { "Week $it" })
@@ -278,6 +291,8 @@ class AnalyticsFragment : Fragment() {
             }
 
             axisLeft.apply {
+                axisLineColor = Color.WHITE
+                textColor = Color.WHITE
                 axisMinimum = 0f
                 granularity = 1f
             }
@@ -286,6 +301,9 @@ class AnalyticsFragment : Fragment() {
             barData.groupBars(0f, 0.2f, 0.05f)
 
             legend.isEnabled = true
+            //legend stuff
+            legend.xEntrySpace = 5f
+            legend.textColor = Color.parseColor("#FFFFFF")
             animateY(1000)
             invalidate()
         }
