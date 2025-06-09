@@ -102,7 +102,7 @@ object AchievementManager {
                 onFailure = onFailure
             )
 
-            //EASTER EGG achievement
+            //spooky achievement
             "find_spooky_message" -> tryUnlockAchievement(
                 userId,
                 "find_spooky_message",
@@ -111,13 +111,49 @@ object AchievementManager {
                 onFailure
             )
 
-            //EASTER EGG achievement
+            //fuel expense achievement
             "create_fuel_1000__image_expense" -> tryUnlockAchievement(
                 userId,
                 "create_fuel_1000__image_expense",
                 onUnlocked,
                 onAlreadyUnlocked,
                 onFailure
+            )
+
+            //all easy completed achievements
+            "easy_completed" -> incrementProgress(
+                userId,
+                "easy_completed",
+                4,
+                onUnlocked,
+                onFailure = onFailure
+            )
+
+            //all medium completed achievements
+            "medium_completed" -> incrementProgress(
+                userId,
+                "medium_completed",
+                3,
+                onUnlocked,
+                onFailure = onFailure
+            )
+
+            //all hard completed achievements
+            "hard_completed" -> incrementProgress(
+                userId,
+                "hard_completed",
+                2,
+                onUnlocked,
+                onFailure = onFailure
+            )
+
+                //all achievements completed
+            "all_completed" -> incrementProgress(
+                userId,
+                "all_completed",
+                4,
+                onUnlocked,
+                onFailure = onFailure
             )
             }
         }

@@ -1,8 +1,10 @@
 package com.example.spendysenseapp
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,9 +12,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spendysenseapp.Adapter.AchievementAdapter
 import com.example.spendysenseapp.RoomDB.Achievements
+import com.example.spendysenseapp.Services.AchievementManager
 import com.example.spendysenseapp.databinding.ActivityAchievementsBinding
 import com.faltenreich.skeletonlayout.Skeleton
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.android.gms.tasks.Tasks
@@ -21,11 +23,9 @@ import com.google.firebase.firestore.Source
 
 class AchievementsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAchievementsBinding
-    //gotten from Fahlteich, P. 2025. SkeletonLayout: Skeleton view pattern for Android, Github. [Online].
-    //Avaiable at: https://github.com/Faltenreich/SkeletonLayout [Accessed 29 May 2025]
+
     private lateinit var skeleton: Skeleton
 
-    // Hold references to adapters and lists for updating
     private val unlockedList = mutableListOf<Achievements>()
     private val lockedList = mutableListOf<Achievements>()
     private lateinit var unlockedAdapter: AchievementAdapter
@@ -35,7 +35,6 @@ class AchievementsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Only one setContentView call with binding
         binding = ActivityAchievementsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -48,7 +47,6 @@ class AchievementsActivity : AppCompatActivity() {
         skeleton = binding.achievementSkeleton
         skeleton.showSkeleton()
 
-        // Initialize RecyclerViews and adapters once
         unlockedAdapter = AchievementAdapter(unlockedList, false)
         lockedAdapter = AchievementAdapter(lockedList, true)
 
@@ -100,14 +98,16 @@ class AchievementsActivity : AppCompatActivity() {
                 val easyList = mutableListOf<Achievements>()
                 val mediumList = mutableListOf<Achievements>()
                 val hardList = mutableListOf<Achievements>()
+                val platinumList = mutableListOf<Achievements>()
                 val unknownList = mutableListOf<Achievements>()
 
                 for (doc in (achievementDocs as QuerySnapshot).documents) {
                     try {
                         val achievement = doc.toObject(Achievements::class.java) ?: continue
-                        val normalizedId = achievement.achievementId?.trim()?.lowercase() ?: continue
-                        val difficulty = achievement.achievementDifficulty?.trim()?.lowercase() ?: ""
-
+                        val normalizedId =
+                            achievement.achievementId?.trim()?.lowercase() ?: continue
+                        val difficulty =
+                            achievement.achievementDifficulty?.trim()?.lowercase() ?: ""
 
                         if (unlockedIds.contains(normalizedId)) {
                             unlockedList.add(achievement)
@@ -116,6 +116,7 @@ class AchievementsActivity : AppCompatActivity() {
                                 "easy" -> easyList.add(achievement)
                                 "medium" -> mediumList.add(achievement)
                                 "hard" -> hardList.add(achievement)
+                                "platinum" -> platinumList.add(achievement)
                                 else -> unknownList.add(achievement)
                             }
                         }
@@ -124,16 +125,95 @@ class AchievementsActivity : AppCompatActivity() {
                     }
                 }
 
-                lockedList.addAll(easyList + mediumList + hardList + unknownList)
+                lockedList.addAll(easyList + mediumList + hardList + platinumList + unknownList)
 
                 unlockedAdapter.notifyDataSetChanged()
                 lockedAdapter.notifyDataSetChanged()
 
                 binding.score.text = "${unlockedList.size}/${unlockedList.size + lockedList.size}"
                 skeleton.showOriginal()
+
+                // Prepare sets of all achievements IDs per difficulty (locked + unlocked)
+                val allEasyIds = (easyList + unlockedList).filter {
+                    it.achievementDifficulty?.trim()?.lowercase() == "easy"
+                }.mapNotNull { it.achievementId?.trim()?.lowercase() }.toSet()
+
+                val allMediumIds = (mediumList + unlockedList).filter {
+                    it.achievementDifficulty?.trim()?.lowercase() == "medium"
+                }.mapNotNull { it.achievementId?.trim()?.lowercase() }.toSet()
+
+                val allHardIds = (hardList + unlockedList).filter {
+                    it.achievementDifficulty?.trim()?.lowercase() == "hard"
+                }.mapNotNull { it.achievementId?.trim()?.lowercase() }.toSet()
+
+                val allAchievementIds = (easyList + mediumList + hardList + platinumList + unknownList + unlockedList)
+                    .mapNotNull { it.achievementId?.trim()?.lowercase() }.toSet()
+
+                // Check if user completed all achievements in each difficulty category
+                val hasCompletedAllEasy = allEasyIds.isNotEmpty() && unlockedIds.containsAll(allEasyIds)
+                val hasCompletedAllMedium = allMediumIds.isNotEmpty() && unlockedIds.containsAll(allMediumIds)
+                val hasCompletedAllHard = allHardIds.isNotEmpty() && unlockedIds.containsAll(allHardIds)
+                val hasCompletedAllAchievements = allAchievementIds.isNotEmpty() && unlockedIds.containsAll(allAchievementIds)
+
+                if (hasCompletedAllEasy) {
+                    AchievementManager.checkAndUnlock(
+                        userId,
+                        "easy_completed",
+                        onUnlocked = { achievement ->
+                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
+                            mediaPlayer?.start()
+                            mediaPlayer?.setOnCompletionListener { it.release() }
+
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+
+                if (hasCompletedAllMedium) {
+                    AchievementManager.checkAndUnlock(
+                        userId,
+                        "medium_completed",
+                        onUnlocked = { achievement ->
+                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
+                            mediaPlayer?.start()
+                            mediaPlayer?.setOnCompletionListener { it.release() }
+
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+
+                if (hasCompletedAllHard) {
+                    AchievementManager.checkAndUnlock(
+                        userId,
+                        "hard_completed",
+                        onUnlocked = { achievement ->
+                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
+                            mediaPlayer?.start()
+                            mediaPlayer?.setOnCompletionListener { it.release() }
+
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+
+                if (hasCompletedAllAchievements) {
+                    AchievementManager.checkAndUnlock(
+                        userId,
+                        "all_completed",
+                        onUnlocked = { achievement ->
+                            val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.platinum_sound)
+                            mediaPlayer?.start()
+                            mediaPlayer?.setOnCompletionListener { it.release() }
+
+                            Toast.makeText(applicationContext, "Achievement Unlocked: ${achievement.achievementName}!", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
             }
             .addOnFailureListener {
                 Log.e("AchievementsDebug", "Error fetching data: ${it.message}")
             }
     }
+
 }

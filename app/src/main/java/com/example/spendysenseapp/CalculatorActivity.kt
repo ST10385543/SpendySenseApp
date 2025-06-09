@@ -92,11 +92,18 @@ class CalculatorActivity : AppCompatActivity() {
 
                 // Achievement check
                 if (result == "800") {
-                    //play spooky sound effect
                     val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.spooktune)
                     mediaPlayer?.start()
-                    mediaPlayer?.setOnCompletionListener {
-                        it.release()
+
+                    // Stop playback after 9 seconds (7000 milliseconds)
+                    mediaPlayer?.let { player ->
+                        val handler = android.os.Handler()
+                        handler.postDelayed({
+                            if (player.isPlaying) {
+                                player.stop()
+                            }
+                            player.release()
+                        }, 9000)
                     }
 
                     //the ghost ASCII art
@@ -134,7 +141,7 @@ class CalculatorActivity : AppCompatActivity() {
 
                 // Coroutine delay for 3 seconds
                 lifecycleScope.launch {
-                    delay(3000) // 3 seconds
+                    delay(7000) // 7 seconds
                     val intent = Intent().apply {
                         putExtra("calc_result", result)
                     }
