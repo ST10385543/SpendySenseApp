@@ -95,7 +95,7 @@ class CalculatorActivity : AppCompatActivity() {
                     val mediaPlayer = MediaPlayer.create(applicationContext, R.raw.spooktune)
                     mediaPlayer?.start()
 
-                    // Stop playback after 9 seconds (7000 milliseconds)
+                    // Stop playback after 9 seconds (9000 milliseconds)
                     mediaPlayer?.let { player ->
                         val handler = android.os.Handler()
                         handler.postDelayed({

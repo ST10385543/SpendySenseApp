@@ -121,39 +121,30 @@ object AchievementManager {
             )
 
             //all easy completed achievements
-            "easy_completed" -> incrementProgress(
+            "easy_completed" -> tryUnlockAchievement(
                 userId,
                 "easy_completed",
-                4,
                 onUnlocked,
-                onFailure = onFailure
+                onAlreadyUnlocked,
+                onFailure
             )
 
             //all medium completed achievements
-            "medium_completed" -> incrementProgress(
+            "medium_completed" -> tryUnlockAchievement(
                 userId,
                 "medium_completed",
-                3,
                 onUnlocked,
-                onFailure = onFailure
+                onAlreadyUnlocked,
+                onFailure
             )
 
             //all hard completed achievements
-            "hard_completed" -> incrementProgress(
+            "hard_completed" -> tryUnlockAchievement(
                 userId,
                 "hard_completed",
-                2,
                 onUnlocked,
-                onFailure = onFailure
-            )
-
-                //all achievements completed
-            "all_completed" -> incrementProgress(
-                userId,
-                "all_completed",
-                3,
-                onUnlocked,
-                onFailure = onFailure
+                onAlreadyUnlocked,
+                onFailure
             )
             }
         }
