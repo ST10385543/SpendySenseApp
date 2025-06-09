@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.spendysenseapp.R
 
+//the activity is here to try and somewhat obfuscate the contained action
 class WashingSomethingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +25,10 @@ class WashingSomethingActivity : AppCompatActivity() {
         val rootLayout = findViewById<RelativeLayout>(R.id.main)
         val bubbleGameView = WashingSomething(
             this,
+            //this timer to check for 15 seconds
             onTimerFinish = { score ->
                 runOnUiThread {
+                    //from this you can probably tell its purpose
                     showSuggestionDialog("Your bubble popping score: $score")
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
@@ -39,6 +42,7 @@ class WashingSomethingActivity : AppCompatActivity() {
         rootLayout.addView(bubbleGameView)
     }
 
+    //a toast suggestion dialog to show the score
     private fun showSuggestionDialog(message: String) {
         AlertDialog.Builder(this)
             .setTitle("Bubble Game Result")

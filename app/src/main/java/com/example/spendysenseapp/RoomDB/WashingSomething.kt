@@ -16,6 +16,11 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.random.Random
 
+//wait, youre not supposed to see this
+//NOOOOOOOOOO
+
+//anyway, read the names, dont want to spoil the surprise
+//okay, but for a brief overview, its code to create a game
 data class Bubble(
     var x: Float,
     var y: Float,
