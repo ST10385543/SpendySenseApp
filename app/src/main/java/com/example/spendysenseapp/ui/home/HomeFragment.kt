@@ -48,14 +48,7 @@ import java.util.Locale
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    //private lateinit var currentUser : Users
-//    private val transactionsDao: TransactionsDao by lazy {
-//        SpendySenseDatabase.getDatabase(requireContext()).transactionDao()
-//    }
 
-//    private val usersDao: UserDao by lazy {
-//        SpendySenseDatabase.getDatabase(requireContext()).userDao()
-//    }
     private lateinit var sessionManager : SessionManager
     //make global current user item
     private lateinit var currentUser: FirebaseUser
@@ -377,50 +370,4 @@ class HomeFragment : Fragment() {
             warningTv.visibility = View.GONE
         }
     }
-
-//    private fun setMonthlyGoal(){
-//        binding.setMinimumGoalBtn.setOnClickListener{
-//            if(binding.minimumMonthlyGoalEt.text.toString().equals("")){
-//                Toast.makeText(requireContext(), "No value entered", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//            val minGoal = binding.minimumMonthlyGoalEt.text.toString()
-//            lifecycleScope.launch {
-//                val user = usersDao.getUser(currentUser.id).apply{
-//                    minimumGoal = minGoal.toDouble()
-//                }
-//                usersDao.updateUser(user)
-//            }
-//            binding.minimumMonthlyGoalEt.text.clear()
-//            binding.minimumMonthlyGoalTv.text = "Min: R${minGoal}"
-//            Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
-//        }
-//        binding.setMaximumGoalBtn.setOnClickListener{
-//            if(binding.maximumMonthlyGoalEt.text.toString().equals("")){
-//                Toast.makeText(requireContext(), "No value entered", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//            val maxGoal = binding.maximumMonthlyGoalEt.text.toString()
-//            lifecycleScope.launch {
-//                val user = usersDao.getUser(currentUser.id).apply{
-//                    maximumGoal = maxGoal.toDouble()
-//                }
-//                usersDao.updateUser(user)
-//            }
-//            binding.maximumMonthlyGoalEt.text.clear()
-//            binding.maximumMonthlyGoalTv.text = "Max: R${maxGoal}"
-//            Toast.makeText(requireContext(), "Updated!", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
-//    private fun setTextViewForGoals(){
-//        lifecycleScope.launch {
-//            if(currentUser.minimumGoal != 0.0){
-//                binding.minimumMonthlyGoalTv.text = "Min: R${currentUser.minimumGoal}"
-//            }
-//            if(currentUser.maximumGoal != 0.0){
-//                binding.maximumMonthlyGoalTv.text = "Max: R${currentUser.maximumGoal}"
-//            }
-//        }
-//    }
 }

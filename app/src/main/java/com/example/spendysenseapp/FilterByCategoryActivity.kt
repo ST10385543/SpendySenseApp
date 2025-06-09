@@ -48,8 +48,6 @@ import java.util.Locale
 class FilterByCategoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFilterByCategoryBinding
     private lateinit var transactionAdapter: TransactionAdapter
-    //private lateinit var transactionDao: TransactionsDao
-    //private lateinit var categoryDao: CategoriesDao
     private var currentUser: FirebaseUser? = null
     val firestoreTransactionService = FirestoreService("transactions", Transaction::class.java)
     val firestoreCategoryService = FirestoreService("categories", Categories::class.java)

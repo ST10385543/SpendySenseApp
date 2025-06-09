@@ -27,9 +27,6 @@ import java.util.regex.Pattern
 
 
 class Login : AppCompatActivity() {
-//    private lateinit var db: SpendySenseDatabase
-//    private lateinit var userDao: UserDao
-//    private lateinit var sessionManager: SessionManager
         private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,16 +39,10 @@ class Login : AppCompatActivity() {
             insets
         }
 
-        //sessionManager = SessionManager.getInstance(this)
-        //enable view binding for interaction with UI components
         val binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = Firebase.auth
-
-        //initalise db
-//        db = SpendySenseDatabase.getDatabase(this)
-//        userDao = db.userDao()
 
         //adapted from finki -
         //https://stackoverflow.com/questions/31718707/how-to-underline-text-of-button-in-android
@@ -100,25 +91,6 @@ class Login : AppCompatActivity() {
                         Toast.makeText(this,"Username or password incorrect!",Toast.LENGTH_SHORT,).show()
                     }
                 }
-//            lifecycleScope.launch {
-//                val user = userDao.findByEmail(username)
-//
-//                if (user != null && user.Password == password) {
-//                    Toast.makeText(this@Login, "Login successful!", Toast.LENGTH_SHORT).show()
-//                    if(sessionManager.getCurrentUserId() == null)
-//                    {
-//                        sessionManager.saveUserSession(user)
-//                    }
-//                    Toast.makeText(this@Login, user.id.toString(), Toast.LENGTH_SHORT).show()
-//
-//                    startActivity(Intent(this@Login, MainActivity::class.java))
-//                    finish()
-//                } else {
-//                    Toast.makeText(this@Login, "Login failed. Check your email and password.", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                auth.signInWithEmailAndPassword(email, password)
-//            }
         }
         binding.forgotPasswordBtn.setOnClickListener{
             startActivity(Intent(this, ForgotPasswordActivity::class.java))

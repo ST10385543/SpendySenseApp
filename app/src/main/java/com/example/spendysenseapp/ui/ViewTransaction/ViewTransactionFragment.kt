@@ -69,13 +69,6 @@ class ViewTransactionFragment : Fragment() {
         }
         setupRecyclerView()
 
-//        binding.editTransactionBtn.setOnClickListener{
-//            Toast.makeText(requireContext(), "Not implemented yet!",Toast.LENGTH_LONG).show()
-//        }
-//        binding.deleteTransactionBtn.setOnClickListener{
-//            Toast.makeText(requireContext(), "Not implemented yet!",Toast.LENGTH_LONG).show()
-//        }
-
         skeleton = binding.transactionSkeletonLayout
         skeleton = binding.transactionRv.applySkeleton(R.layout.transaction_list_item)
 
