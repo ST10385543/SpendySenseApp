@@ -108,6 +108,7 @@ class AchievementsActivity : AppCompatActivity() {
                         val normalizedId = achievement.achievementId?.trim()?.lowercase() ?: continue
                         val difficulty = achievement.achievementDifficulty?.trim()?.lowercase() ?: ""
 
+
                         if (unlockedIds.contains(normalizedId)) {
                             unlockedList.add(achievement)
                         } else {

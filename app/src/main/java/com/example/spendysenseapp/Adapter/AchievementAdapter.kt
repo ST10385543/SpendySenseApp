@@ -36,6 +36,18 @@ class AchievementAdapter(
         holder.description.text = achievement.achievementDescription
         holder.difficulty.text = achievement.achievementDifficulty
 
+        when (achievement.achievementDifficulty) {
+            "easy" -> {
+                holder.difficulty.setTextColor(Color.parseColor("#5fbb37"))
+            }
+            "medium" -> {
+                holder.difficulty.setTextColor(Color.parseColor("#FFC300"))
+            }
+            else -> {
+                holder.difficulty.setTextColor(Color.parseColor("#C70039"))
+            }
+        }
+
         // Get icon resource by name from achievementIconPath
         val context = holder.icon.context
         val resourceId = context.resources.getIdentifier(
